@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ImpresionfacturaEditDlg" widgetVar="ImpresionfacturaEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditImpresionfacturaTitle}">
+            <h:form id="ImpresionfacturaEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{impresionfacturaController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditImpresionfacturaLabel_idimprecionfactura}" for="idimprecionfactura" />
+                        <p:inputText id="idimprecionfactura" value="#{impresionfacturaController.selected.idimprecionfactura}" title="#{bundle.EditImpresionfacturaTitle_idimprecionfactura}" required="true" requiredMessage="#{bundle.EditImpresionfacturaRequiredMessage_idimprecionfactura}"/>
+                        <p:outputLabel value="#{bundle.EditImpresionfacturaLabel_fechaimpresion}" for="fechaimpresion" />
+                        <p:calendar id="fechaimpresion" pattern="MM/dd/yyyy HH:mm:ss" value="#{impresionfacturaController.selected.fechaimpresion}" title="#{bundle.EditImpresionfacturaTitle_fechaimpresion}" required="true" requiredMessage="#{bundle.EditImpresionfacturaRequiredMessage_fechaimpresion}" showOn="button"/>
+                        <p:outputLabel value="#{bundle.EditImpresionfacturaLabel_tipo}" for="tipo" />
+                        <p:inputText id="tipo" value="#{impresionfacturaController.selected.tipo}" title="#{bundle.EditImpresionfacturaTitle_tipo}" />
+                        <p:outputLabel value="#{bundle.EditImpresionfacturaLabel_idmovimiento}" for="idmovimiento" />
+                        <p:selectOneMenu id="idmovimiento" value="#{impresionfacturaController.selected.movimiento}" required="true" requiredMessage="#{bundle.EditImpresionfacturaRequiredMessage_idmovimiento}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{movimientoController.itemsAvailableSelectOne}"
+                                           var="idmovimientoItem"
+                                           itemValue="#{idmovimientoItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditImpresionfacturaLabel_idusuario}" for="idusuario" />
+                        <p:selectOneMenu id="idusuario" value="#{impresionfacturaController.selected.usuario}" required="true" requiredMessage="#{bundle.EditImpresionfacturaRequiredMessage_idusuario}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{usuarioController.itemsAvailableSelectOne}"
+                                           var="idusuarioItem"
+                                           itemValue="#{idusuarioItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{impresionfacturaController.update}" value="#{bundle.Save}" update="display,:ImpresionfacturaListForm:datalist,:growl" oncomplete="handleSubmit(args, 'ImpresionfacturaEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="ImpresionfacturaEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

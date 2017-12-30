@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="UsuarioEditDlg" widgetVar="UsuarioEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditUsuarioTitle}">
+            <h:form id="UsuarioEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{usuarioController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditUsuarioLabel_idusuario}" for="idusuario" />
+                        <p:inputText id="idusuario" value="#{usuarioController.selected.idusuario}" title="#{bundle.EditUsuarioTitle_idusuario}" />
+                        <p:outputLabel value="#{bundle.EditUsuarioLabel_fechacreacion}" for="fechacreacion" />
+                        <p:calendar id="fechacreacion" pattern="MM/dd/yyyy HH:mm:ss" value="#{usuarioController.selected.fechacreacion}" title="#{bundle.EditUsuarioTitle_fechacreacion}" required="true" requiredMessage="#{bundle.EditUsuarioRequiredMessage_fechacreacion}" showOn="button"/>
+                        <p:outputLabel value="#{bundle.EditUsuarioLabel_email}" for="email" />
+                        <p:inputText id="email" value="#{usuarioController.selected.email}" title="#{bundle.EditUsuarioTitle_email}" />
+                        <p:outputLabel value="#{bundle.EditUsuarioLabel_numerousuario}" for="numerousuario" />
+                        <p:inputText id="numerousuario" value="#{usuarioController.selected.numerousuario}" title="#{bundle.EditUsuarioTitle_numerousuario}" />
+                        <p:outputLabel value="#{bundle.EditUsuarioLabel_usuariofinanzas}" for="usuariofinanzas" />
+                        <p:inputText id="usuariofinanzas" value="#{usuarioController.selected.usuariofinanzas}" title="#{bundle.EditUsuarioTitle_usuariofinanzas}" />
+                        <p:outputLabel value="#{bundle.EditUsuarioLabel_clave}" for="clave" />
+                        <p:inputText id="clave" value="#{usuarioController.selected.clave}" title="#{bundle.EditUsuarioTitle_clave}" />
+                        <p:outputLabel value="#{bundle.EditUsuarioLabel_usuario}" for="usuario" />
+                        <p:inputText id="usuario" value="#{usuarioController.selected.usuario}" title="#{bundle.EditUsuarioTitle_usuario}" />
+                        <p:outputLabel value="#{bundle.EditUsuarioLabel_version}" for="version" />
+                        <p:inputText id="version" value="#{usuarioController.selected.version}" title="#{bundle.EditUsuarioTitle_version}" />
+                        <p:outputLabel value="#{bundle.EditUsuarioLabel_idcompania}" for="idcompania" />
+                        <p:selectOneMenu id="idcompania" value="#{usuarioController.selected.idcompania}" >
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{companiaController.itemsAvailableSelectOne}"
+                                           var="idcompaniaItem"
+                                           itemValue="#{idcompaniaItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditUsuarioLabel_pagosByIdusuario}" for="pagosByIdusuario" />
+                        <p:inputText id="pagosByIdusuario" value="#{usuarioController.selected.pagosByIdusuario}" title="#{bundle.EditUsuarioTitle_pagosByIdusuario}" />
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{usuarioController.update}" value="#{bundle.Save}" update="display,:UsuarioListForm:datalist,:growl" oncomplete="handleSubmit(args, 'UsuarioEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="UsuarioEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

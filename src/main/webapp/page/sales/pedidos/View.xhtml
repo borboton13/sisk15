@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<ui:composition>
+
+    <p:dialog id="PedidosViewDlg" widgetVar="PedidosViewDialog" modal="true" resizable="false" appendTo="@(body)" header="Pedido" width="820px">
+        <h:form id="PedidosViewForm">
+            <p:panelGrid id="display" rendered="#{pedidosController.selected != null}" columns="4" >
+                <p:outputLabel value="Cliente:" for="cliente" />
+                <p:outputLabel value="#{pedidosController.selected.cliente.nombreCompleto}" id="cliente"/>
+                <p:outputLabel for="fechaEntrega" value="Fecha Entrega:" />
+                <p:outputLabel id="fechaEntrega" value="#{pedidosController.selected.fechaEntrega}" />
+                <p:outputLabel value="% Garantia:" for="garantia"/>
+                <p:outputLabel id="garantia" value="#{pedidosController.personaElegida.porcentajeGarantia}" />
+                <p:outputLabel value="Tipo Cliente:" for="tipocliente"/>
+                <p:outputLabel id="tipocliente" value="#{pedidosController.personaElegida.tipocliente.nombre}"/>
+                <p:outputLabel value="% Comisión:" for="comision"/>
+                <p:outputLabel id="comision" value="#{pedidosController.personaElegida.porcentajeComision}"/>
+                <p:outputLabel value="Nit:" for="nit"/>
+                <p:outputLabel id="nit" value="#{pedidosController.personaElegida.nit}"/>
+                <p:outputLabel value="Tipo pedido:" for="tipoPedido"/>
+                <p:outputLabel id="tipoPedido" value="#{pedidosController.selected.idtipopedido.nombre}"/>
+                <p:outputLabel value="¿Con reposición?:" for="conReposicion"/>
+                <p:selectBooleanButton id="conReposicion" value="#{pedidosController.selected.conReposicion}" onLabel="Si" offLabel="No" disabled="true"/>
+            </p:panelGrid>
+            <!--<p:inputTextarea id="observacion" rows="2" cols="60" value="#{pedidosController.selected.observacion}" />-->
+            <p:dataTable
+                    id="articulosTable"
+                    var="item"
+                    value="#{pedidosController.selected.articulosPedidos}"
+                    rowKey="#{articulo.idarticulospedido}"
+                    rendered="#{pedidosController.selected != null}">
+                <f:facet name="header">
+                    Articulos Elegidos
+                </f:facet>
+                <p:column headerText="Producto">
+                    <p:outputLabel value="#{item.invArticulos.descri}" />
+                </p:column>
+                <p:column headerText="Cant.">
+                    <p:outputLabel value="#{item.cantidad}"/>
+                </p:column>
+                <p:column headerText="P.U.">
+                    <p:outputLabel value="#{item.precio}"/>
+                </p:column>
+                <p:column headerText="Repos.">
+                    <p:outputLabel value="#{item.reposicion}"/>
+                </p:column>
+                <p:column headerText="Por Reponer">
+                    <p:outputLabel value="#{item.porReponer}"/>
+                </p:column>
+                <p:column headerText="Cant. T.">
+                    <p:outputLabel id="total" value="#{item.total}" />
+                </p:column>
+                <p:column headerText="Importe">
+                    <p:outputLabel id="importe" value="#{item.importe}" />
+                </p:column>
+                <f:facet name="footer">
+                    <p:outputLabel value="Total Importe: " />
+                    <p:outputLabel id="totalImporte" value="#{pedidosController.selected.totalimporte}">
+                        <f:convertNumber type="currency" currencySymbol="Bs." />
+                    </p:outputLabel>
+                </f:facet>
+            </p:dataTable>
+            <p:commandButton value="#{bundle.Close}" onclick="PedidosViewDialog.hide()"/>
+        </h:form>
+    </p:dialog>
+
+</ui:composition>
+</html>

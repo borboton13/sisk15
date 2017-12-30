@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+        <ui:composition template="./../../template.xhtml">
+            <!--
+            <ui:define name="top">
+                top
+            </ui:define>
+
+            <ui:define name="bottom">
+                bottom
+            </ui:define>
+
+            <ui:define name="left">
+                left
+            </ui:define>
+            -->
+
+            <ui:define name="center">
+                <f:view>
+
+
+                    <h:form rendered="#{loginBean.logeado}">
+                        <p:growl id="growl"/>
+                        <p:messages autoUpdate="true"/>
+                        <!--<h1><h:outputText value="Create/Edit"/></h1>-->
+                        <p:dialog visible="true" header="Crear Usuario" closable="true" showEffect="clip" hideEffect="fade" widgetVar="usuarioinsertDialog">
+                        <p:panelGrid id="panel" columns="2">                            
+                            <p:outputLabel value="Fechacreacion:" for="fechacreacion" />
+                            <p:inputText id="fechacreacion" value="#{usuarioController.usuario.fechacreacion}" title="Fechacreacion" required="true" requiredMessage="The Fechacreacion field is required.">
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </p:inputText>
+                            <p:outputLabel value="Email:" for="email" />
+                            <p:inputText id="email" value="#{usuarioController.usuario.email}" title="Email" />
+                            <p:outputLabel value="Numerousuario:" for="numerousuario" />
+                            <p:inputText id="numerousuario" value="#{usuarioController.usuario.numerousuario}" title="Numerousuario" />
+                            <p:outputLabel value="Clave:" for="clave" />
+                            <p:inputText id="clave" value="#{usuarioController.usuario.clave}" title="Clave" />
+                            <p:outputLabel value="Usuario:" for="usuario" />
+                            <p:inputText id="usuario" value="#{usuarioController.usuario.usuario}" title="Usuario" />                                                                               
+                            <f:facet name="footer">
+                                <p:commandButton value="Guardar" update="panel,growl" icon="ui-icon-disk" action="#{usuarioController.save()}"/>
+                            </f:facet>
+                        </p:panelGrid>
+                        </p:dialog>
+                    </h:form>
+                    <h:form rendered="#{!loginBean.logeado}">
+                        <ui:include src="./../../accesodenegado.xhtml"/>
+                    </h:form>
+                </f:view>
+
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TipopedidoViewDlg" widgetVar="TipopedidoViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewTipopedidoTitle}">
+            <h:form id="TipopedidoViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{tipopedidoController.selected != null}">
+                        <h:outputText value="#{bundle.ViewTipopedidoLabel_idtipopedido}"/>
+                        <h:outputText value="#{tipopedidoController.selected.idtipopedido}" title="#{bundle.ViewTipopedidoTitle_idtipopedido}"/>
+                        <h:outputText value="#{bundle.ViewTipopedidoLabel_nombre}"/>
+                        <h:outputText value="#{tipopedidoController.selected.nombre}" title="#{bundle.ViewTipopedidoTitle_nombre}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="TipopedidoViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

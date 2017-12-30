@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="MovimientoViewDlg" widgetVar="MovimientoViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewMovimientoTitle}">
+            <h:form id="MovimientoViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{movimientoController.selected != null}">
+                        <h:outputText value="#{bundle.ViewMovimientoLabel_idmovimiento}"/>
+                        <h:outputText value="#{movimientoController.selected.idmovimiento}" title="#{bundle.ViewMovimientoTitle_idmovimiento}"/>
+                        <h:outputText value="#{bundle.ViewMovimientoLabel_glosa}"/>
+                        <h:outputText value="#{movimientoController.selected.glosa}" title="#{bundle.ViewMovimientoTitle_glosa}"/>
+                        <h:outputText value="#{bundle.ViewMovimientoLabel_estado}"/>
+                        <h:outputText value="#{movimientoController.selected.estado}" title="#{bundle.ViewMovimientoTitle_estado}"/>
+                        <h:outputText value="#{bundle.ViewMovimientoLabel_codestruct}"/>
+                        <h:outputText value="#{movimientoController.selected.codestruct}" title="#{bundle.ViewMovimientoTitle_codestruct}"/>
+                        <h:outputText value="#{bundle.ViewMovimientoLabel_moneda}"/>
+                        <h:outputText value="#{movimientoController.selected.moneda}" title="#{bundle.ViewMovimientoTitle_moneda}"/>
+                        <h:outputText value="#{bundle.ViewMovimientoLabel_nrofactura}"/>
+                        <h:outputText value="#{movimientoController.selected.nrofactura}" title="#{bundle.ViewMovimientoTitle_nrofactura}"/>
+                        <h:outputText value="#{bundle.ViewMovimientoLabel_codigocontrol}"/>
+                        <h:outputText value="#{movimientoController.selected.codigocontrol}" title="#{bundle.ViewMovimientoTitle_codigocontrol}"/>
+                        <h:outputText value="#{bundle.ViewMovimientoLabel_tipopago}"/>
+                        <h:outputText value="#{movimientoController.selected.tipopago}" title="#{bundle.ViewMovimientoTitle_tipopago}"/>
+                        <h:outputText value="#{bundle.ViewMovimientoLabel_tipocambio}"/>
+                        <h:outputText value="#{movimientoController.selected.tipocambio}" title="#{bundle.ViewMovimientoTitle_tipocambio}"/>
+                        <h:outputText value="#{bundle.ViewMovimientoLabel_fecharegistro}"/>
+                        <h:outputText value="#{movimientoController.selected.fecharegistro}" title="#{bundle.ViewMovimientoTitle_fecharegistro}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="MovimientoViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

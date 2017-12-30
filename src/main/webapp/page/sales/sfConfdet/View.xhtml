@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="SfConfdetViewDlg" widgetVar="SfConfdetViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewSfConfdetTitle}">
+            <h:form id="SfConfdetViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{sfConfdetController.selected != null}">
+                        <h:outputText value="#{bundle.ViewSfConfdetLabel_idSfConfdet}"/>
+                        <h:outputText value="#{sfConfdetController.selected.idSfConfdet}" title="#{bundle.ViewSfConfdetTitle_idSfConfdet}"/>
+                        <h:outputText value="#{bundle.ViewSfConfdetLabel_cuenta}"/>
+                        <h:outputText value="#{sfConfdetController.selected.cuenta}" title="#{bundle.ViewSfConfdetTitle_cuenta}"/>
+                        <h:outputText value="#{bundle.ViewSfConfdetLabel_tipomovimiento}"/>
+                        <h:outputText value="#{sfConfdetController.selected.tipomovimiento}" title="#{bundle.ViewSfConfdetTitle_tipomovimiento}"/>
+                        <h:outputText value="#{bundle.ViewSfConfdetLabel_idSfConfenc}"/>
+                        <h:outputText value="#{sfConfdetController.selected.idSfConfenc}" title="#{bundle.ViewSfConfdetTitle_idSfConfenc}"/>
+                        <h:outputText value="#{bundle.ViewSfConfdetLabel_sfConfencByIdSfConfenc}"/>
+                        <h:outputText value="#{sfConfdetController.selected.sfConfenc}" title="#{bundle.ViewSfConfdetTitle_sfConfencByIdSfConfenc}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="SfConfdetViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

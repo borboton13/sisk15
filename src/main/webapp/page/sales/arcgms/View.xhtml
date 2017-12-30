@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ArcgmsViewDlg" widgetVar="ArcgmsViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewArcgmsTitle}">
+            <h:form id="ArcgmsViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{arcgmsController.selected != null}">
+                        <h:outputText value="#{bundle.ViewArcgmsLabel_cuenta}"/>
+                        <h:outputText value="#{arcgmsController.selected.cuenta}" title="#{bundle.ViewArcgmsTitle_cuenta}"/>
+                        <h:outputText value="#{bundle.ViewArcgmsLabel_descri}"/>
+                        <h:outputText value="#{arcgmsController.selected.descri}" title="#{bundle.ViewArcgmsTitle_descri}"/>
+                        <h:outputText value="#{bundle.ViewArcgmsLabel_cnAna}"/>
+                        <h:outputText value="#{arcgmsController.selected.cnAna}" title="#{bundle.ViewArcgmsTitle_cnAna}"/>
+                        <h:outputText value="#{bundle.ViewArcgmsLabel_cnNivel}"/>
+                        <h:outputText value="#{arcgmsController.selected.cnNivel}" title="#{bundle.ViewArcgmsTitle_cnNivel}"/>
+                        <h:outputText value="#{bundle.ViewArcgmsLabel_cnDv}"/>
+                        <h:outputText value="#{arcgmsController.selected.cnDv}" title="#{bundle.ViewArcgmsTitle_cnDv}"/>
+                        <h:outputText value="#{bundle.ViewArcgmsLabel_cnTip}"/>
+                        <h:outputText value="#{arcgmsController.selected.cnTip}" title="#{bundle.ViewArcgmsTitle_cnTip}"/>
+                        <h:outputText value="#{bundle.ViewArcgmsLabel_cnAct}"/>
+                        <h:outputText value="#{arcgmsController.selected.cnAct}" title="#{bundle.ViewArcgmsTitle_cnAct}"/>
+                        <h:outputText value="#{bundle.ViewArcgmsLabel_noCia}"/>
+                        <h:outputText value="#{arcgmsController.selected.noCia}" title="#{bundle.ViewArcgmsTitle_noCia}"/>
+                        <h:outputText value="#{bundle.ViewArcgmsLabel_clase}"/>
+                        <h:outputText value="#{arcgmsController.selected.clase}" title="#{bundle.ViewArcgmsTitle_clase}"/>
+                        <h:outputText value="#{bundle.ViewArcgmsLabel_tipo}"/>
+                        <h:outputText value="#{arcgmsController.selected.tipo}" title="#{bundle.ViewArcgmsTitle_tipo}"/>
+                        <h:outputText value="#{bundle.ViewArcgmsLabel_activa}"/>
+                        <h:outputText value="#{arcgmsController.selected.activa}" title="#{bundle.ViewArcgmsTitle_activa}"/>
+                        <h:outputText value="#{bundle.ViewArcgmsLabel_permiteIva}"/>
+                        <h:outputText value="#{arcgmsController.selected.permiteIva}" title="#{bundle.ViewArcgmsTitle_permiteIva}"/>
+                        <h:outputText value="#{bundle.ViewArcgmsLabel_indPresup}"/>
+                        <h:outputText value="#{arcgmsController.selected.indPresup}" title="#{bundle.ViewArcgmsTitle_indPresup}"/>
+                        <h:outputText value="#{bundle.ViewArcgmsLabel_creditos}"/>
+                        <h:outputText value="#{arcgmsController.selected.creditos}" title="#{bundle.ViewArcgmsTitle_creditos}"/>
+                        <h:outputText value="#{bundle.ViewArcgmsLabel_moneda}"/>
+                        <h:outputText value="#{arcgmsController.selected.moneda}" title="#{bundle.ViewArcgmsTitle_moneda}"/>
+                        <h:outputText value="#{bundle.ViewArcgmsLabel_debitos}"/>
+                        <h:outputText value="#{arcgmsController.selected.debitos}" title="#{bundle.ViewArcgmsTitle_debitos}"/>
+                        <h:outputText value="#{bundle.ViewArcgmsLabel_saldoMesAntDol}"/>
+                        <h:outputText value="#{arcgmsController.selected.saldoMesAntDol}" title="#{bundle.ViewArcgmsTitle_saldoMesAntDol}"/>
+                        <h:outputText value="#{bundle.ViewArcgmsLabel_saldoPerAntDol}"/>
+                        <h:outputText value="#{arcgmsController.selected.saldoPerAntDol}" title="#{bundle.ViewArcgmsTitle_saldoPerAntDol}"/>
+                        <h:outputText value="#{bundle.ViewArcgmsLabel_creditosDol}"/>
+                        <h:outputText value="#{arcgmsController.selected.creditosDol}" title="#{bundle.ViewArcgmsTitle_creditosDol}"/>
+                        <h:outputText value="#{bundle.ViewArcgmsLabel_debitosDol}"/>
+                        <h:outputText value="#{arcgmsController.selected.debitosDol}" title="#{bundle.ViewArcgmsTitle_debitosDol}"/>
+                        <h:outputText value="#{bundle.ViewArcgmsLabel_gruCta}"/>
+                        <h:outputText value="#{arcgmsController.selected.gruCta}" title="#{bundle.ViewArcgmsTitle_gruCta}"/>
+                        <h:outputText value="#{bundle.ViewArcgmsLabel_permisoCon}"/>
+                        <h:outputText value="#{arcgmsController.selected.permisoCon}" title="#{bundle.ViewArcgmsTitle_permisoCon}"/>
+                        <h:outputText value="#{bundle.ViewArcgmsLabel_exijeCc}"/>
+                        <h:outputText value="#{arcgmsController.selected.exijeCc}" title="#{bundle.ViewArcgmsTitle_exijeCc}"/>
+                        <h:outputText value="#{bundle.ViewArcgmsLabel_permisoAfijo}"/>
+                        <h:outputText value="#{arcgmsController.selected.permisoAfijo}" title="#{bundle.ViewArcgmsTitle_permisoAfijo}"/>
+                        <h:outputText value="#{bundle.ViewArcgmsLabel_permisoCxp}"/>
+                        <h:outputText value="#{arcgmsController.selected.permisoCxp}" title="#{bundle.ViewArcgmsTitle_permisoCxp}"/>
+                        <h:outputText value="#{bundle.ViewArcgmsLabel_permisoCxc}"/>
+                        <h:outputText value="#{arcgmsController.selected.permisoCxc}" title="#{bundle.ViewArcgmsTitle_permisoCxc}"/>
+                        <h:outputText value="#{bundle.ViewArcgmsLabel_permisoChe}"/>
+                        <h:outputText value="#{arcgmsController.selected.permisoChe}" title="#{bundle.ViewArcgmsTitle_permisoChe}"/>
+                        <h:outputText value="#{bundle.ViewArcgmsLabel_permisoInv}"/>
+                        <h:outputText value="#{arcgmsController.selected.permisoInv}" title="#{bundle.ViewArcgmsTitle_permisoInv}"/>
+                        <h:outputText value="#{bundle.ViewArcgmsLabel_fInactiva}"/>
+                        <h:outputText value="#{arcgmsController.selected.fInactiva}" title="#{bundle.ViewArcgmsTitle_fInactiva}"/>
+                        <h:outputText value="#{bundle.ViewArcgmsLabel_indMov}"/>
+                        <h:outputText value="#{arcgmsController.selected.indMov}" title="#{bundle.ViewArcgmsTitle_indMov}"/>
+                        <h:outputText value="#{bundle.ViewArcgmsLabel_saldoMesAnt}"/>
+                        <h:outputText value="#{arcgmsController.selected.saldoMesAnt}" title="#{bundle.ViewArcgmsTitle_saldoMesAnt}"/>
+                        <h:outputText value="#{bundle.ViewArcgmsLabel_saldoPerAnt}"/>
+                        <h:outputText value="#{arcgmsController.selected.saldoPerAnt}" title="#{bundle.ViewArcgmsTitle_saldoPerAnt}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="ArcgmsViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

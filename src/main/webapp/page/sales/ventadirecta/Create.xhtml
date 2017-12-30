@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<ui:composition>
+
+    <p:dialog id="VentaCreateDlg" widgetVar="VentaCreateDialog" modal="true" width="820px" appendTo="@(body)" header="Registrar Venta" closable="false" dynamic="true">
+        <h:form id="VentaCreateForm">
+            <p:panelGrid id="display" rendered="#{ventadirectaController.selected != null}" columns="4" >
+                <p:outputLabel value="Cliente:" for="cliente" />
+                <p:autoComplete id="cliente" value="#{ventadirectaController.personaElegida}" completeMethod="#{ventadirectaController.completarCliente}"
+                                var="cliente" itemLabel="#{cliente.nombreCompleto}" itemValue="#{cliente}" converter="convertirPersona" forceSelection="true">
+                    <f:facet name="itemtip">
+                        <h:panelGrid columns="2" cellpadding="5">
+                            <h:outputText value="Nombre:" />
+                            <h:outputText value="#{cliente.nombreCompleto}" />
+                            <h:outputText value="Nit:" />
+                            <h:outputText value="#{cliente.nit}" />
+                            <h:outputText value="C.I.:" />
+                            <h:outputText value="#{cliente.nroDoc}" />
+                            <h:outputText value="Telefono:" />
+                            <h:outputText value="#{cliente.telefono}" />
+                            <h:outputText value="Tiene factura:" />
+                            <h:outputText value="#{cliente.confactura?'SI':'NO'}" />
+                        </h:panelGrid>
+                    </f:facet>
+                    <p:ajax event="itemSelect" update="articulosTable"></p:ajax>
+                </p:autoComplete>
+                <p:outputLabel for="fechaEntrega" value="Fecha :" />
+                <p:calendar id="fechaEntrega" value="#{ventadirectaController.selected.fechaPedido}" disabled="true"/>
+            </p:panelGrid>
+            <!--<p:inputTextarea id="observacion" rows="2" cols="60" value="#{ventadirectaController.selected.observacion}" />-->
+            <p:panelGrid columns="3" rendered="#{ventadirectaController.selected != null}">
+                <p:outputLabel value="Articulo:" for="itemTip" />
+                <p:autoComplete id="itemTip" size="54" value="#{ventadirectaController.articuloElegido}" completeMethod="#{ventadirectaController.completarArticulo}"
+                                var="articulo" itemLabel="#{articulo.descri}" itemValue="#{articulo}" converter="convertirArticulos">
+                    <f:facet name="itemtip">
+                        <h:panelGrid columns="2" cellpadding="5">
+                            <h:outputText value="Nombre:" />
+                            <h:outputText value="#{articulo.descri}" />
+
+                            <h:outputText value="Codigo:" />
+                            <h:outputText value="#{articulo.invArticulosPK.codArt}" />
+                        </h:panelGrid>
+                    </f:facet>
+                </p:autoComplete>
+                <p:commandButton actionListener="#{ventadirectaController.agregarArticulo}" value="Agregar" update=":VentaCreateForm:articulosTable,:VentaCreateForm:itemTip"/>
+            </p:panelGrid>
+            <p:remoteCommand name="refreshFooter" update="pago,importeTotal"/>
+            <p:dataTable
+                    id="articulosTable"
+                    var="item"
+                    value="#{ventadirectaController.selected.articulosPedidos}"
+                    rowKey="#{articulo.idarticulospedido}"
+                    rendered="#{ventadirectaController.selected != null}"
+                    tableStyle="width:auto">
+                <f:facet name="header">
+                    Articulos Elegidos
+                </f:facet>
+                <p:column headerText="Producto">
+                    <h:outputText value="#{item.invArticulos.descri}" />
+                </p:column>
+                <p:column headerText="Cant.">
+                    <h:inputText value="#{item.cantidad}" size="4">
+                        <p:ajax event="blur"  process="@this" oncomplete="refreshFooter();" update="importe,total"/>
+                    </h:inputText>
+                </p:column>
+                <p:column headerText="P.U.">
+                    <h:outputText value="#{item.precio}"/>
+                </p:column>
+                <p:column headerText="Cant. T.">
+                    <h:outputText id="total" value="#{item.total}" />
+                </p:column>
+                <p:column headerText="Importe">
+                    <h:outputText id="importe" value="#{item.importe}">
+                        <f:convertNumber type="currency" currencySymbol="Bs." locale="en_US" />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Acción">
+                    <p:commandLink value="Quitar" actionListener="#{ventadirectaController.reponerArticulo(item)}" update="articulosTable,:VentaDirectaListForm:growl,:VentaCreateForm:totalPago">
+                        <p:collector value="#{item}" removeFrom="#{ventadirectaController.selected.articulosPedidos}" unique="true"/>
+                    </p:commandLink>
+                </p:column>
+                <f:facet name="footer">
+                    <h:outputText value="Totales"/>
+                </f:facet>
+            </p:dataTable>
+            <p:panelGrid id="totalPago" rendered="#{ventadirectaController.selected != null}" columns="6" >
+                <h:outputText value="TOTAL :" />
+                <h:outputText id="importeTotal" value="#{ventadirectaController.selected.totalimporte}">
+                    <f:convertNumber type="currency" currencySymbol="Bs." locale="en_US" />
+                </h:outputText>
+                <p:outputLabel for="pago" value="Pagó con:" />
+                <p:inputText id="pago" value="#{ventadirectaController.selected.pago}" disabled="#{ventadirectaController.selected.totalimporte==0.0}">
+                    <p:ajax event="blur" update="cambio"/>
+                </p:inputText>
+                <p:outputLabel for="cambio" value="Cambio:" />
+                <h:outputText id="cambio" value="#{ventadirectaController.selected.cambio}">
+                    <f:convertNumber type="currency" currencySymbol="Bs." locale="en_US" />
+                </h:outputText>
+            </p:panelGrid>
+            <p:commandButton  actionListener="#{ventadirectaController.registrarImprimirNota}" oncomplete="window.open('PdfDisplayRedirect.xhtml')" value="Cobrar e imprimir" update="display,:VentaDirectaListForm:datalist,:VentaDirectaListForm:growl,VentaCreateForm:articulosTable,totalPago"/>
+            <p:commandButton  actionListener="#{ventadirectaController.registrarImprimirNotaFactura}" oncomplete="window.open('PdfDisplayRedirect.xhtml')" value="Cobrar y facturar" update="display,:VentaDirectaListForm:datalist,:VentaDirectaListForm:growl,VentaCreateForm:articulosTable,totalPago"/>
+            <p:commandButton actionListener="#{ventadirectaController.cancel}" value="#{bundle.Close}" update=":VentaDirectaListForm:datalist" onclick="VentaCreateDialog.close()" />
+        </h:form>
+    </p:dialog>
+</ui:composition>
+</html>

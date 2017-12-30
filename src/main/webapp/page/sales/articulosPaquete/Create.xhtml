@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ArticulosPaqueteCreateDlg" widgetVar="ArticulosPaqueteCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateArticulosPaqueteTitle}">
+            <h:form id="ArticulosPaqueteCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{articulosPaqueteController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateArticulosPaqueteLabel_idarticulospaquete}" for="idarticulospaquete" />
+                        <p:inputText id="idarticulospaquete" value="#{articulosPaqueteController.selected.idarticulospaquete}" title="#{bundle.CreateArticulosPaqueteTitle_idarticulospaquete}" />
+                        <p:outputLabel value="#{bundle.CreateArticulosPaqueteLabel_idpaquetes}" for="idpaquetes" />
+                        <p:inputText id="idpaquetes" value="#{articulosPaqueteController.selected.idpaquetes}" title="#{bundle.CreateArticulosPaqueteTitle_idpaquetes}" />
+                        <p:outputLabel value="#{bundle.CreateArticulosPaqueteLabel_idCuenta}" for="idCuenta" />
+                        <p:inputText id="idCuenta" value="#{articulosPaqueteController.selected.idCuenta}" title="#{bundle.CreateArticulosPaqueteTitle_idCuenta}" />
+                        <p:outputLabel value="#{bundle.CreateArticulosPaqueteLabel_codArt}" for="codArt" />
+                        <p:inputText id="codArt" value="#{articulosPaqueteController.selected.codArt}" title="#{bundle.CreateArticulosPaqueteTitle_codArt}" />
+                        <p:outputLabel value="#{bundle.CreateArticulosPaqueteLabel_noCia}" for="noCia" />
+                        <p:inputText id="noCia" value="#{articulosPaqueteController.selected.noCia}" title="#{bundle.CreateArticulosPaqueteTitle_noCia}" />
+                        <p:outputLabel value="#{bundle.CreateArticulosPaqueteLabel_cantidad}" for="cantidad" />
+                        <p:inputText id="cantidad" value="#{articulosPaqueteController.selected.cantidad}" title="#{bundle.CreateArticulosPaqueteTitle_cantidad}" />
+                        <p:outputLabel value="#{bundle.CreateArticulosPaqueteLabel_codAlm}" for="codAlm" />
+                        <p:inputText id="codAlm" value="#{articulosPaqueteController.selected.codAlm}" title="#{bundle.CreateArticulosPaqueteTitle_codAlm}" />
+                        <p:outputLabel value="#{bundle.CreateArticulosPaqueteLabel_precio}" for="precio" />
+                        <p:inputText id="precio" value="#{articulosPaqueteController.selected.precio}" title="#{bundle.CreateArticulosPaqueteTitle_precio}" />
+                        <p:outputLabel value="#{bundle.CreateArticulosPaqueteLabel_total}" for="total" />
+                        <p:inputText id="total" value="#{articulosPaqueteController.selected.total}" title="#{bundle.CreateArticulosPaqueteTitle_total}" />
+                        <p:outputLabel value="#{bundle.CreateArticulosPaqueteLabel_idcliente}" for="idcliente" />
+                        <p:inputText id="idcliente" value="#{articulosPaqueteController.selected.idcliente}" title="#{bundle.CreateArticulosPaqueteTitle_idcliente}" required="true" requiredMessage="#{bundle.CreateArticulosPaqueteRequiredMessage_idcliente}"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{articulosPaqueteController.create}" value="#{bundle.Save}" update="display,:ArticulosPaqueteListForm:datalist,:growl" oncomplete="handleSubmit(args,'ArticulosPaqueteCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="ArticulosPaqueteCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

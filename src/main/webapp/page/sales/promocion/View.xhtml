@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="PromocionViewDlg" widgetVar="PromocionViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewPromocionTitle}">
+            <h:form id="PromocionViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{promocionController.selected != null}">
+                        <h:outputText value="#{bundle.ViewPromocionLabel_idpromocion}"/>
+                        <h:outputText value="#{promocionController.selected.idpromocion}" title="#{bundle.ViewPromocionTitle_idpromocion}"/>
+                        <h:outputText value="#{bundle.ViewPromocionLabel_nombre}"/>
+                        <h:outputText value="#{promocionController.selected.nombre}" title="#{bundle.ViewPromocionTitle_nombre}"/>
+                        <h:outputText value="#{bundle.ViewPromocionLabel_fechainicio}"/>
+                        <h:outputText value="#{promocionController.selected.fechainicio}" title="#{bundle.ViewPromocionTitle_fechainicio}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewPromocionLabel_fechafin}"/>
+                        <h:outputText value="#{promocionController.selected.fechafin}" title="#{bundle.ViewPromocionTitle_fechafin}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewPromocionLabel_estado}"/>
+                        <h:outputText value="#{promocionController.selected.estado}" title="#{bundle.ViewPromocionTitle_estado}"/>
+                        <h:outputText value="#{bundle.ViewPromocionLabel_total}"/>
+                        <h:outputText value="#{promocionController.selected.total}" title="#{bundle.ViewPromocionTitle_total}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PromocionViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

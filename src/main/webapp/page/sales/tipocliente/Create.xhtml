@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TipoclienteCreateDlg" widgetVar="TipoclienteCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateTipoclienteTitle}">
+            <h:form id="TipoclienteCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{tipoclienteController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateTipoclienteLabel_idtipocliente}" for="idtipocliente" />
+                        <p:inputText id="idtipocliente" value="#{tipoclienteController.selected.idtipocliente}" title="#{bundle.CreateTipoclienteTitle_idtipocliente}" />
+                        <p:outputLabel value="#{bundle.CreateTipoclienteLabel_nombre}" for="nombre" />
+                        <p:inputText id="nombre" value="#{tipoclienteController.selected.nombre}" title="#{bundle.CreateTipoclienteTitle_nombre}" />
+                        <p:outputLabel value="#{bundle.CreateTipoclienteLabel_clientes}" for="clientes" />
+                        <p:inputText id="clientes" value="#{tipoclienteController.selected.clientes}" title="#{bundle.CreateTipoclienteTitle_clientes}" />
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{tipoclienteController.create}" value="#{bundle.Save}" update="display,:TipoclienteListForm:datalist,:growl" oncomplete="handleSubmit(args,'TipoclienteCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="TipoclienteCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

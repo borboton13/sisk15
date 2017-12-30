@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="MovimientoEditDlg" widgetVar="MovimientoEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditMovimientoTitle}">
+            <h:form id="MovimientoEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{movimientoController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditMovimientoLabel_idmovimiento}" for="idmovimiento" />
+                        <p:inputText id="idmovimiento" value="#{movimientoController.selected.idmovimiento}" title="#{bundle.EditMovimientoTitle_idmovimiento}" />
+                        <p:outputLabel value="#{bundle.EditMovimientoLabel_glosa}" for="glosa" />
+                        <p:inputText id="glosa" value="#{movimientoController.selected.glosa}" title="#{bundle.EditMovimientoTitle_glosa}" />
+                        <p:outputLabel value="#{bundle.EditMovimientoLabel_estado}" for="estado" />
+                        <p:inputText id="estado" value="#{movimientoController.selected.estado}" title="#{bundle.EditMovimientoTitle_estado}" />
+                        <p:outputLabel value="#{bundle.EditMovimientoLabel_codestruct}" for="codestruct" />
+                        <p:inputText id="codestruct" value="#{movimientoController.selected.codestruct}" title="#{bundle.EditMovimientoTitle_codestruct}" />
+                        <p:outputLabel value="#{bundle.EditMovimientoLabel_moneda}" for="moneda" />
+                        <p:inputText id="moneda" value="#{movimientoController.selected.moneda}" title="#{bundle.EditMovimientoTitle_moneda}" />
+                        <p:outputLabel value="#{bundle.EditMovimientoLabel_nrofactura}" for="nrofactura" />
+                        <p:inputText id="nrofactura" value="#{movimientoController.selected.nrofactura}" title="#{bundle.EditMovimientoTitle_nrofactura}" />
+                        <p:outputLabel value="#{bundle.EditMovimientoLabel_codigocontrol}" for="codigocontrol" />
+                        <p:inputText id="codigocontrol" value="#{movimientoController.selected.codigocontrol}" title="#{bundle.EditMovimientoTitle_codigocontrol}" />
+                        <p:outputLabel value="#{bundle.EditMovimientoLabel_tipopago}" for="tipopago" />
+                        <p:inputText id="tipopago" value="#{movimientoController.selected.tipopago}" title="#{bundle.EditMovimientoTitle_tipopago}" />
+                        <p:outputLabel value="#{bundle.EditMovimientoLabel_tipocambio}" for="tipocambio" />
+                        <p:inputText id="tipocambio" value="#{movimientoController.selected.tipocambio}" title="#{bundle.EditMovimientoTitle_tipocambio}" />
+                        <p:outputLabel value="#{bundle.EditMovimientoLabel_fecharegistro}" for="fecharegistro" />
+                        <p:calendar id="fecharegistro" pattern="MM/dd/yyyy HH:mm:ss" value="#{movimientoController.selected.fecharegistro}" title="#{bundle.EditMovimientoTitle_fecharegistro}" required="true" requiredMessage="#{bundle.EditMovimientoRequiredMessage_fecharegistro}" showOn="button"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{movimientoController.update}" value="#{bundle.Save}" update="display,:MovimientoListForm:datalist,:growl" oncomplete="handleSubmit(args, 'MovimientoEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="MovimientoEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

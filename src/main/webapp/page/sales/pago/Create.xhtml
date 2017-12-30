@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="PagoCreateDlg" widgetVar="PagoCreateDialog" modal="true" resizable="false" closable="false" appendTo="@(body)" header="Registrar Pago">
+            <h:form id="PagoCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{pagoController.selected != null}">
+                        <p:outputLabel value="Cliente:" for="cliente" />
+                        <p:autoComplete id="cliente" value="#{pagoController.personaElegida}" completeMethod="#{personaController.completarCliente}"
+                                        var="cliente" itemLabel="#{cliente.nombreCompleto}" itemValue="#{cliente}"
+                                        converter="convertirPersona" forceSelection="true"
+                                        minQueryLength="3" maxResults="8" cache="true" cacheTimeout="30000">
+                            <f:facet name="itemtip">
+                                <h:panelGrid columns="2" cellpadding="5">
+                                    <f:facet name="header">
+                                        <h:outputText styleClass="ui-theme ui-theme-#{cliente.nombreCompleto}" style="margin-left:50px" />
+                                    </f:facet>
+                                    <h:outputText value="Nombre:" />
+                                    <h:outputText value="#{cliente.nombreCompleto}" />
+                                    <h:outputText value="Nit:" />
+                                    <h:outputText value="#{cliente.nit}" />
+                                    <h:outputText value="C.I.:" />
+                                    <h:outputText value="#{cliente.nroDoc}" />
+                                    <h:outputText value="Telefono:" />
+                                    <h:outputText value="#{cliente.telefono}" />
+                                    <h:outputText value="#{cliente.confactura?'SI':'NO'}" />
+                                </h:panelGrid>
+                            </f:facet>
+                        </p:autoComplete>
+                            <p:outputLabel for="tipoPago" value="Tipo de pago:" />
+                            <p:selectOneRadio id="tipoPago" value="#{pagoController.tipoPago}">
+                                <f:selectItem itemLabel="Efectivo" itemValue="EFECTIVO" />
+                                <f:selectItem itemLabel="Deposito Bancario" itemValue="BANCO" />
+                                <p:ajax update="display"/>
+                            </p:selectOneRadio>
+                        <p:outputLabel id="bancoEtiqueta" for="bancos" value="Bancos: " rendered="#{pagoController.tipoPago.equals('BANCO')}"/>
+                        <p:selectOneMenu id="bancos" value="#{pagoController.bancoElejido}" rendered="#{pagoController.tipoPago.equals('BANCO')}">
+                            <f:selectItems value="#{pagoController.bancos}"
+                                    var="banco"
+                                    itemValue="#{banco}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="Pago:" for="pago" />
+                        <p:inputText id="pago" value="#{pagoController.selected.pago}" title="Pago"/>
+                        <p:outputLabel value="Descripción:" for="descripcion" />
+                        <p:inputTextarea id="descripcion" value="#{pagoController.selected.descripcion}" title="Descripción" cols="20" rows="3"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{pagoController.create}" value="#{bundle.Save}" update="display,:PagoListForm:datalist,:PagoListForm:growl"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="PagoCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/template.xhtml">
+
+
+    <ui:define name="title">
+        <h:outputText value="Listado de distribuidor"></h:outputText>
+    </ui:define>
+
+    <ui:define name="center">
+        <h:form id="ClienteListForm" rendered="#{loginBean.logeado}">
+            <p:growl id="growl" life="15000"/>
+            <p:panel header="Listado de distribuidor">
+                <p:dataTable id="datalist" value="#{distribuidorController.items}" var="item"
+                             selectionMode="single" selection="#{distribuidorController.selected}"
+                             paginator="true"
+                             rowKey="#{item.piId}"
+                             rows="10"
+                             rowsPerPageTemplate="10,20,30,40,50"
+                        >
+
+                    <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
+                    <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
+                    <p:column sortBy="#{item.nombreCompleto}">
+                        <f:facet name="header">
+                            <h:outputText value="Nombre"/>
+                        </f:facet>
+                        <h:outputText value="#{item.nombreCompleto}"/>
+                    </p:column>
+                    <p:column sortBy="#{item.direccion}">
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListClienteTitle_direccion}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.direccion}"/>
+                    </p:column>
+                    <p:column sortBy="#{item.telefono}">
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListClienteTitle_telefono}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.telefono}"/>
+                    </p:column>
+                    <p:column sortBy="#{item.nit}">
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListClienteTitle_nit}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.nit}"/>
+                    </p:column>
+                    <p:column sortBy="#{item.nroDoc}">
+                        <f:facet name="header">
+                            <h:outputText value="C.I."/>
+                        </f:facet>
+                        <h:outputText value="#{item.nroDoc}"/>
+                    </p:column>
+                    <p:column sortBy="#{item.sexo}">
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListClienteTitle_sexo}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.sexo}"/>
+                    </p:column>
+
+                    <f:facet name="footer">
+                        <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{distribuidorController.prepareCreate}" update=":ClienteCreateForm" oncomplete="PF('ClienteCreateDialog').show()"/>
+                        <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":ClienteViewForm" oncomplete="PF('ClienteViewDialog').show()" disabled="#{empty distribuidorController.selected}"/>
+                        <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" actionListener="#{distribuidorController.prepareEdit}" update=":ClienteEditForm" oncomplete="PF('ClienteEditDialog').show()" disabled="#{empty distribuidorController.selected}"/>
+                        <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{distribuidorController.destroy}" update=":ClienteListForm:growl,datalist" disabled="#{empty distribuidorController.selected}">
+                            <p:confirm header="Confirmación" message="¿Está seguro de eliminar el distribuidor?" icon="ui-icon-alert" />
+                        </p:commandButton>
+                    </f:facet>
+                </p:dataTable>
+            </p:panel>
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+                <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+            </p:confirmDialog>
+        </h:form>
+        <h:form rendered="#{!loginBean.logeado}">
+            <ui:include src="./../../../accesodenegado.xhtml"/>
+        </h:form>
+        <ui:include src="Create.xhtml"/>
+        <ui:include src="Edit.xhtml"/>
+        <ui:include src="View.xhtml"/>
+    </ui:define>
+</ui:composition>
+
+</html>

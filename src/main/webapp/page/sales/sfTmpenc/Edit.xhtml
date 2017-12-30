@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="SfTmpencEditDlg" widgetVar="SfTmpencEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditSfTmpencTitle}">
+            <h:form id="SfTmpencEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{sfTmpencController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditSfTmpencLabel_idTmpenc}" for="idTmpenc" />
+                        <p:inputText id="idTmpenc" value="#{sfTmpencController.selected.idTmpenc}" title="#{bundle.EditSfTmpencTitle_idTmpenc}" />
+                        <p:outputLabel value="#{bundle.EditSfTmpencLabel_noTrans}" for="noTrans" />
+                        <p:inputText id="noTrans" value="#{sfTmpencController.selected.noTrans}" title="#{bundle.EditSfTmpencTitle_noTrans}" />
+                        <p:outputLabel value="#{bundle.EditSfTmpencLabel_agregarCtaProv}" for="agregarCtaProv" />
+                        <p:inputText id="agregarCtaProv" value="#{sfTmpencController.selected.agregarCtaProv}" title="#{bundle.EditSfTmpencTitle_agregarCtaProv}" />
+                        <p:outputLabel value="#{bundle.EditSfTmpencLabel_monto}" for="monto" />
+                        <p:inputText id="monto" value="#{sfTmpencController.selected.monto}" title="#{bundle.EditSfTmpencTitle_monto}" />
+                        <p:outputLabel value="#{bundle.EditSfTmpencLabel_ctaBco}" for="ctaBco" />
+                        <p:inputText id="ctaBco" value="#{sfTmpencController.selected.ctaBco}" title="#{bundle.EditSfTmpencTitle_ctaBco}" />
+                        <p:outputLabel value="#{bundle.EditSfTmpencLabel_cuenta}" for="cuenta" />
+                        <p:inputText id="cuenta" value="#{sfTmpencController.selected.cuenta}" title="#{bundle.EditSfTmpencTitle_cuenta}" />
+                        <p:outputLabel value="#{bundle.EditSfTmpencLabel_sedePagoChq}" for="sedePagoChq" />
+                        <p:inputText id="sedePagoChq" value="#{sfTmpencController.selected.sedePagoChq}" title="#{bundle.EditSfTmpencTitle_sedePagoChq}" />
+                        <p:outputLabel value="#{bundle.EditSfTmpencLabel_noCia}" for="noCia" />
+                        <p:inputText id="noCia" value="#{sfTmpencController.selected.noCia}" title="#{bundle.EditSfTmpencTitle_noCia}" />
+                        <p:outputLabel value="#{bundle.EditSfTmpencLabel_moneda}" for="moneda" />
+                        <p:inputText id="moneda" value="#{sfTmpencController.selected.moneda}" title="#{bundle.EditSfTmpencTitle_moneda}" />
+                        <p:outputLabel value="#{bundle.EditSfTmpencLabel_fecha}" for="fecha" />
+                        <p:calendar id="fecha" pattern="MM/dd/yyyy" value="#{sfTmpencController.selected.fecha}" title="#{bundle.EditSfTmpencTitle_fecha}"  showOn="button"/>
+                        <p:outputLabel value="#{bundle.EditSfTmpencLabel_descri}" for="descri" />
+                        <p:inputText id="descri" value="#{sfTmpencController.selected.descri}" title="#{bundle.EditSfTmpencTitle_descri}" />
+                        <p:outputLabel value="#{bundle.EditSfTmpencLabel_noDoc}" for="noDoc" />
+                        <p:inputText id="noDoc" value="#{sfTmpencController.selected.noDoc}" title="#{bundle.EditSfTmpencTitle_noDoc}" />
+                        <p:outputLabel value="#{bundle.EditSfTmpencLabel_tipoDoc}" for="tipoDoc" />
+                        <p:inputText id="tipoDoc" value="#{sfTmpencController.selected.tipoDoc}" title="#{bundle.EditSfTmpencTitle_tipoDoc}" />
+                        <p:outputLabel value="#{bundle.EditSfTmpencLabel_beneficiario}" for="beneficiario" />
+                        <p:inputText id="beneficiario" value="#{sfTmpencController.selected.beneficiario}" title="#{bundle.EditSfTmpencTitle_beneficiario}" />
+                        <p:outputLabel value="#{bundle.EditSfTmpencLabel_tc}" for="tc" />
+                        <p:inputText id="tc" value="#{sfTmpencController.selected.tc}" title="#{bundle.EditSfTmpencTitle_tc}" />
+                        <p:outputLabel value="#{bundle.EditSfTmpencLabel_fechaVen}" for="fechaVen" />
+                        <p:calendar id="fechaVen" pattern="MM/dd/yyyy" value="#{sfTmpencController.selected.fechaVen}" title="#{bundle.EditSfTmpencTitle_fechaVen}"  showOn="button"/>
+                        <p:outputLabel value="#{bundle.EditSfTmpencLabel_formulario}" for="formulario" />
+                        <p:inputText id="formulario" value="#{sfTmpencController.selected.formulario}" title="#{bundle.EditSfTmpencTitle_formulario}" />
+                        <p:outputLabel value="#{bundle.EditSfTmpencLabel_glosa}" for="glosa" />
+                        <p:inputText id="glosa" value="#{sfTmpencController.selected.glosa}" title="#{bundle.EditSfTmpencTitle_glosa}" />
+                        <p:outputLabel value="#{bundle.EditSfTmpencLabel_observacion}" for="observacion" />
+                        <p:inputText id="observacion" value="#{sfTmpencController.selected.observacion}" title="#{bundle.EditSfTmpencTitle_observacion}" />
+                        <p:outputLabel value="#{bundle.EditSfTmpencLabel_pendienteRegistro}" for="pendienteRegistro" />
+                        <p:inputText id="pendienteRegistro" value="#{sfTmpencController.selected.pendienteRegistro}" title="#{bundle.EditSfTmpencTitle_pendienteRegistro}" />
+                        <p:outputLabel value="#{bundle.EditSfTmpencLabel_codProv}" for="codProv" />
+                        <p:inputText id="codProv" value="#{sfTmpencController.selected.codProv}" title="#{bundle.EditSfTmpencTitle_codProv}" />
+                        <p:outputLabel value="#{bundle.EditSfTmpencLabel_entregadoA}" for="entregadoA" />
+                        <p:inputText id="entregadoA" value="#{sfTmpencController.selected.entregadoA}" title="#{bundle.EditSfTmpencTitle_entregadoA}" />
+                        <p:outputLabel value="#{bundle.EditSfTmpencLabel_noTransRel}" for="noTransRel" />
+                        <p:inputText id="noTransRel" value="#{sfTmpencController.selected.noTransRel}" title="#{bundle.EditSfTmpencTitle_noTransRel}" />
+                        <p:outputLabel value="#{bundle.EditSfTmpencLabel_procedencia}" for="procedencia" />
+                        <p:inputText id="procedencia" value="#{sfTmpencController.selected.procedencia}" title="#{bundle.EditSfTmpencTitle_procedencia}" />
+                        <p:outputLabel value="#{bundle.EditSfTmpencLabel_estado}" for="estado" />
+                        <p:inputText id="estado" value="#{sfTmpencController.selected.estado}" title="#{bundle.EditSfTmpencTitle_estado}" />
+                        <p:outputLabel value="#{bundle.EditSfTmpencLabel_noUsr}" for="noUsr" />
+                        <p:inputText id="noUsr" value="#{sfTmpencController.selected.noUsr}" title="#{bundle.EditSfTmpencTitle_noUsr}" />
+                        <p:outputLabel value="#{bundle.EditSfTmpencLabel_codEnti}" for="codEnti" />
+                        <p:inputText id="codEnti" value="#{sfTmpencController.selected.codEnti}" title="#{bundle.EditSfTmpencTitle_codEnti}" />
+                        <p:outputLabel value="#{bundle.EditSfTmpencLabel_pago}" for="pago" />
+                        <p:selectOneMenu id="pago" value="#{sfTmpencController.selected.pago}" >
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{pagoController.itemsAvailableSelectOne}"
+                                           var="pagoItem"
+                                           itemValue="#{pagoItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditSfTmpencLabel_pedido}" for="pedido" />
+                        <p:selectOneMenu id="pedido" value="#{sfTmpencController.selected.pedido}" >
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{pedidosController.itemsAvailableSelectOne}"
+                                           var="pedidoItem"
+                                           itemValue="#{pedidoItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{sfTmpencController.update}" value="#{bundle.Save}" update="display,:SfTmpencListForm:datalist,:growl" oncomplete="handleSubmit(args, 'SfTmpencEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="SfTmpencEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="InvGruposCreateDlg" widgetVar="InvGruposCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateInvGruposTitle}">
+            <h:form id="InvGruposCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{invGruposController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateInvGruposLabel_invGruposPK_noCia}" for="invGruposPK_noCia" />
+                        <p:inputText id="invGruposPK_noCia" value="#{invGruposController.selected.invGruposPK.noCia}" title="#{bundle.CreateInvGruposTitle_invGruposPK_noCia}" required="true" requiredMessage="#{bundle.CreateInvGruposRequiredMessage_invGruposPK_noCia}"/>
+                        <p:outputLabel value="#{bundle.CreateInvGruposLabel_invGruposPK_codGru}" for="invGruposPK_codGru" />
+                        <p:inputText id="invGruposPK_codGru" value="#{invGruposController.selected.invGruposPK.codGru}" title="#{bundle.CreateInvGruposTitle_invGruposPK_codGru}" required="true" requiredMessage="#{bundle.CreateInvGruposRequiredMessage_invGruposPK_codGru}"/>
+                        <p:outputLabel value="#{bundle.CreateInvGruposLabel_cuentaInv}" for="cuentaInv" />
+                        <p:inputText id="cuentaInv" value="#{invGruposController.selected.cuentaInv}" title="#{bundle.CreateInvGruposTitle_cuentaInv}" />
+                        <p:outputLabel value="#{bundle.CreateInvGruposLabel_descri}" for="descri" />
+                        <p:inputText id="descri" value="#{invGruposController.selected.descri}" title="#{bundle.CreateInvGruposTitle_descri}" />
+                        <p:outputLabel value="#{bundle.CreateInvGruposLabel_version}" for="version" />
+                        <p:inputText id="version" value="#{invGruposController.selected.version}" title="#{bundle.CreateInvGruposTitle_version}" />
+                        <p:outputLabel value="#{bundle.CreateInvGruposLabel_tipo}" for="tipo" />
+                        <p:inputText id="tipo" value="#{invGruposController.selected.tipo}" title="#{bundle.CreateInvGruposTitle_tipo}" />
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{invGruposController.create}" value="#{bundle.Save}" update="display,:InvGruposListForm:datalist,:growl" oncomplete="handleSubmit(args,'InvGruposCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="InvGruposCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui" xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition>
+
+        <p:dialog id="KardexDlg" widgetVar="KardexDialog" modal="true" resizable="true" appendTo="@(body)" header="Generar kardex cliente">
+            <h:form id="KardexForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2">
+                        <p:outputLabel value="Cliente:" for="cliente" />
+                        <p:autoComplete id="cliente" value="#{sfTmpencController.personaElegida}" completeMethod="#{personaController.completarCliente}"
+                                        var="cliente" itemLabel="#{cliente.nombreCompleto}" itemValue="#{cliente}"
+                                        converter="convertirPersona" forceSelection="true"
+                                        minQueryLength="3" maxResults="8" cache="true" cacheTimeout="30000">
+                            <f:facet name="itemtip">
+                                <h:panelGrid columns="2" cellpadding="5">
+                                    <f:facet name="header">
+                                        <h:outputText styleClass="ui-theme ui-theme-#{cliente.nombreCompleto}" style="margin-left:50px" />
+                                    </f:facet>
+                                    <h:outputText value="Nombre:" />
+                                    <h:outputText value="#{cliente.nombreCompleto}" />
+                                    <h:outputText value="Nit:" />
+                                    <h:outputText value="#{cliente.nit}" />
+                                    <h:outputText value="C.I.:" />
+                                    <h:outputText value="#{cliente.nroDoc}" />
+                                    <h:outputText value="Telefono:" />
+                                    <h:outputText value="#{cliente.telefono}" />
+                                    <h:outputText value="#{cliente.confactura?'SI':'NO'}" />
+                                </h:panelGrid>
+                            </f:facet>
+                        </p:autoComplete>
+                        <p:outputLabel for="fechaIni" value="Fecha inicial:" />
+                        <p:calendar id="fechaIni" value="#{sfTmpencController.fechaIni}" showOn="button" />
+                        <p:outputLabel for="fechaFin" value="Fecha final:" />
+                        <p:calendar id="fechaFin" value="#{sfTmpencController.fechaFin}" showOn="button" />
+                    </p:panelGrid>
+                    <p:commandButton value="Generar kardex" actionListener="#{sfTmpencController.generarKardex}" ajax="false"/>
+                    <p:commandButton value="#{bundle.Close}" onclick="KardexDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

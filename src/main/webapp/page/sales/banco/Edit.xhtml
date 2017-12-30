@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="BancoEditDlg" widgetVar="BancoEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditBancoTitle}">
+            <h:form id="BancoEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{bancoController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditBancoLabel_ctaBco}" for="ctaBco" />
+                        <p:inputText id="ctaBco" value="#{bancoController.selected.ctaBco}" title="#{bundle.EditBancoTitle_ctaBco}" />
+                        <p:outputLabel value="#{bundle.EditBancoLabel_noCia}" for="noCia" />
+                        <p:inputText id="noCia" value="#{bancoController.selected.noCia}" title="#{bundle.EditBancoTitle_noCia}" />
+                        <p:outputLabel value="#{bundle.EditBancoLabel_cuenta}" for="cuenta" />
+                        <p:inputText id="cuenta" value="#{bancoController.selected.cuenta}" title="#{bundle.EditBancoTitle_cuenta}" required="true" requiredMessage="#{bundle.EditBancoRequiredMessage_cuenta}"/>
+                        <p:outputLabel value="#{bundle.EditBancoLabel_codBco}" for="codBco" />
+                        <p:inputText id="codBco" value="#{bancoController.selected.codBco}" title="#{bundle.EditBancoTitle_codBco}" />
+                        <p:outputLabel value="#{bundle.EditBancoLabel_moneda}" for="moneda" />
+                        <p:inputText id="moneda" value="#{bancoController.selected.moneda}" title="#{bundle.EditBancoTitle_moneda}" />
+                        <p:outputLabel value="#{bundle.EditBancoLabel_descri}" for="descri" />
+                        <p:inputText id="descri" value="#{bancoController.selected.descri}" title="#{bundle.EditBancoTitle_descri}" />
+                        <p:outputLabel value="#{bundle.EditBancoLabel_estado}" for="estado" />
+                        <p:inputText id="estado" value="#{bancoController.selected.estado}" title="#{bundle.EditBancoTitle_estado}" />
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{bancoController.update}" value="#{bundle.Save}" update="display,:BancoListForm:datalist,:growl" oncomplete="handleSubmit(args, 'BancoEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="BancoEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

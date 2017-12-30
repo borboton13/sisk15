@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ArticulosPedidoCreateDlg" widgetVar="ArticulosPedidoCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateArticulosPedidoTitle}">
+            <h:form id="ArticulosPedidoCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{articulosPedidoController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateArticulosPedidoLabel_idarticulospedido}" for="idarticulospedido" />
+                        <p:inputText id="idarticulospedido" value="#{articulosPedidoController.selected.idarticulospedido}" title="#{bundle.CreateArticulosPedidoTitle_idarticulospedido}" />
+                        <p:outputLabel value="#{bundle.CreateArticulosPedidoLabel_idCuenta}" for="idCuenta" />
+                        <p:inputText id="idCuenta" value="#{articulosPedidoController.selected.idCuenta}" title="#{bundle.CreateArticulosPedidoTitle_idCuenta}" required="true" requiredMessage="#{bundle.CreateArticulosPedidoRequiredMessage_idCuenta}"/>
+                        <p:outputLabel value="#{bundle.CreateArticulosPedidoLabel_codArt}" for="codArt" />
+                        <p:inputText id="codArt" value="#{articulosPedidoController.selected.codArt}" title="#{bundle.CreateArticulosPedidoTitle_codArt}" required="true" requiredMessage="#{bundle.CreateArticulosPedidoRequiredMessage_codArt}"/>
+                        <p:outputLabel value="#{bundle.CreateArticulosPedidoLabel_noCia}" for="noCia" />
+                        <p:inputText id="noCia" value="#{articulosPedidoController.selected.noCia}" title="#{bundle.CreateArticulosPedidoTitle_noCia}" required="true" requiredMessage="#{bundle.CreateArticulosPedidoRequiredMessage_noCia}"/>
+                        <p:outputLabel value="#{bundle.CreateArticulosPedidoLabel_pedido}" for="pedido" />
+                        <p:inputText id="pedido" value="#{articulosPedidoController.selected.pedido}" title="#{bundle.CreateArticulosPedidoTitle_pedido}" required="true" requiredMessage="#{bundle.CreateArticulosPedidoRequiredMessage_pedido}"/>
+                        <p:outputLabel value="#{bundle.CreateArticulosPedidoLabel_id}" for="id" />
+                        <p:inputText id="id" value="#{articulosPedidoController.selected.id}" title="#{bundle.CreateArticulosPedidoTitle_id}" required="true" requiredMessage="#{bundle.CreateArticulosPedidoRequiredMessage_id}"/>
+                        <p:outputLabel value="#{bundle.CreateArticulosPedidoLabel_id1}" for="id1" />
+                        <p:inputText id="id1" value="#{articulosPedidoController.selected.id1}" title="#{bundle.CreateArticulosPedidoTitle_id1}" required="true" requiredMessage="#{bundle.CreateArticulosPedidoRequiredMessage_id1}"/>
+                        <p:outputLabel value="#{bundle.CreateArticulosPedidoLabel_cantidad}" for="cantidad" />
+                        <p:inputText id="cantidad" value="#{articulosPedidoController.selected.cantidad}" title="#{bundle.CreateArticulosPedidoTitle_cantidad}" />
+                        <p:outputLabel value="#{bundle.CreateArticulosPedidoLabel_codAlm}" for="codAlm" />
+                        <p:inputText id="codAlm" value="#{articulosPedidoController.selected.codAlm}" title="#{bundle.CreateArticulosPedidoTitle_codAlm}" />
+                        <p:outputLabel value="#{bundle.CreateArticulosPedidoLabel_precio}" for="precio" />
+                        <p:inputText id="precio" value="#{articulosPedidoController.selected.precio}" title="#{bundle.CreateArticulosPedidoTitle_precio}" />
+                        <p:outputLabel value="#{bundle.CreateArticulosPedidoLabel_reposicion}" for="reposicion" />
+                        <p:inputText id="reposicion" value="#{articulosPedidoController.selected.reposicion}" title="#{bundle.CreateArticulosPedidoTitle_reposicion}" />
+                        <p:outputLabel value="#{bundle.CreateArticulosPedidoLabel_total}" for="total" />
+                        <p:inputText id="total" value="#{articulosPedidoController.selected.total}" title="#{bundle.CreateArticulosPedidoTitle_total}" />
+                        <p:outputLabel value="#{bundle.CreateArticulosPedidoLabel_promocion}" for="promocion" />
+                        <p:inputText id="promocion" value="#{articulosPedidoController.selected.promocion}" title="#{bundle.CreateArticulosPedidoTitle_promocion}" />
+                        <p:outputLabel value="#{bundle.CreateArticulosPedidoLabel_caja}" for="caja" />
+                        <p:inputText id="caja" value="#{articulosPedidoController.selected.caja}" title="#{bundle.CreateArticulosPedidoTitle_caja}" />
+                        <p:outputLabel value="#{bundle.CreateArticulosPedidoLabel_precioInv}" for="precioInv" />
+                        <p:inputText id="precioInv" value="#{articulosPedidoController.selected.precioInv}" title="#{bundle.CreateArticulosPedidoTitle_precioInv}" />
+                        <p:outputLabel value="#{bundle.CreateArticulosPedidoLabel_totalInv}" for="totalInv" />
+                        <p:inputText id="totalInv" value="#{articulosPedidoController.selected.totalInv}" title="#{bundle.CreateArticulosPedidoTitle_totalInv}" />
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{articulosPedidoController.create}" value="#{bundle.Save}" update="display,:ArticulosPedidoListForm:datalist,:growl" oncomplete="handleSubmit(args,'ArticulosPedidoCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="ArticulosPedidoCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

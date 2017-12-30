@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="OperacionesViewDlg" widgetVar="OperacionesViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewOperacionesTitle}">
+            <h:form id="OperacionesViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{operacionesController.selected != null}">
+                        <h:outputText value="#{bundle.ViewOperacionesLabel_idoperaciones}"/>
+                        <h:outputText value="#{operacionesController.selected.idoperaciones}" title="#{bundle.ViewOperacionesTitle_idoperaciones}"/>
+                        <h:outputText value="#{bundle.ViewOperacionesLabel_descripcion}"/>
+                        <h:outputText value="#{operacionesController.selected.descripcion}" title="#{bundle.ViewOperacionesTitle_descripcion}"/>
+                        <h:outputText value="#{bundle.ViewOperacionesLabel_nombre}"/>
+                        <h:outputText value="#{operacionesController.selected.nombre}" title="#{bundle.ViewOperacionesTitle_nombre}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="OperacionesViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

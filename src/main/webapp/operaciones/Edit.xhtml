@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="OperacionesEditDlg" widgetVar="OperacionesEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditOperacionesTitle}">
+            <h:form id="OperacionesEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{operacionesController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditOperacionesLabel_idoperaciones}" for="idoperaciones" />
+                        <p:inputText id="idoperaciones" value="#{operacionesController.selected.idoperaciones}" title="#{bundle.EditOperacionesTitle_idoperaciones}" required="true" requiredMessage="#{bundle.EditOperacionesRequiredMessage_idoperaciones}"/>
+                        <p:outputLabel value="#{bundle.EditOperacionesLabel_descripcion}" for="descripcion" />
+                        <p:inputText id="descripcion" value="#{operacionesController.selected.descripcion}" title="#{bundle.EditOperacionesTitle_descripcion}" />
+                        <p:outputLabel value="#{bundle.EditOperacionesLabel_nombre}" for="nombre" />
+                        <p:inputText id="nombre" value="#{operacionesController.selected.nombre}" title="#{bundle.EditOperacionesTitle_nombre}" />
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{operacionesController.update}" value="#{bundle.Save}" update="display,:OperacionesListForm:datalist,:growl" oncomplete="handleSubmit(args, 'OperacionesEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="OperacionesEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

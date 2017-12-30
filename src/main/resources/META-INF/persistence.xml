@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+  <persistence-unit name="khipusPU" transaction-type="JTA">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <jta-data-source>java:/jdbc/KhipusDS</jta-data-source>
+    <class>com.encens.khipus.model.Arcgms</class>
+    <class>com.encens.khipus.model.ArticulosPaquete</class>
+    <class>com.encens.khipus.model.ArticulosPedido</class>
+    <class>com.encens.khipus.model.ArticulosPromocion</class>
+    <class>com.encens.khipus.model.Cliente</class>
+    <class>com.encens.khipus.model.CodigoPedidoSecuencia</class>
+    <class>com.encens.khipus.model.Compania</class>
+    <class>com.encens.khipus.model.Departamento</class>
+    <class>com.encens.khipus.model.Derechoacceso</class>
+    <class>com.encens.khipus.model.Distribuidor</class>
+    <class>com.encens.khipus.model.Dosificacion</class>
+    <class>com.encens.khipus.model.Funcionalidad</class>
+    <class>com.encens.khipus.model.Impresionfactura</class>
+    <class>com.encens.khipus.model.Institucion</class>
+    <class>com.encens.khipus.model.InvArticulos</class>
+    <class>com.encens.khipus.model.InvGrupos</class>
+    <class>com.encens.khipus.model.Modulo</class>
+    <class>com.encens.khipus.model.Modulocompania</class>
+    <class>com.encens.khipus.model.Movimiento</class>
+    <class>com.encens.khipus.model.Pago</class>
+    <class>com.encens.khipus.model.Paquetes</class>
+    <class>com.encens.khipus.model.Pedidos</class>
+    <class>com.encens.khipus.model.Persona</class>
+    <class>com.encens.khipus.model.Promocion</class>
+    <class>com.encens.khipus.model.Rol</class>
+    <class>com.encens.khipus.model.SfConfdet</class>
+    <class>com.encens.khipus.model.SfConfenc</class>
+    <class>com.encens.khipus.model.SfTmpdet</class>
+    <class>com.encens.khipus.model.SfTmpenc</class>
+    <class>com.encens.khipus.model.Territoriotrabajo</class>
+    <class>com.encens.khipus.model.Tipocliente</class>
+    <class>com.encens.khipus.model.Tipopedido</class>
+    <class>com.encens.khipus.model.Usuario</class>
+    <class>com.encens.khipus.model.VentaDirectaSecuencia</class>
+    <class>com.encens.khipus.model.Ventaarticulo</class>
+    <class>com.encens.khipus.model.Ventacliente</class>
+    <class>com.encens.khipus.model.Ventadirecta</class>
+    <class>com.encens.khipus.model.Tipodoc</class>
+    <class>com.encens.khipus.model.InvArticulosPK</class>
+    <class>com.encens.khipus.model.InvGruposPK</class>
+    <class>com.encens.khipus.model.SfTmpdetPK</class>
+    <class>com.encens.khipus.model.DerechoaccesoPK</class>
+    <class>com.encens.khipus.model.ModulocompaniaPK</class>
+    <class>com.encens.khipus.model.Operaciones</class>
+    <class>com.encens.khipus.model.Banco</class>
+    <class>com.encens.khipus.model.Sucursal</class>
+    <class>com.encens.khipus.model.ProductInventory</class>
+    <class>com.encens.khipus.model.ProductInventoryRecord</class>
+    <class>com.encens.khipus.model.ProductInventoryRecordType</class>
+    <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    <properties>
+      <property name="eclipselink.target-server" value="JBoss"/>
+      <property name="eclipselink.weaving" value="static"/>
+      <property name="eclipselink.jdbc.url" value="jdbc:mysql://localhost:3306/khipus"/>
+      <property name="eclipselink.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+      <property name="eclipselink.jdbc.user"/>
+      <property name="eclipselink.jdbc.password"/>
+      
+      <property name="eclipselink.jdbc.cache-statements" value="false" />
+      <property name="eclipselink.query-results-cache" value="false"/>
+      
+      <property name="eclipselink.cache.shared.default" value="false"/>
+      
+      <!--
+      
+      <property name="eclipselink.persistence-context.flush-mode" value="commit" />
+      -->
+    </properties>
+  </persistence-unit>
+</persistence>

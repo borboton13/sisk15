@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+
+
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListInvArticulosTitle}"></h:outputText>
+        </ui:define>
+
+        <ui:define name="body">
+            <h:form id="InvArticulosListForm">
+                <p:panel header="#{bundle.ListInvArticulosTitle}">
+                    <p:dataTable id="datalist" value="#{invArticulosController.items}" var="item"
+                                 selectionMode="single" selection="#{invArticulosController.selected}"
+                                 paginator="true"
+                                 rowKey="#{item.invArticulosPK}"
+                                 rows="10"
+                                 rowsPerPageTemplate="10,20,30,40,50"
+                                 >
+
+                        <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
+                        <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListInvArticulosTitle_invArticulosPK_codArt}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.invArticulosPK.codArt}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListInvArticulosTitle_controlValorado}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.controlValorado}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListInvArticulosTitle_cantiadEqui}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.cantiadEqui}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListInvArticulosTitle_codMedMay}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.codMedMay}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListInvArticulosTitle_saldoMon}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.saldoMon}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListInvArticulosTitle_stockmaximo}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.stockmaximo}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListInvArticulosTitle_stockminimo}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.stockminimo}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListInvArticulosTitle_descri}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.descri}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListInvArticulosTitle_nombrecorto}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.nombrecorto}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListInvArticulosTitle_cuentaArt}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.cuentaArt}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListInvArticulosTitle_vendible}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.vendible}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListInvArticulosTitle_estado}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.estado}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListInvArticulosTitle_codSub}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.codSub}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListInvArticulosTitle_costoUni}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.costoUni}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListInvArticulosTitle_codMed}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.codMed}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListInvArticulosTitle_version}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.version}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListInvArticulosTitle_invGrupos}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.invGrupos}"/>
+                        </p:column>
+                        <f:facet name="footer">
+                            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{invArticulosController.prepareCreate}" update=":InvArticulosCreateForm" oncomplete="PF('InvArticulosCreateDialog').show()"/>
+                            <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":InvArticulosViewForm" oncomplete="PF('InvArticulosViewDialog').show()" disabled="#{empty invArticulosController.selected}"/>
+                            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":InvArticulosEditForm" oncomplete="PF('InvArticulosEditDialog').show()" disabled="#{empty invArticulosController.selected}"/>
+                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{invArticulosController.destroy}" update=":growl,datalist" disabled="#{empty invArticulosController.selected}"/>
+                        </f:facet>
+                    </p:dataTable>
+                </p:panel>
+            </h:form>
+
+            <ui:include src="Create.xhtml"/>
+            <ui:include src="Edit.xhtml"/>
+            <ui:include src="View.xhtml"/>
+        </ui:define>
+    </ui:composition>
+
+</html>

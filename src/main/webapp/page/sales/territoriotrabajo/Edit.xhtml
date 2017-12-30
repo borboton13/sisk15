@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TerritoriotrabajoEditDlg" widgetVar="TerritoriotrabajoEditDialog" modal="true" resizable="false" appendTo="@(body)" header="Editar Territorio">
+            <h:form id="TerritoriotrabajoEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{territoriotrabajoController.selected != null}">
+                        <p:outputLabel value="Nombre:" for="nombre" />
+                        <p:inputText id="nombre" value="#{territoriotrabajoController.selected.nombre}" title="Nombre" />
+                        <p:outputLabel value="País" for="pais" />
+                        <p:inputText id="pais" value="#{territoriotrabajoController.selected.pais}" title="país" />
+                        <p:outputLabel value="Descripción:" for="descripcion" />
+                        <p:autoComplete id="distribuidor" value="#{territoriotrabajoController.selected.distribuidor}" completeMethod="#{territoriotrabajoController.completarDistribuidor}"
+                                        var="distribuidor" itemLabel="#{distribuidor.nombreCompleto}" itemValue="#{distribuidor}" converter="convertirPersona" >
+                            <f:facet name="itemtip">
+                                <h:panelGrid columns="2" cellpadding="5">
+                                    <f:facet name="header">
+                                        <h:outputText styleClass="ui-theme ui-theme-#{distribuidor.nombreCompleto}" style="margin-left:50px" />
+                                    </f:facet>
+                                    <h:outputText value="Nombre:" />
+                                    <h:outputText value="#{distribuidor.nombreCompleto}" />
+                                    <h:outputText value="Nit:" />
+                                    <h:outputText value="#{distribuidor.nit}" />
+                                    <h:outputText value="C.I.:" />
+                                    <h:outputText value="#{distribuidor.nroDoc}" />
+                                    <h:outputText value="Telefono:" />
+                                    <h:outputText value="#{distribuidor.telefono}" />
+                                </h:panelGrid>
+                            </f:facet>
+                        </p:autoComplete>
+
+                        <p:outputLabel value="Departamento:" for="departamento" />
+                        <p:selectOneMenu id="departamento" value="#{territoriotrabajoController.selected.departamento}" >
+                            <f:selectItems value="#{departamentoController.itemsAvailableSelectOne}"
+                                           var="departamentoItem"
+                                           itemValue="#{departamentoItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="Descripción:" for="descripcion" />
+                        <p:inputText id="descripcion" value="#{territoriotrabajoController.selected.descripcion}" title="Descripción" />
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{territoriotrabajoController.update}" value="#{bundle.Save}" update="display,:TerritoriotrabajoListForm:datalist,:TerritoriotrabajoListForm:growl" onclick="TerritoriotrabajoEditDialog.hide()" />
+                    <p:commandButton actionListener="#{territoriotrabajoController.cancel}" value="#{bundle.Close}" onclick="TerritoriotrabajoEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

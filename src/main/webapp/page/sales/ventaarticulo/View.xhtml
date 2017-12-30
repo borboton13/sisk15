@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="VentaarticuloViewDlg" widgetVar="VentaarticuloViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewVentaarticuloTitle}">
+            <h:form id="VentaarticuloViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{ventaarticuloController.selected != null}">
+                        <h:outputText value="#{bundle.ViewVentaarticuloLabel_idventaarticulo}"/>
+                        <h:outputText value="#{ventaarticuloController.selected.idventaarticulo}" title="#{bundle.ViewVentaarticuloTitle_idventaarticulo}"/>
+                        <h:outputText value="#{bundle.ViewVentaarticuloLabel_precio}"/>
+                        <h:outputText value="#{ventaarticuloController.selected.precio}" title="#{bundle.ViewVentaarticuloTitle_precio}"/>
+                        <h:outputText value="#{bundle.ViewVentaarticuloLabel_invArticulos}"/>
+                        <h:outputText value="#{ventaarticuloController.selected.invArticulos}" title="#{bundle.ViewVentaarticuloTitle_invArticulos}"/>
+                        <h:outputText value="#{bundle.ViewVentaarticuloLabel_tipo}"/>
+                        <h:outputText value="#{ventaarticuloController.selected.tipo}" title="#{bundle.ViewVentaarticuloTitle_tipo}"/>
+                        <h:outputText value="#{bundle.ViewVentaarticuloLabel_promocion}"/>
+                        <h:outputText value="#{ventaarticuloController.selected.promocion}" title="#{bundle.ViewVentaarticuloTitle_promocion}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="VentaarticuloViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

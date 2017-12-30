@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="VentaarticuloCreateDlg" widgetVar="VentaarticuloCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="Registrar precio">
+            <h:form id="VentaarticuloCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{ventaarticuloController.selected != null}">
+
+                            <p:outputLabel value="Articulo:" for="itemTip" />
+                            <p:autoComplete id="itemTip" size="54" value="#{ventaarticuloController.selected.invArticulos}" completeMethod="#{ventaarticuloController.completarArticulo}"
+                                            var="articulo" itemLabel="#{articulo.descri}" itemValue="#{articulo}" converter="convertirArticulos">
+                                <f:facet name="itemtip">
+                                    <h:panelGrid columns="2" cellpadding="5">
+                                        <f:facet name="header">
+                                            <h:outputText styleClass="ui-theme ui-theme-#{articulo.descri}" style="margin-left:50px" />
+                                        </f:facet>
+                                        <h:outputText value="Nombre:" />
+                                        <h:outputText value="#{articulo.descri}" />
+                                        <h:outputText value="Codigo:" />
+                                        <h:outputText value="#{articulo.invArticulosPK.codArt}" />
+                                        <h:outputText value="Costo:" />
+                                        <h:outputText value="#{articulo.costoUni}" />
+                                    </h:panelGrid>
+                                </f:facet>
+                            </p:autoComplete>
+
+                        <p:outputLabel value="Precio:" for="precio" />
+                        <p:inputText id="precio" value="#{ventaarticuloController.selected.precio}" title="precio" />
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{ventaarticuloController.create}" value="#{bundle.Save}" update="display,:VentaarticuloListForm:datalist,:VentaarticuloListForm:growl" oncomplete="handleSubmit(args,'VentaarticuloCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="VentaarticuloCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

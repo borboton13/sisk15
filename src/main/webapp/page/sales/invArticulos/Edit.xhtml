@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="InvArticulosEditDlg" widgetVar="InvArticulosEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditInvArticulosTitle}">
+            <h:form id="InvArticulosEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{invArticulosController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditInvArticulosLabel_invArticulosPK_codArt}" for="invArticulosPK_codArt" />
+                        <p:inputText id="invArticulosPK_codArt" value="#{invArticulosController.selected.invArticulosPK.codArt}" title="#{bundle.EditInvArticulosTitle_invArticulosPK_codArt}" required="true" requiredMessage="#{bundle.EditInvArticulosRequiredMessage_invArticulosPK_codArt}"/>
+                        <p:outputLabel value="#{bundle.EditInvArticulosLabel_controlValorado}" for="controlValorado" />
+                        <p:inputText id="controlValorado" value="#{invArticulosController.selected.controlValorado}" title="#{bundle.EditInvArticulosTitle_controlValorado}" />
+                        <p:outputLabel value="#{bundle.EditInvArticulosLabel_cantiadEqui}" for="cantiadEqui" />
+                        <p:inputText id="cantiadEqui" value="#{invArticulosController.selected.cantiadEqui}" title="#{bundle.EditInvArticulosTitle_cantiadEqui}" />
+                        <p:outputLabel value="#{bundle.EditInvArticulosLabel_codMedMay}" for="codMedMay" />
+                        <p:inputText id="codMedMay" value="#{invArticulosController.selected.codMedMay}" title="#{bundle.EditInvArticulosTitle_codMedMay}" />
+                        <p:outputLabel value="#{bundle.EditInvArticulosLabel_saldoMon}" for="saldoMon" />
+                        <p:inputText id="saldoMon" value="#{invArticulosController.selected.saldoMon}" title="#{bundle.EditInvArticulosTitle_saldoMon}" />
+                        <p:outputLabel value="#{bundle.EditInvArticulosLabel_stockmaximo}" for="stockmaximo" />
+                        <p:inputText id="stockmaximo" value="#{invArticulosController.selected.stockmaximo}" title="#{bundle.EditInvArticulosTitle_stockmaximo}" />
+                        <p:outputLabel value="#{bundle.EditInvArticulosLabel_stockminimo}" for="stockminimo" />
+                        <p:inputText id="stockminimo" value="#{invArticulosController.selected.stockminimo}" title="#{bundle.EditInvArticulosTitle_stockminimo}" />
+                        <p:outputLabel value="#{bundle.EditInvArticulosLabel_descri}" for="descri" />
+                        <p:inputText id="descri" value="#{invArticulosController.selected.descri}" title="#{bundle.EditInvArticulosTitle_descri}" />
+                        <p:outputLabel value="#{bundle.EditInvArticulosLabel_nombrecorto}" for="nombrecorto" />
+                        <p:inputText id="nombrecorto" value="#{invArticulosController.selected.nombrecorto}" title="#{bundle.EditInvArticulosTitle_nombrecorto}" />
+                        <p:outputLabel value="#{bundle.EditInvArticulosLabel_cuentaArt}" for="cuentaArt" />
+                        <p:inputText id="cuentaArt" value="#{invArticulosController.selected.cuentaArt}" title="#{bundle.EditInvArticulosTitle_cuentaArt}" />
+                        <p:outputLabel value="#{bundle.EditInvArticulosLabel_vendible}" for="vendible" />
+                        <p:inputText id="vendible" value="#{invArticulosController.selected.vendible}" title="#{bundle.EditInvArticulosTitle_vendible}" />
+                        <p:outputLabel value="#{bundle.EditInvArticulosLabel_estado}" for="estado" />
+                        <p:inputText id="estado" value="#{invArticulosController.selected.estado}" title="#{bundle.EditInvArticulosTitle_estado}" />
+                        <p:outputLabel value="#{bundle.EditInvArticulosLabel_codSub}" for="codSub" />
+                        <p:inputText id="codSub" value="#{invArticulosController.selected.codSub}" title="#{bundle.EditInvArticulosTitle_codSub}" />
+                        <p:outputLabel value="#{bundle.EditInvArticulosLabel_costoUni}" for="costoUni" />
+                        <p:inputText id="costoUni" value="#{invArticulosController.selected.costoUni}" title="#{bundle.EditInvArticulosTitle_costoUni}" />
+                        <p:outputLabel value="#{bundle.EditInvArticulosLabel_codMed}" for="codMed" />
+                        <p:inputText id="codMed" value="#{invArticulosController.selected.codMed}" title="#{bundle.EditInvArticulosTitle_codMed}" />
+                        <p:outputLabel value="#{bundle.EditInvArticulosLabel_version}" for="version" />
+                        <p:inputText id="version" value="#{invArticulosController.selected.version}" title="#{bundle.EditInvArticulosTitle_version}" />
+                        <p:outputLabel value="#{bundle.EditInvArticulosLabel_invGrupos}" for="invGrupos" />
+                        <p:selectOneMenu id="invGrupos" value="#{invArticulosController.selected.invGrupos}" required="true" requiredMessage="#{bundle.EditInvArticulosRequiredMessage_invGrupos}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{invGruposController.itemsAvailableSelectOne}"
+                                           var="invGruposItem"
+                                           itemValue="#{invGruposItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{invArticulosController.update}" value="#{bundle.Save}" update="display,:InvArticulosListForm:datalist,:growl" oncomplete="handleSubmit(args, 'InvArticulosEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="InvArticulosEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

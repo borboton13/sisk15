@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="DosificacionViewDlg" widgetVar="DosificacionViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewDosificacionTitle}">
+            <h:form id="DosificacionViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{dosificacionController.selected != null}">
+                        <h:outputText value="#{bundle.ViewDosificacionLabel_iddosificacion}"/>
+                        <h:outputText value="#{dosificacionController.selected.iddosificacion}" title="#{bundle.ViewDosificacionTitle_iddosificacion}"/>
+                        <h:outputText value="#{bundle.ViewDosificacionLabel_nroautorizacion}"/>
+                        <h:outputText value="#{dosificacionController.selected.nroautorizacion}" title="#{bundle.ViewDosificacionTitle_nroautorizacion}"/>
+                        <h:outputText value="#{bundle.ViewDosificacionLabel_fechavencimiento}"/>
+                        <h:outputText value="#{dosificacionController.selected.fechavencimiento}" title="#{bundle.ViewDosificacionTitle_fechavencimiento}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewDosificacionLabel_llave}"/>
+                        <h:outputText value="#{dosificacionController.selected.llave}" title="#{bundle.ViewDosificacionTitle_llave}"/>
+                        <h:outputText value="#{bundle.ViewDosificacionLabel_estado}"/>
+                        <h:outputText value="#{dosificacionController.selected.estado}" title="#{bundle.ViewDosificacionTitle_estado}"/>
+                        <h:outputText value="#{bundle.ViewDosificacionLabel_facturadel}"/>
+                        <h:outputText value="#{dosificacionController.selected.facturadel}" title="#{bundle.ViewDosificacionTitle_facturadel}"/>
+                        <h:outputText value="#{bundle.ViewDosificacionLabel_facturaal}"/>
+                        <h:outputText value="#{dosificacionController.selected.facturaal}" title="#{bundle.ViewDosificacionTitle_facturaal}"/>
+                        <h:outputText value="#{bundle.ViewDosificacionLabel_numeroactual}"/>
+                        <h:outputText value="#{dosificacionController.selected.numeroactual}" title="#{bundle.ViewDosificacionTitle_numeroactual}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="DosificacionViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

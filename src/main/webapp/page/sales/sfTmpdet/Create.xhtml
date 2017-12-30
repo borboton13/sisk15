@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="SfTmpdetCreateDlg" widgetVar="SfTmpdetCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateSfTmpdetTitle}">
+            <h:form id="SfTmpdetCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{sfTmpdetController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateSfTmpdetLabel_timemillis}" for="timemillis" />
+                        <p:inputText id="timemillis" value="#{sfTmpdetController.selected.timemillis}" title="#{bundle.CreateSfTmpdetTitle_timemillis}" />
+                        <p:outputLabel value="#{bundle.CreateSfTmpdetLabel_codUni}" for="codUni" />
+                        <p:inputText id="codUni" value="#{sfTmpdetController.selected.codUni}" title="#{bundle.CreateSfTmpdetTitle_codUni}" />
+                        <p:outputLabel value="#{bundle.CreateSfTmpdetLabel_codCc}" for="codCc" />
+                        <p:inputText id="codCc" value="#{sfTmpdetController.selected.codCc}" title="#{bundle.CreateSfTmpdetTitle_codCc}" />
+                        <p:outputLabel value="#{bundle.CreateSfTmpdetLabel_haber}" for="haber" />
+                        <p:inputText id="haber" value="#{sfTmpdetController.selected.haber}" title="#{bundle.CreateSfTmpdetTitle_haber}" />
+                        <p:outputLabel value="#{bundle.CreateSfTmpdetLabel_moneda}" for="moneda" />
+                        <p:inputText id="moneda" value="#{sfTmpdetController.selected.moneda}" title="#{bundle.CreateSfTmpdetTitle_moneda}" />
+                        <p:outputLabel value="#{bundle.CreateSfTmpdetLabel_debe}" for="debe" />
+                        <p:inputText id="debe" value="#{sfTmpdetController.selected.debe}" title="#{bundle.CreateSfTmpdetTitle_debe}" />
+                        <p:outputLabel value="#{bundle.CreateSfTmpdetLabel_tc}" for="tc" />
+                        <p:inputText id="tc" value="#{sfTmpdetController.selected.tc}" title="#{bundle.CreateSfTmpdetTitle_tc}" />
+                        <p:outputLabel value="#{bundle.CreateSfTmpdetLabel_idTmpdet}" for="idTmpdet" />
+                        <p:inputText id="idTmpdet" value="#{sfTmpdetController.selected.idTmpdet}" title="#{bundle.CreateSfTmpdetTitle_idTmpdet}" />
+                        <p:outputLabel value="#{bundle.CreateSfTmpdetLabel_noCia}" for="noCia" />
+                        <p:inputText id="noCia" value="#{sfTmpdetController.selected.noCia}" title="#{bundle.CreateSfTmpdetTitle_noCia}" required="true" requiredMessage="#{bundle.CreateSfTmpdetRequiredMessage_noCia}"/>
+                        <p:outputLabel value="#{bundle.CreateSfTmpdetLabel_noTrans}" for="noTrans" />
+                        <p:inputText id="noTrans" value="#{sfTmpdetController.selected.noTrans}" title="#{bundle.CreateSfTmpdetTitle_noTrans}" required="true" requiredMessage="#{bundle.CreateSfTmpdetRequiredMessage_noTrans}"/>
+                        <p:outputLabel value="#{bundle.CreateSfTmpdetLabel_cuenta}" for="cuenta" />
+                        <p:inputText id="cuenta" value="#{sfTmpdetController.selected.cuenta}" title="#{bundle.CreateSfTmpdetTitle_cuenta}" required="true" requiredMessage="#{bundle.CreateSfTmpdetRequiredMessage_cuenta}"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{sfTmpdetController.create}" value="#{bundle.Save}" update="display,:SfTmpdetListForm:datalist,:growl" oncomplete="handleSubmit(args,'SfTmpdetCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="SfTmpdetCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

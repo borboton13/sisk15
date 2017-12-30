@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="InstitucionCreateDlg" widgetVar="InstitucionCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateInstitucionTitle}">
+            <h:form id="InstitucionCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{institucionController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateInstitucionLabel_razonsocial}" for="razonsocial" />
+                        <p:inputText id="razonsocial" value="#{institucionController.selected.razonsocial}" title="#{bundle.CreateInstitucionTitle_razonsocial}" required="true" requiredMessage="#{bundle.CreateInstitucionRequiredMessage_razonsocial}"/>
+                        <p:outputLabel value="#{bundle.CreateInstitucionLabel_direccion}" for="direccion" />
+                        <p:inputText id="direccion" value="#{institucionController.selected.direccion}" title="#{bundle.CreateInstitucionTitle_direccion}" />
+                        <p:outputLabel value="#{bundle.CreateInstitucionLabel_telefono}" for="telefono" />
+                        <p:inputText id="telefono" value="#{institucionController.selected.telefono}" title="#{bundle.CreateInstitucionTitle_telefono}" />
+                        <p:outputLabel value="#{bundle.CreateInstitucionLabel_nit}" for="nit" />
+                        <p:inputText id="nit" value="#{institucionController.selected.nit}" title="#{bundle.CreateInstitucionTitle_nit}" />
+                        <p:outputLabel value="#{bundle.CreateInstitucionLabel_codigo}" for="codigo" />
+                        <p:inputText id="codigo" value="#{institucionController.selected.codigo}" title="#{bundle.CreateInstitucionTitle_codigo}" />
+                        <p:outputLabel value="#{bundle.CreateInstitucionLabel_idinstitucion}" for="idinstitucion" />
+                        <p:selectOneMenu id="idinstitucion" value="#{institucionController.selected.idinstitucion}" required="true" requiredMessage="#{bundle.EditInstitucionRequiredMessage_idinstitucion}">
+                            <f:selectItems value="#{institucionController.itemsAvailableSelectOne}"
+                                           var="idinstitucionItem"
+                                           itemValue="#{idinstitucionItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreateInstitucionLabel_idtipocliente}" for="idtipocliente" />
+                        <p:selectOneMenu id="idtipocliente" value="#{institucionController.selected.idtipocliente}" required="true" requiredMessage="#{bundle.EditInstitucionRequiredMessage_idtipocliente}">
+                            <f:selectItems value="#{tipoclienteController.itemsAvailableSelectOne}"
+                                           var="idtipoclienteItem"
+                                           itemValue="#{idtipoclienteItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreateInstitucionLabel_piId}" for="clienteRetencion" />
+                        <p:inputText id="clienteRetencion" value="#{institucionController.selected.clienteRetencion}" title="#{bundle.CreateInstitucionTitle_piId}" />
+                        <p:outputLabel value="#{bundle.CreateInstitucionLabel_nroDoc}" for="nroDoc" />
+                        <p:inputText id="nroDoc" value="#{institucionController.selected.nroDoc}" title="#{bundle.CreateInstitucionTitle_nroDoc}" />
+                        <p:outputLabel value="#{bundle.CreateInstitucionLabel_ap}" for="ap" />
+                        <p:inputText id="ap" value="#{institucionController.selected.ap}" title="#{bundle.CreateInstitucionTitle_ap}" />
+                        <p:outputLabel value="#{bundle.CreateInstitucionLabel_am}" for="am" />
+                        <p:inputText id="am" value="#{institucionController.selected.am}" title="#{bundle.CreateInstitucionTitle_am}" />
+                        <p:outputLabel value="#{bundle.CreateInstitucionLabel_nom}" for="nom" />
+                        <p:inputText id="nom" value="#{institucionController.selected.nom}" title="#{bundle.CreateInstitucionTitle_nom}" required="true" requiredMessage="#{bundle.CreateInstitucionRequiredMessage_nom}"/>
+                        <p:outputLabel value="#{bundle.CreateInstitucionLabel_sexo}" for="sexo" />
+                        <p:inputText id="sexo" value="#{institucionController.selected.sexo}" title="#{bundle.CreateInstitucionTitle_sexo}" />
+                        <p:outputLabel value="#{bundle.CreateInstitucionLabel_estCivil}" for="estCivil" />
+                        <p:inputText id="estCivil" value="#{institucionController.selected.estCivil}" title="#{bundle.CreateInstitucionTitle_estCivil}" />
+                        <p:outputLabel value="#{bundle.CreateInstitucionLabel_fechaNac}" for="fechaNac" />
+                        <p:calendar id="fechaNac" pattern="MM/dd/yyyy" value="#{institucionController.selected.fechaNac}" title="#{bundle.EditInstitucionTitle_fechaNac}"  showOn="button"/>
+                        <p:outputLabel value="#{bundle.CreateInstitucionLabel_cemCod}" for="cemCod" />
+                        <p:inputText id="cemCod" value="#{institucionController.selected.cemCod}" title="#{bundle.CreateInstitucionTitle_cemCod}" />
+                        <p:outputLabel value="#{bundle.CreateInstitucionLabel_ocuCod}" for="ocuCod" />
+                        <p:inputText id="ocuCod" value="#{institucionController.selected.ocuCod}" title="#{bundle.CreateInstitucionTitle_ocuCod}" />
+                        <p:outputLabel value="#{bundle.CreateInstitucionLabel_tdoCod}" for="tdoCod" />
+                        <p:inputText id="tdoCod" value="#{institucionController.selected.tdoCod}" title="#{bundle.CreateInstitucionTitle_tdoCod}" />
+                        <p:outputLabel value="#{bundle.CreateInstitucionLabel_sisCod}" for="sisCod" />
+                        <p:inputText id="sisCod" value="#{institucionController.selected.sisCod}" title="#{bundle.CreateInstitucionTitle_sisCod}" />
+                        <p:outputLabel value="#{bundle.CreateInstitucionLabel_idcliente}" for="idcliente" />
+                        <p:inputText id="idcliente" value="#{institucionController.selected.idcliente}" title="#{bundle.CreateInstitucionTitle_idcliente}" required="true" requiredMessage="#{bundle.CreateInstitucionRequiredMessage_idcliente}"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{institucionController.create}" value="#{bundle.Save}" update="display,:InstitucionListForm:datalist,:growl" oncomplete="handleSubmit(args,'InstitucionCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="InstitucionCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

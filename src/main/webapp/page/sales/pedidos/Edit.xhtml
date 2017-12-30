@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<ui:composition>
+
+    <p:dialog id="PedidosEditDlg" widgetVar="PedidosEditDialog" modal="true" width="820px" appendTo="@(body)" header="Editar pedido" closable="false" dynamic="true">
+        <h:form id="PedidosEditForm">
+            <p:panelGrid id="display" rendered="#{pedidosController.selected != null}" columns="4" >
+                <p:outputLabel value="Cliente:" for="cliente" />
+                <p:outputLabel id="cliente" value="#{pedidosController.selected.cliente.nombreCompleto}"/>
+                <p:outputLabel for="fechaEntrega" value="Fecha Entrega:" />
+                <p:calendar id="fechaEntrega" value="#{pedidosController.selected.fechaEntrega}" />
+                <p:outputLabel value="% Garantia:" for="garantia"/>
+                <p:outputLabel id="garantia" value="#{pedidosController.personaElegida.porcentajeGarantia}" />
+                <p:outputLabel value="Tipo Cliente:" for="tipocliente"/>
+                <p:outputLabel id="tipocliente" value="#{pedidosController.personaElegida.tipocliente.nombre}"/>
+                <p:outputLabel value="% Comisión:" for="comision"/>
+                <p:outputLabel id="comision" value="#{pedidosController.personaElegida.porcentajeComision}"/>
+                <p:outputLabel value="Nit:" for="nit"/>
+                <p:outputLabel id="nit" value="#{pedidosController.personaElegida.nit}"/>
+                <p:outputLabel value="Tipo pedido:"/>
+                <p:selectOneMenu id="tipo" value="#{pedidosController.selected.idtipopedido}" required="true" requiredMessage="campo requerido">
+                    <f:selectItems value="#{tipopedidoController.itemsAvailableSelectOne}"
+                                   var="tipoPedido"
+                                   itemValue="#{tipoPedido}"/>
+                </p:selectOneMenu>
+
+                <!--<p:outputLabel value="¿Con reposición?:" for="conReposicion"/>
+                <p:selectBooleanButton id="conReposicion" value="#{pedidosController.conReposicion}" onLabel="Quitar" offLabel="Agregar" disabled="#{!pedidosController.tieneReposicion}">
+                    <p:ajax update="articulosTable"/>
+                </p:selectBooleanButton>-->
+
+            </p:panelGrid>
+            <!--<p:inputTextarea id="observacion" rows="2" cols="60" value="#{pedidosController.selected.observacion}" />-->
+            <p:panelGrid columns="3" rendered="#{pedidosController.selected != null}">
+                <p:outputLabel value="Articulo:" for="itemTip" />
+                <p:autoComplete id="itemTip" size="54" value="#{pedidosController.articuloElegido}" completeMethod="#{pedidosController.completarArticulo}"
+                                var="articulo" itemLabel="#{articulo.descri}" itemValue="#{articulo}" converter="convertirArticulos">
+                    <f:facet name="itemtip">
+                        <h:panelGrid columns="2" cellpadding="5">
+                            <f:facet name="header">
+                                <h:outputText styleClass="ui-theme ui-theme-#{articulo.descri}" style="margin-left:50px" />
+                            </f:facet>
+                            <h:outputText value="Nombre:" />
+                            <h:outputText value="#{articulo.descri}" />
+
+                            <h:outputText value="Codigo:" />
+                            <h:outputText value="#{articulo.invArticulosPK.codArt}" />
+                        </h:panelGrid>
+                    </f:facet>
+                </p:autoComplete>
+                <p:commandButton actionListener="#{pedidosController.agregarArticuloEdit}" value="Agregar" update=":PedidosEditForm:articulosTable,:PedidosEditForm:itemTip"/>
+            </p:panelGrid>
+            <p:remoteCommand name="refreshFooter" update="PedidosEditForm:articulosTable:totalImporte"/>
+            <p:dataTable
+                    id="articulosTable"
+                    var="item"
+                    value="#{pedidosController.selected.articulosPedidos}"
+                    rowKey="#{articulo.idarticulospedido}"
+                    rendered="#{pedidosController.selected != null}"
+                    tableStyle="width:auto">
+                <f:facet name="header">
+                    Articulos Elegidos
+                </f:facet>
+                <p:column headerText="Producto">
+                    <h:outputText value="#{item.invArticulos.descri}" />
+                </p:column>
+                <p:column headerText="Cant.">
+                    <h:inputText value="#{item.cantidad}" size="4">
+                        <p:ajax event="blur"  process="@this" oncomplete="refreshFooter();" update="importe,total"/>
+                    </h:inputText>
+                </p:column>
+                <p:column headerText="Promo">
+                    <h:inputText value="#{item.promocion}" size="4">
+                        <p:ajax event="blur"  process="@this" oncomplete="refreshFooter();" update="importe,total"/>
+                    </h:inputText>
+                </p:column>
+                <p:column headerText="P.U.">
+                    <h:inputText value="#{item.precio}" size="4">
+                        <p:ajax event="blur"  process="@this" oncomplete="refreshFooter();" update="importe"/>
+                    </h:inputText>
+                </p:column>
+                <!--<p:column headerText="Repos.">
+                    <h:outputText value="#{item.reposicion}"/>
+                </p:column>-->
+                <p:column headerText="Repos.">
+                    <h:inputText value="#{item.reposicion}" size="4">
+                        <p:ajax event="blur"  process="@this" oncomplete="refreshFooter();" update="importe,total"/>
+                    </h:inputText>
+                </p:column>
+                <p:column headerText="Cant. T.">
+                    <h:outputText id="total" value="#{item.total}" />
+                </p:column>
+                <p:column headerText="Importe">
+                    <h:outputText id="importe" value="#{item.importe}">
+                        <f:convertNumber type="currency" currencySymbol="Bs." locale="en_US" />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Acción">
+                    <p:commandLink value="Quitar" actionListener="#{pedidosController.reponerArticuloYQuitarArticuloActualizar(item)}" update="articulosTable,:PedidosListForm:growl" rendered="#{item.reposicion==0}">
+
+                    </p:commandLink>
+                </p:column>
+                <f:facet name="footer">
+                    <h:outputText value="Total Importe: " />
+                    <h:outputText id="totalImporte" value="#{pedidosController.selected.totalimporte}">
+                        <f:convertNumber type="currency" currencySymbol="Bs." locale="en_US" />
+                    </h:outputText>
+                </f:facet>
+            </p:dataTable>
+            <p:commandButton actionListener="#{pedidosController.update}" value="#{bundle.Save}" update="display,:PedidosListForm:growl,PedidosEditForm:articulosTable"/>
+            <p:commandButton actionListener="#{pedidosController.cancel}" value="#{bundle.Close}" update=":PedidosListForm:datalist" onclick="PedidosEditDialog.close()" />
+        </h:form>
+    </p:dialog>
+
+</ui:composition>
+</html>

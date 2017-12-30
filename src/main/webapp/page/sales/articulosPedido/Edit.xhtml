@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ArticulosPedidoEditDlg" widgetVar="ArticulosPedidoEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditArticulosPedidoTitle}">
+            <h:form id="ArticulosPedidoEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{articulosPedidoController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditArticulosPedidoLabel_idarticulospedido}" for="idarticulospedido" />
+                        <p:inputText id="idarticulospedido" value="#{articulosPedidoController.selected.idarticulospedido}" title="#{bundle.EditArticulosPedidoTitle_idarticulospedido}" />
+                        <p:outputLabel value="#{bundle.EditArticulosPedidoLabel_idCuenta}" for="idCuenta" />
+                        <p:inputText id="idCuenta" value="#{articulosPedidoController.selected.idCuenta}" title="#{bundle.EditArticulosPedidoTitle_idCuenta}" required="true" requiredMessage="#{bundle.EditArticulosPedidoRequiredMessage_idCuenta}"/>
+                        <p:outputLabel value="#{bundle.EditArticulosPedidoLabel_codArt}" for="codArt" />
+                        <p:inputText id="codArt" value="#{articulosPedidoController.selected.codArt}" title="#{bundle.EditArticulosPedidoTitle_codArt}" required="true" requiredMessage="#{bundle.EditArticulosPedidoRequiredMessage_codArt}"/>
+                        <p:outputLabel value="#{bundle.EditArticulosPedidoLabel_noCia}" for="noCia" />
+                        <p:inputText id="noCia" value="#{articulosPedidoController.selected.noCia}" title="#{bundle.EditArticulosPedidoTitle_noCia}" required="true" requiredMessage="#{bundle.EditArticulosPedidoRequiredMessage_noCia}"/>
+                        <p:outputLabel value="#{bundle.EditArticulosPedidoLabel_pedido}" for="pedido" />
+                        <p:inputText id="pedido" value="#{articulosPedidoController.selected.pedido}" title="#{bundle.EditArticulosPedidoTitle_pedido}" required="true" requiredMessage="#{bundle.EditArticulosPedidoRequiredMessage_pedido}"/>
+                        <p:outputLabel value="#{bundle.EditArticulosPedidoLabel_id}" for="id" />
+                        <p:inputText id="id" value="#{articulosPedidoController.selected.id}" title="#{bundle.EditArticulosPedidoTitle_id}" required="true" requiredMessage="#{bundle.EditArticulosPedidoRequiredMessage_id}"/>
+                        <p:outputLabel value="#{bundle.EditArticulosPedidoLabel_id1}" for="id1" />
+                        <p:inputText id="id1" value="#{articulosPedidoController.selected.id1}" title="#{bundle.EditArticulosPedidoTitle_id1}" required="true" requiredMessage="#{bundle.EditArticulosPedidoRequiredMessage_id1}"/>
+                        <p:outputLabel value="#{bundle.EditArticulosPedidoLabel_cantidad}" for="cantidad" />
+                        <p:inputText id="cantidad" value="#{articulosPedidoController.selected.cantidad}" title="#{bundle.EditArticulosPedidoTitle_cantidad}" />
+                        <p:outputLabel value="#{bundle.EditArticulosPedidoLabel_codAlm}" for="codAlm" />
+                        <p:inputText id="codAlm" value="#{articulosPedidoController.selected.codAlm}" title="#{bundle.EditArticulosPedidoTitle_codAlm}" />
+                        <p:outputLabel value="#{bundle.EditArticulosPedidoLabel_precio}" for="precio" />
+                        <p:inputText id="precio" value="#{articulosPedidoController.selected.precio}" title="#{bundle.EditArticulosPedidoTitle_precio}" />
+                        <p:outputLabel value="#{bundle.EditArticulosPedidoLabel_reposicion}" for="reposicion" />
+                        <p:inputText id="reposicion" value="#{articulosPedidoController.selected.reposicion}" title="#{bundle.EditArticulosPedidoTitle_reposicion}" />
+                        <p:outputLabel value="#{bundle.EditArticulosPedidoLabel_total}" for="total" />
+                        <p:inputText id="total" value="#{articulosPedidoController.selected.total}" title="#{bundle.EditArticulosPedidoTitle_total}" />
+                        <p:outputLabel value="#{bundle.EditArticulosPedidoLabel_promocion}" for="promocion" />
+                        <p:inputText id="promocion" value="#{articulosPedidoController.selected.promocion}" title="#{bundle.EditArticulosPedidoTitle_promocion}" />
+                        <p:outputLabel value="#{bundle.EditArticulosPedidoLabel_caja}" for="caja" />
+                        <p:inputText id="caja" value="#{articulosPedidoController.selected.caja}" title="#{bundle.EditArticulosPedidoTitle_caja}" />
+                        <p:outputLabel value="#{bundle.EditArticulosPedidoLabel_precioInv}" for="precioInv" />
+                        <p:inputText id="precioInv" value="#{articulosPedidoController.selected.precioInv}" title="#{bundle.EditArticulosPedidoTitle_precioInv}" />
+                        <p:outputLabel value="#{bundle.EditArticulosPedidoLabel_totalInv}" for="totalInv" />
+                        <p:inputText id="totalInv" value="#{articulosPedidoController.selected.totalInv}" title="#{bundle.EditArticulosPedidoTitle_totalInv}" />
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{articulosPedidoController.update}" value="#{bundle.Save}" update="display,:ArticulosPedidoListForm:datalist,:growl" oncomplete="handleSubmit(args, 'ArticulosPedidoEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="ArticulosPedidoEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

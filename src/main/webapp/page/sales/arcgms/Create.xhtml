@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ArcgmsCreateDlg" widgetVar="ArcgmsCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateArcgmsTitle}">
+            <h:form id="ArcgmsCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{arcgmsController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateArcgmsLabel_cuenta}" for="cuenta" />
+                        <p:inputText id="cuenta" value="#{arcgmsController.selected.cuenta}" title="#{bundle.CreateArcgmsTitle_cuenta}" />
+                        <p:outputLabel value="#{bundle.CreateArcgmsLabel_descri}" for="descri" />
+                        <p:inputText id="descri" value="#{arcgmsController.selected.descri}" title="#{bundle.CreateArcgmsTitle_descri}" />
+                        <p:outputLabel value="#{bundle.CreateArcgmsLabel_cnAna}" for="cnAna" />
+                        <p:inputText id="cnAna" value="#{arcgmsController.selected.cnAna}" title="#{bundle.CreateArcgmsTitle_cnAna}" />
+                        <p:outputLabel value="#{bundle.CreateArcgmsLabel_cnNivel}" for="cnNivel" />
+                        <p:inputText id="cnNivel" value="#{arcgmsController.selected.cnNivel}" title="#{bundle.CreateArcgmsTitle_cnNivel}" />
+                        <p:outputLabel value="#{bundle.CreateArcgmsLabel_cnDv}" for="cnDv" />
+                        <p:inputText id="cnDv" value="#{arcgmsController.selected.cnDv}" title="#{bundle.CreateArcgmsTitle_cnDv}" />
+                        <p:outputLabel value="#{bundle.CreateArcgmsLabel_cnTip}" for="cnTip" />
+                        <p:inputText id="cnTip" value="#{arcgmsController.selected.cnTip}" title="#{bundle.CreateArcgmsTitle_cnTip}" />
+                        <p:outputLabel value="#{bundle.CreateArcgmsLabel_cnAct}" for="cnAct" />
+                        <p:inputText id="cnAct" value="#{arcgmsController.selected.cnAct}" title="#{bundle.CreateArcgmsTitle_cnAct}" />
+                        <p:outputLabel value="#{bundle.CreateArcgmsLabel_noCia}" for="noCia" />
+                        <p:inputText id="noCia" value="#{arcgmsController.selected.noCia}" title="#{bundle.CreateArcgmsTitle_noCia}" />
+                        <p:outputLabel value="#{bundle.CreateArcgmsLabel_clase}" for="clase" />
+                        <p:inputText id="clase" value="#{arcgmsController.selected.clase}" title="#{bundle.CreateArcgmsTitle_clase}" />
+                        <p:outputLabel value="#{bundle.CreateArcgmsLabel_tipo}" for="tipo" />
+                        <p:inputText id="tipo" value="#{arcgmsController.selected.tipo}" title="#{bundle.CreateArcgmsTitle_tipo}" />
+                        <p:outputLabel value="#{bundle.CreateArcgmsLabel_activa}" for="activa" />
+                        <p:inputText id="activa" value="#{arcgmsController.selected.activa}" title="#{bundle.CreateArcgmsTitle_activa}" />
+                        <p:outputLabel value="#{bundle.CreateArcgmsLabel_permiteIva}" for="permiteIva" />
+                        <p:inputText id="permiteIva" value="#{arcgmsController.selected.permiteIva}" title="#{bundle.CreateArcgmsTitle_permiteIva}" />
+                        <p:outputLabel value="#{bundle.CreateArcgmsLabel_indPresup}" for="indPresup" />
+                        <p:inputText id="indPresup" value="#{arcgmsController.selected.indPresup}" title="#{bundle.CreateArcgmsTitle_indPresup}" />
+                        <p:outputLabel value="#{bundle.CreateArcgmsLabel_creditos}" for="creditos" />
+                        <p:inputText id="creditos" value="#{arcgmsController.selected.creditos}" title="#{bundle.CreateArcgmsTitle_creditos}" />
+                        <p:outputLabel value="#{bundle.CreateArcgmsLabel_moneda}" for="moneda" />
+                        <p:inputText id="moneda" value="#{arcgmsController.selected.moneda}" title="#{bundle.CreateArcgmsTitle_moneda}" />
+                        <p:outputLabel value="#{bundle.CreateArcgmsLabel_debitos}" for="debitos" />
+                        <p:inputText id="debitos" value="#{arcgmsController.selected.debitos}" title="#{bundle.CreateArcgmsTitle_debitos}" />
+                        <p:outputLabel value="#{bundle.CreateArcgmsLabel_saldoMesAntDol}" for="saldoMesAntDol" />
+                        <p:inputText id="saldoMesAntDol" value="#{arcgmsController.selected.saldoMesAntDol}" title="#{bundle.CreateArcgmsTitle_saldoMesAntDol}" />
+                        <p:outputLabel value="#{bundle.CreateArcgmsLabel_saldoPerAntDol}" for="saldoPerAntDol" />
+                        <p:inputText id="saldoPerAntDol" value="#{arcgmsController.selected.saldoPerAntDol}" title="#{bundle.CreateArcgmsTitle_saldoPerAntDol}" />
+                        <p:outputLabel value="#{bundle.CreateArcgmsLabel_creditosDol}" for="creditosDol" />
+                        <p:inputText id="creditosDol" value="#{arcgmsController.selected.creditosDol}" title="#{bundle.CreateArcgmsTitle_creditosDol}" />
+                        <p:outputLabel value="#{bundle.CreateArcgmsLabel_debitosDol}" for="debitosDol" />
+                        <p:inputText id="debitosDol" value="#{arcgmsController.selected.debitosDol}" title="#{bundle.CreateArcgmsTitle_debitosDol}" />
+                        <p:outputLabel value="#{bundle.CreateArcgmsLabel_gruCta}" for="gruCta" />
+                        <p:inputText id="gruCta" value="#{arcgmsController.selected.gruCta}" title="#{bundle.CreateArcgmsTitle_gruCta}" />
+                        <p:outputLabel value="#{bundle.CreateArcgmsLabel_permisoCon}" for="permisoCon" />
+                        <p:inputText id="permisoCon" value="#{arcgmsController.selected.permisoCon}" title="#{bundle.CreateArcgmsTitle_permisoCon}" />
+                        <p:outputLabel value="#{bundle.CreateArcgmsLabel_exijeCc}" for="exijeCc" />
+                        <p:inputText id="exijeCc" value="#{arcgmsController.selected.exijeCc}" title="#{bundle.CreateArcgmsTitle_exijeCc}" />
+                        <p:outputLabel value="#{bundle.CreateArcgmsLabel_permisoAfijo}" for="permisoAfijo" />
+                        <p:inputText id="permisoAfijo" value="#{arcgmsController.selected.permisoAfijo}" title="#{bundle.CreateArcgmsTitle_permisoAfijo}" />
+                        <p:outputLabel value="#{bundle.CreateArcgmsLabel_permisoCxp}" for="permisoCxp" />
+                        <p:inputText id="permisoCxp" value="#{arcgmsController.selected.permisoCxp}" title="#{bundle.CreateArcgmsTitle_permisoCxp}" />
+                        <p:outputLabel value="#{bundle.CreateArcgmsLabel_permisoCxc}" for="permisoCxc" />
+                        <p:inputText id="permisoCxc" value="#{arcgmsController.selected.permisoCxc}" title="#{bundle.CreateArcgmsTitle_permisoCxc}" />
+                        <p:outputLabel value="#{bundle.CreateArcgmsLabel_permisoChe}" for="permisoChe" />
+                        <p:inputText id="permisoChe" value="#{arcgmsController.selected.permisoChe}" title="#{bundle.CreateArcgmsTitle_permisoChe}" />
+                        <p:outputLabel value="#{bundle.CreateArcgmsLabel_permisoInv}" for="permisoInv" />
+                        <p:inputText id="permisoInv" value="#{arcgmsController.selected.permisoInv}" title="#{bundle.CreateArcgmsTitle_permisoInv}" />
+                        <p:outputLabel value="#{bundle.CreateArcgmsLabel_fInactiva}" for="fInactiva" />
+                        <p:inputText id="fInactiva" value="#{arcgmsController.selected.fInactiva}" title="#{bundle.CreateArcgmsTitle_fInactiva}" />
+                        <p:outputLabel value="#{bundle.CreateArcgmsLabel_indMov}" for="indMov" />
+                        <p:inputText id="indMov" value="#{arcgmsController.selected.indMov}" title="#{bundle.CreateArcgmsTitle_indMov}" />
+                        <p:outputLabel value="#{bundle.CreateArcgmsLabel_saldoMesAnt}" for="saldoMesAnt" />
+                        <p:inputText id="saldoMesAnt" value="#{arcgmsController.selected.saldoMesAnt}" title="#{bundle.CreateArcgmsTitle_saldoMesAnt}" />
+                        <p:outputLabel value="#{bundle.CreateArcgmsLabel_saldoPerAnt}" for="saldoPerAnt" />
+                        <p:inputText id="saldoPerAnt" value="#{arcgmsController.selected.saldoPerAnt}" title="#{bundle.CreateArcgmsTitle_saldoPerAnt}" />
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{arcgmsController.create}" value="#{bundle.Save}" update="display,:ArcgmsListForm:datalist,:growl" oncomplete="handleSubmit(args,'ArcgmsCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="ArcgmsCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

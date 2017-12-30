@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="SfConfdetCreateDlg" widgetVar="SfConfdetCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateSfConfdetTitle}">
+            <h:form id="SfConfdetCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{sfConfdetController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateSfConfdetLabel_idSfConfdet}" for="idSfConfdet" />
+                        <p:inputText id="idSfConfdet" value="#{sfConfdetController.selected.idSfConfdet}" title="#{bundle.CreateSfConfdetTitle_idSfConfdet}" required="true" requiredMessage="#{bundle.CreateSfConfdetRequiredMessage_idSfConfdet}"/>
+                        <p:outputLabel value="#{bundle.CreateSfConfdetLabel_cuenta}" for="cuenta" />
+                        <p:inputText id="cuenta" value="#{sfConfdetController.selected.cuenta}" title="#{bundle.CreateSfConfdetTitle_cuenta}" />
+                        <p:outputLabel value="#{bundle.CreateSfConfdetLabel_tipomovimiento}" for="tipomovimiento" />
+                        <p:inputText id="tipomovimiento" value="#{sfConfdetController.selected.tipomovimiento}" title="#{bundle.CreateSfConfdetTitle_tipomovimiento}" />
+                        <p:outputLabel value="#{bundle.CreateSfConfdetLabel_idSfConfenc}" for="idSfConfenc" />
+                        <p:inputText id="idSfConfenc" value="#{sfConfdetController.selected.idSfConfenc}" title="#{bundle.CreateSfConfdetTitle_idSfConfenc}" required="true" requiredMessage="#{bundle.CreateSfConfdetRequiredMessage_idSfConfenc}"/>
+                        <p:outputLabel value="#{bundle.CreateSfConfdetLabel_sfConfencByIdSfConfenc}" for="sfConfencByIdSfConfenc" />
+                        <p:selectOneMenu id="sfConfencByIdSfConfenc" value="#{sfConfdetController.selected.sfConfenc}" required="true" requiredMessage="#{bundle.EditSfConfdetRequiredMessage_sfConfencByIdSfConfenc}">
+                            <f:selectItems value="#{sfConfencController.itemsAvailableSelectOne}"
+                                           var="sfConfencByIdSfConfencItem"
+                                           itemValue="#{sfConfencByIdSfConfencItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{sfConfdetController.create}" value="#{bundle.Save}" update="display,:SfConfdetListForm:datalist,:growl" oncomplete="handleSubmit(args,'SfConfdetCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="SfConfdetCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<ui:composition>
+
+    <p:dialog id="PersonaViewDlg" widgetVar="PersonaViewDialog" modal="true" resizable="false" closable="false" appendTo="@(body)" header="Cliente">
+        <h:form id="PersonaViewForm">
+            <h:panelGroup id="display">
+                <p:panelGrid columns="2">
+                    <p:outputLabel value="C.I.:" for="nroDoc"/>
+                    <p:outputLabel id="nroDoc" value="#{personaController.selected.nroDoc}" title="Cedula de identidad" />
+                    <p:outputLabel value="Nombre:" for="nom" />
+                    <p:outputLabel id="nom" value="#{personaController.selected.nombreCompleto}" title="Nombre/Razon Social"/>
+                    <p:outputLabel value="#{bundle.CreateClienteLabel_sexo}" for="sexo" rendered="#{personaController.esPersona}"/>
+                    <p:outputLabel id="sexo" value="#{personaController.selected.sexo}" title="sexo" rendered="#{personaController.esPersona}"/>
+                    <p:outputLabel value="#{bundle.CreateClienteLabel_direccion}" for="direccion" />
+                    <p:outputLabel id="direccion" value="#{personaController.selected.direccion}" title="#{bundle.CreateClienteTitle_direccion}" />
+                    <p:outputLabel value="#{bundle.CreateClienteLabel_telefono}" for="telefono" />
+                    <p:outputLabel id="telefono" value="#{personaController.selected.telefono}" title="#{bundle.CreateClienteTitle_telefono}" />
+                    <p:outputLabel value="#{bundle.CreateClienteLabel_nit}" for="nit" />
+                    <h:outputText value="¿Con factura?: " />
+                    <p:outputLabel id="conFactura" value="#{personaController.selected.confactura?'Si':'No'}"/>
+                    <p:outputLabel id="nit" value="#{personaController.selected.nit}" title="#{bundle.CreateClienteTitle_nit}" />
+                    <p:outputLabel value="Comisión:" for="comision" />
+                    <p:outputLabel id="comision" value="#{personaController.selected.porcentajeGarantia}" title="comisión" />
+                    <p:outputLabel value="Garantia:" for="garantia" />
+                    <p:outputLabel id="garantia" value="#{personaController.selected.porcentajeComision}" title="garantia" />
+                    <p:outputLabel value="Negocio:" for="negocio" />
+                    <p:outputLabel id="negocio" value="#{personaController.selected.tipocliente.nombre}" title="Negocio" />
+                    <p:outputLabel value="Territorio:" for="territorio" />
+                    <p:outputLabel id="territorio" value="#{personaController.selected.territoriotrabajo.nombre}" title="Territorio" />
+                </p:panelGrid>
+                <p:commandButton value="#{bundle.Close}" onclick="PersonaViewDialog.hide()"/>
+            </h:panelGroup>
+        </h:form>
+    </p:dialog>
+
+</ui:composition>
+</html>

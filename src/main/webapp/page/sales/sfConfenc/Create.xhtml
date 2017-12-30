@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="SfConfencCreateDlg" widgetVar="SfConfencCreateDialog" modal="true" resizable="false" closable="false" appendTo="@(body)" header="Configurar asiento contable">
+            <h:form id="SfConfencCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="4" rendered="#{sfConfencController.selected != null}">
+                        <p:outputLabel value="Nombre:" for="descripcion" />
+                        <p:inputText id="descripcion" value="#{sfConfencController.selected.descripcion}" title="Nombre" />
+                        <p:outputLabel value="Documento:" for="tipoDoc" />
+                        <p:selectOneMenu id="tipoDoc" value="#{sfConfencController.selected.tipoDoc}" required="true" requiredMessage="campo requerido">
+                            <f:selectItems value="#{sfConfencController.tipodocs}"
+                                           var="tipoDoc"
+                                           itemValue="#{tipoDoc}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="Operacion:" for="operacion" />
+                        <p:selectOneMenu id="operacion" value="#{sfConfencController.selected.operacion}" required="true" requiredMessage="campo requerido">
+                            <f:selectItems value="#{sfConfencController.operaciones}"
+                                           var="operacion"
+                                           itemValue="#{operacion}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:panelGrid columns="2" rendered="#{sfConfencController.selected != null}">
+                        <p:outputLabel value="Glosa:" for="glosa" />
+                        <p:inputTextarea id="glosa" value="#{sfConfencController.selected.glosa}" title="Glosa" />
+                    </p:panelGrid>
+                    <p:panelGrid columns="5" rendered="#{sfConfencController.selected != null}">
+                        <p:outputLabel value="Asiento:" />
+                        <p:autoComplete id="cuentaConf" value="#{sfConfencController.cuentaElegida}" completeMethod="#{sfConfencController.completarCuenta}"
+                                        var="cuenta" itemLabel="#{cuenta.cuenta}" itemValue="#{cuenta}"
+                                        converter="convertirCuenta" forceSelection="true" maxResults="15"
+                                        cache="true" cacheTimeout="30000">
+                            <f:facet name="itemtip">
+                                <h:panelGrid columns="2" cellpadding="5">
+                                    <h:outputText value="Número de cuenta:" />
+                                    <h:outputText value="#{cuenta.cuenta}" />
+                                    <h:outputText value="Descrición:" />
+                                    <h:outputText value="#{cuenta.descri}" />
+                                </h:panelGrid>
+                            </f:facet>
+                            <p:ajax event="itemSelect" update=":SfConfencCreateForm:cuentaConfDescri" />
+                        </p:autoComplete>
+                        <p:autoComplete id="cuentaConfDescri" value="#{sfConfencController.cuentaElegida}" completeMethod="#{sfConfencController.completarCuentaDescripcion}"
+                                        var="cuenta" itemLabel="#{cuenta.descri}" itemValue="#{cuenta}"
+                                        converter="convertirCuenta" forceSelection="true" maxResults="15"
+                                        cache="true" cacheTimeout="30000">
+                            <f:facet name="itemtip">
+                                <h:panelGrid columns="2" cellpadding="5">
+                                    <h:outputText value="Descrición:" />
+                                    <h:outputText value="#{cuenta.descri}" />
+                                    <h:outputText value="Número de cuenta:" />
+                                    <h:outputText value="#{cuenta.cuenta}" />
+                                </h:panelGrid>
+                            </f:facet>
+                            <p:ajax event="itemSelect" update=":SfConfencCreateForm:cuentaConf" />
+                        </p:autoComplete>
+                        <p:commandButton actionListener="#{sfConfencController.agregarCuentaAlDebe}" value="Agregar al Debe" update=":SfConfencCreateForm:cuentasTable,:SfConfencCreateForm:cuentaConf,:SfConfencCreateForm:cuentaConfDescri"/>
+                        <p:commandButton actionListener="#{sfConfencController.agregarCuentaAlHaber}" value="Agregar al Haber" update=":SfConfencCreateForm:cuentasTable,:SfConfencCreateForm:cuentaConf,:SfConfencCreateForm:cuentaConfDescri"/>
+                    </p:panelGrid>
+                    <p:dataTable
+                            id="cuentasTable"
+                            var="item"
+                            value="#{sfConfencController.selected.asientos}"
+                            rendered="#{sfConfencController.selected != null}"
+                            tableStyle="width:auto">
+                        <f:facet name="header">
+                            Cuentas Elegidas
+                        </f:facet>
+                        <p:column headerText="Cuenta">
+                            <h:outputText value="#{item.cuenta.cuenta}" />
+                        </p:column>
+                        <p:column headerText="Descripción">
+                            <h:outputText value="#{item.cuenta.descri}"/>
+                        </p:column>
+                        <p:column headerText="Tipo Movimiento">
+                            <h:outputText value="#{item.tipomovimiento}"/>
+                        </p:column>
+                        <p:column headerText="Acción">
+                            <p:commandLink value="Quitar" actionListener="#{sfConfencController.reponerCuenta(item)}" update="cuentasTable">
+                                <p:collector value="#{item}" removeFrom="#{sfConfencController.selected.asientos}" unique="true"/>
+                            </p:commandLink>
+                        </p:column>
+                    </p:dataTable>
+                    <p:commandButton actionListener="#{sfConfencController.create}" value="#{bundle.Save}" update="display,:SfConfencListForm:datalist,:SfConfencListForm:growl" oncomplete="handleSubmit(args,'SfConfencCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="SfConfencCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

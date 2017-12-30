@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+
+
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListSfConfdetTitle}"></h:outputText>
+        </ui:define>
+
+        <ui:define name="body">
+            <h:form id="SfConfdetListForm">
+                <p:panel header="#{bundle.ListSfConfdetTitle}">
+                    <p:dataTable id="datalist" value="#{sfConfdetController.items}" var="item"
+                                 selectionMode="single" selection="#{sfConfdetController.selected}"
+                                 paginator="true"
+                                 rowKey="#{item.idSfConfdet}"
+                                 rows="10"
+                                 rowsPerPageTemplate="10,20,30,40,50"
+                                 >
+
+                        <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
+                        <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListSfConfdetTitle_idSfConfdet}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idSfConfdet}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListSfConfdetTitle_cuenta}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.cuenta}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListSfConfdetTitle_tipomovimiento}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.tipomovimiento}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListSfConfdetTitle_idSfConfenc}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idSfConfenc}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListSfConfdetTitle_sfConfencByIdSfConfenc}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.sfConfenc}"/>
+                        </p:column>
+                        <f:facet name="footer">
+                            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{sfConfdetController.prepareCreate}" update=":SfConfdetCreateForm" oncomplete="PF('SfConfdetCreateDialog').show()"/>
+                            <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":SfConfdetViewForm" oncomplete="PF('SfConfdetViewDialog').show()" disabled="#{empty sfConfdetController.selected}"/>
+                            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":SfConfdetEditForm" oncomplete="PF('SfConfdetEditDialog').show()" disabled="#{empty sfConfdetController.selected}"/>
+                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{sfConfdetController.destroy}" update=":growl,datalist" disabled="#{empty sfConfdetController.selected}"/>
+                        </f:facet>
+                    </p:dataTable>
+                </p:panel>
+            </h:form>
+
+            <ui:include src="Create.xhtml"/>
+            <ui:include src="Edit.xhtml"/>
+            <ui:include src="View.xhtml"/>
+        </ui:define>
+    </ui:composition>
+
+</html>

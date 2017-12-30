@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="kardex" pageWidth="612" pageHeight="792" columnWidth="542" leftMargin="40" rightMargin="30" topMargin="20" bottomMargin="20" uuid="0343c3f9-dd74-4bdf-9cb5-4f7e73dab088">
+	<property name="ireport.zoom" value="1.7715610000000035"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="periodo" class="java.lang.String"/>
+	<parameter name="totalDebe" class="java.lang.Double"/>
+	<parameter name="totalHaber" class="java.lang.Double"/>
+	<parameter name="totalSaldo" class="java.lang.Double"/>
+	<parameter name="detalleCuentaPeriodo" class="java.lang.String"/>
+	<parameter name="nomUsr" class="java.lang.String"/>
+	<field name="fecha" class="java.util.Date"/>
+	<field name="tipoDoc" class="java.lang.String"/>
+	<field name="noDoc" class="java.lang.String"/>
+	<field name="glosa" class="java.lang.String"/>
+	<field name="ingreso" class="java.lang.Double"/>
+	<field name="egreso" class="java.lang.Double"/>
+	<field name="saldo" class="java.lang.Double"/>
+	<field name="totalDebe" class="java.lang.Double"/>
+	<field name="totalHaber" class="java.lang.Double"/>
+	<field name="totalSaldo" class="java.lang.Double"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="49" splitType="Stretch">
+			<textField>
+				<reportElement x="2" y="35" width="204" height="12" uuid="cab2992d-73f6-46cc-a33f-5093875f9027"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{detalleCuentaPeriodo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="0" width="194" height="10" uuid="9dba52a6-d545-4a16-92cd-56dcc38755e5"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["INDUSTRIAS LACTEAS DEL VALLE ALTO"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="194" y="16" width="142" height="16" uuid="308e9290-1591-498b-81a1-69e93e81116a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["RECAUDACION DIARIA"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="10" width="194" height="10" uuid="cc77aceb-8ef2-4b78-a0cd-78be495be0b8"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["SISTEMA INTEGRADO CONTABLE"]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="16" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="-1" width="542" height="16" uuid="cc7708cd-ec9e-4a17-b1aa-a5f903372b91"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineStyle="Dashed"/>
+				</graphicElement>
+			</rectangle>
+			<textField>
+				<reportElement x="2" y="0" width="50" height="15" uuid="09b007cc-0d2d-4ab3-91dc-75e9d8f41bc4"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Fecha"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="69" y="0" width="25" height="15" uuid="e642e9cf-ced1-48e6-893e-18078afabdf4"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["No."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="99" y="0" width="291" height="15" uuid="3b582b86-ba4b-4c9b-8d42-270150b2aebc"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Descripción"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="390" y="0" width="50" height="15" uuid="ea2f7138-3684-4525-8798-4fe72e0196a1"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Ingreso"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="440" y="0" width="50" height="15" uuid="e317180d-5abb-417b-af7e-7b728eaf5cc1"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Egreso"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="490" y="0" width="50" height="15" uuid="e77fe6dc-c813-4a0c-b884-6c5f6ee7d291"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Saldo"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="52" y="0" width="16" height="15" uuid="ac32de95-1798-43ba-9e6b-d861d82f3066"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Doc"]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="11" splitType="Stretch">
+			<textField>
+				<reportElement x="52" y="0" width="16" height="11" uuid="689c9387-8687-47cd-b24e-8db862742267"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tipoDoc}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="69" y="0" width="25" height="11" uuid="ebf72363-28a1-43f3-93ef-7822ae51a82b"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{noDoc}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="99" y="0" width="291" height="11" uuid="b597f480-9ac8-467a-9c8b-e1217337b14c"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{glosa}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="390" y="0" width="50" height="11" uuid="7f8ecf5f-db93-499d-a223-89303c2ba116"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ingreso}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="440" y="0" width="50" height="11" uuid="b55830f9-b0d2-4c74-819d-db1628119d02"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{egreso}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="490" y="0" width="50" height="11" uuid="9ef414c0-8373-4654-9f90-0a52ab6eb411"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{saldo}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="2" y="0" width="50" height="11" uuid="4e753d0c-7a0a-4349-b107-e8fa7c84f5e0"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="66" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="15" splitType="Stretch">
+			<frame>
+				<reportElement positionType="Float" mode="Opaque" x="0" y="0" width="540" height="15" uuid="a5ae3364-70c5-4cdc-ae86-2ec9f047e2ee"/>
+				<box padding="0">
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy HH:mm" isBlankWhenNull="true">
+					<reportElement stretchType="RelativeToTallestObject" mode="Opaque" x="429" y="2" width="110" height="12" uuid="9e47eafc-a61a-4fd9-8d73-24d86620d7e4"/>
+					<box padding="1">
+						<pen lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial Narrow" size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="-328" y="0" width="100" height="15" uuid="239af1e2-e641-45b8-a7b1-b9b4f5c7b6e1"/>
+					<textElement verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$P{nomUsr}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="2" y="0" width="77" height="12" uuid="44e6eb15-596c-4aab-9dfa-3afcaee3465c"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch">
+			<textField pattern="#,##0.00">
+				<reportElement x="491" y="0" width="50" height="15" uuid="7662b882-34e6-4a14-aead-a8845fdf945b"/>
+				<textElement textAlignment="Right" verticalAlignment="Bottom">
+					<font size="8" isBold="false" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{saldo}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="441" y="0" width="50" height="15" uuid="1b02a327-922d-4ef6-a3ee-7be9be974728"/>
+				<textElement textAlignment="Right" verticalAlignment="Bottom">
+					<font size="8" isBold="false" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totalHaber}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="391" y="0" width="50" height="15" uuid="36138804-a3fd-41ce-91da-4fa16cb489f3"/>
+				<textElement textAlignment="Right" verticalAlignment="Bottom">
+					<font size="8" isBold="false" isUnderline="true" isStrikeThrough="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totalDebe}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

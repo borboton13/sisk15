@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="OperacionesCreateDlg" widgetVar="OperacionesCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateOperacionesTitle}">
+            <h:form id="OperacionesCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{operacionesController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateOperacionesLabel_idoperaciones}" for="idoperaciones" />
+                        <p:inputText id="idoperaciones" value="#{operacionesController.selected.idoperaciones}" title="#{bundle.CreateOperacionesTitle_idoperaciones}" required="true" requiredMessage="#{bundle.CreateOperacionesRequiredMessage_idoperaciones}"/>
+                        <p:outputLabel value="#{bundle.CreateOperacionesLabel_descripcion}" for="descripcion" />
+                        <p:inputText id="descripcion" value="#{operacionesController.selected.descripcion}" title="#{bundle.CreateOperacionesTitle_descripcion}" />
+                        <p:outputLabel value="#{bundle.CreateOperacionesLabel_nombre}" for="nombre" />
+                        <p:inputText id="nombre" value="#{operacionesController.selected.nombre}" title="#{bundle.CreateOperacionesTitle_nombre}" />
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{operacionesController.create}" value="#{bundle.Save}" update="display,:OperacionesListForm:datalist,:growl" oncomplete="handleSubmit(args,'OperacionesCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="OperacionesCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

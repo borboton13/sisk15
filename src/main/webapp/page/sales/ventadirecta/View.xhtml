@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<ui:composition>
+
+    <p:dialog id="VentaViewDlg" widgetVar="VentaViewDialog" modal="true" resizable="false" appendTo="@(body)" header="Pedido" width="820px">
+        <h:form id="VentaViewForm">
+            <p:panelGrid id="display" rendered="#{ventadirectaController.selected != null}" columns="4" >
+                <p:outputLabel value="Cliente:" for="cliente" />
+                <p:outputLabel value="#{ventadirectaController.selected.cliente.nombreCompleto}" id="cliente"/>
+                <p:outputLabel for="fechaEntrega" value="Fecha:" />
+                <p:outputLabel id="fechaEntrega" value="#{ventadirectaController.selected.fechaPedido}" />
+            </p:panelGrid>
+            <!--<p:inputTextarea id="observacion" rows="2" cols="60" value="#{ventadirectaController.selected.observacion}" />-->
+            <p:dataTable
+                    id="articulosTable"
+                    var="item"
+                    value="#{ventadirectaController.selected.articulosPedidos}"
+                    rowKey="#{articulo.idarticulospedido}"
+                    rendered="#{ventadirectaController.selected != null}">
+                <f:facet name="header">
+                    Articulos Elegidos
+                </f:facet>
+                <p:column headerText="Producto">
+                    <p:outputLabel value="#{item.invArticulos.descri}" />
+                </p:column>
+                <p:column headerText="Cant.">
+                    <p:outputLabel value="#{item.cantidad}"/>
+                </p:column>
+                <p:column headerText="P.U.">
+                    <p:outputLabel value="#{item.precio}"/>
+                </p:column>
+                <p:column headerText="Cant. T.">
+                    <p:outputLabel id="total" value="#{item.total}" />
+                </p:column>
+                <p:column headerText="Importe">
+                    <p:outputLabel id="importe" value="#{item.importe}" />
+                </p:column>
+                <f:facet name="footer">
+                    <p:outputLabel value="Total Importe: " />
+                    <p:outputLabel id="totalImporte" value="#{ventadirectaController.selected.totalimporte}">
+                        <f:convertNumber type="currency" currencySymbol="Bs." />
+                    </p:outputLabel>
+                </f:facet>
+            </p:dataTable>
+            <p:commandButton value="#{bundle.Close}" onclick="VentaViewDialog.hide()"/>
+        </h:form>
+    </p:dialog>
+
+</ui:composition>
+</html>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ArticulosPedidoViewDlg" widgetVar="ArticulosPedidoViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewArticulosPedidoTitle}">
+            <h:form id="ArticulosPedidoViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{articulosPedidoController.selected != null}">
+                        <h:outputText value="#{bundle.ViewArticulosPedidoLabel_idarticulospedido}"/>
+                        <h:outputText value="#{articulosPedidoController.selected.idarticulospedido}" title="#{bundle.ViewArticulosPedidoTitle_idarticulospedido}"/>
+                        <h:outputText value="#{bundle.ViewArticulosPedidoLabel_idCuenta}"/>
+                        <h:outputText value="#{articulosPedidoController.selected.idCuenta}" title="#{bundle.ViewArticulosPedidoTitle_idCuenta}"/>
+                        <h:outputText value="#{bundle.ViewArticulosPedidoLabel_codArt}"/>
+                        <h:outputText value="#{articulosPedidoController.selected.codArt}" title="#{bundle.ViewArticulosPedidoTitle_codArt}"/>
+                        <h:outputText value="#{bundle.ViewArticulosPedidoLabel_noCia}"/>
+                        <h:outputText value="#{articulosPedidoController.selected.noCia}" title="#{bundle.ViewArticulosPedidoTitle_noCia}"/>
+                        <h:outputText value="#{bundle.ViewArticulosPedidoLabel_pedido}"/>
+                        <h:outputText value="#{articulosPedidoController.selected.pedido}" title="#{bundle.ViewArticulosPedidoTitle_pedido}"/>
+                        <h:outputText value="#{bundle.ViewArticulosPedidoLabel_id}"/>
+                        <h:outputText value="#{articulosPedidoController.selected.id}" title="#{bundle.ViewArticulosPedidoTitle_id}"/>
+                        <h:outputText value="#{bundle.ViewArticulosPedidoLabel_id1}"/>
+                        <h:outputText value="#{articulosPedidoController.selected.id1}" title="#{bundle.ViewArticulosPedidoTitle_id1}"/>
+                        <h:outputText value="#{bundle.ViewArticulosPedidoLabel_cantidad}"/>
+                        <h:outputText value="#{articulosPedidoController.selected.cantidad}" title="#{bundle.ViewArticulosPedidoTitle_cantidad}"/>
+                        <h:outputText value="#{bundle.ViewArticulosPedidoLabel_codAlm}"/>
+                        <h:outputText value="#{articulosPedidoController.selected.codAlm}" title="#{bundle.ViewArticulosPedidoTitle_codAlm}"/>
+                        <h:outputText value="#{bundle.ViewArticulosPedidoLabel_precio}"/>
+                        <h:outputText value="#{articulosPedidoController.selected.precio}" title="#{bundle.ViewArticulosPedidoTitle_precio}"/>
+                        <h:outputText value="#{bundle.ViewArticulosPedidoLabel_reposicion}"/>
+                        <h:outputText value="#{articulosPedidoController.selected.reposicion}" title="#{bundle.ViewArticulosPedidoTitle_reposicion}"/>
+                        <h:outputText value="#{bundle.ViewArticulosPedidoLabel_total}"/>
+                        <h:outputText value="#{articulosPedidoController.selected.total}" title="#{bundle.ViewArticulosPedidoTitle_total}"/>
+                        <h:outputText value="#{bundle.ViewArticulosPedidoLabel_promocion}"/>
+                        <h:outputText value="#{articulosPedidoController.selected.promocion}" title="#{bundle.ViewArticulosPedidoTitle_promocion}"/>
+                        <h:outputText value="#{bundle.ViewArticulosPedidoLabel_caja}"/>
+                        <h:outputText value="#{articulosPedidoController.selected.caja}" title="#{bundle.ViewArticulosPedidoTitle_caja}"/>
+                        <h:outputText value="#{bundle.ViewArticulosPedidoLabel_precioInv}"/>
+                        <h:outputText value="#{articulosPedidoController.selected.precioInv}" title="#{bundle.ViewArticulosPedidoTitle_precioInv}"/>
+                        <h:outputText value="#{bundle.ViewArticulosPedidoLabel_totalInv}"/>
+                        <h:outputText value="#{articulosPedidoController.selected.totalInv}" title="#{bundle.ViewArticulosPedidoTitle_totalInv}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="ArticulosPedidoViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

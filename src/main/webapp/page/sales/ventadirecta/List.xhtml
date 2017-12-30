@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/template.xhtml">
+
+
+    <ui:define name="title">
+        <h:outputText value="Ventas al contado"></h:outputText>
+    </ui:define>
+
+    <ui:define name="center" >
+
+        <h:form id="VentaDirectaListForm" rendered="#{loginBean.logeado}">
+
+            <p:growl id="growl" life="15000"/>
+            <!--<p:panel header="Ventas al contado">-->
+                <p:dataTable id="datalist" value="#{ventadirectaController.items}"
+                             var="item"
+                             selection="#{ventadirectaController.ventaDirectaElegidos}"
+                             paginator="true"
+                             rowKey="#{item.idventadirecta}"
+                             widgetVar="ventaTabla"
+                             sortMode="multiple"
+                             rows="15"
+                             emptyMessage="No hay pedidos registrados"
+                             filteredValue="#{ventadirectaController.ventaDirectaFiltrado}"
+                             paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="15,20,30,40,50">
+
+                    <f:facet name="header">
+                        <p:commandButton id="createVentasButton"
+                                         value="Nueva venta"
+                                         actionListener="#{ventadirectaController.prepareCreate}"
+                                         update=":VentaCreateForm, :VentaDirectaListForm:datalist"
+                                         oncomplete="PF('newSaleDialog').show()"/>
+
+                        <p:commandButton id="generarKardex" value="Generar Kardex Cliente" oncomplete="PF('KardexDialog').show()" />
+                        <p:commandButton id="generarRecaudaciones" value="Recaudacion Diaria" oncomplete="PF('RecaudacionDialog').show()" />
+                        <p:commandButton id="resumenRecaudacion" value="Resumen Recaudacion" oncomplete="PF('ResumenRecaudacionDialog').show()" />
+                        <p:commandButton id="genAsiento" value="Contabilizar"
+                                         actionListener="#{ventadirectaController.contabilizar}"
+                                         ajax="false"/>
+                    </f:facet>
+                    <p:ajax event="rowSelect" update="createVentasButton"/>
+                    <p:ajax event="rowUnselect" update="createVentasButton"/>
+                    <p:column selectionMode="multiple" style="width:2%;text-align:center"/>
+
+                    <p:column filterBy="#{item.codigo}" style="width:7%; text-align: center"
+                              headerText="Código"
+                              filterMatchMode="contains"
+                              filterStyle="width: 70%">
+                        <h:outputText value="#{item.codigo}" />
+                    </p:column>
+
+                    <p:column headerText="Fecha" width="7%"
+                              sortBy="#{item.fechaPedido}"
+                              filterBy="#{item.fechaPedido}"
+                              filterStyle="width: 60px"
+                              filterMatchMode="equals">
+                        <f:facet name="filter">
+                            <p:calendar id="fechaPedido"
+                                        value="#{ventadirectaController.fechaVentaFiltro}"
+                                        pattern="dd/MM/yyyy"
+                                        effect="fold">
+                                <p:ajax event="dateSelect" oncomplete="PF('ventaTabla').filter()" />
+                            </p:calendar>
+                        </f:facet>
+
+                        <h:outputText value="#{item.fechaPedido}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column headerText="Cliente" style="width:35%"
+                              sortBy="#{item.cliente.nombreCompleto}"
+                              filterBy="#{item.cliente.nombreCompleto}" filterStyle="width: 70%"
+                              filterMatchMode="contains">
+                        <h:outputText value="#{item.cliente.nombreCompleto}"/>
+                    </p:column>
+
+                    <p:column filterMatchMode="in" style="width:10%; text-align: center;"
+                              filterBy="#{item.estado}">
+                        <f:facet name="filter">
+                            <p:selectCheckboxMenu label="Estado" onchange="PF('ventaTabla').filter()" panelStyle="width:125px" scrollHeight="150">
+                                <f:selectItems value="#{ventadirectaController.estados}" />
+                            </p:selectCheckboxMenu>
+                        </f:facet>
+                        <h:outputText value="#{item.estado}"/>
+                    </p:column>
+
+                    <p:column headerText="Fact" style="width:8%"
+                              filterBy="#{item.movimiento.nrofactura}" filterStyle="width: 90%"
+                              filterMatchMode="contains">
+                        <h:outputText value="#{item.tieneFactura() ? item.movimiento.nrofactura : '' }"/>
+                    </p:column>
+                    <!--<p:column headerText="Entrega" style="width:5%;">
+                        <h:outputText value="#{item.flagstock ? 'SI' : 'NO'}"/>
+                    </p:column>-->
+
+                    <!--<p:column filterMatchMode="in" style="width:10%; text-align: center;"
+                              filterBy="#{item.cliente.territoriotrabajo.nombre}">
+                        <f:facet name="filter">
+                            <p:selectCheckboxMenu label="Territorio" onchange="PF('ventaTabla').filter()" panelStyle="width:125px" scrollHeight="150">
+                                <f:selectItems value="#{territoriotrabajoController.itemsAvailableSelectMany}" />
+                            </p:selectCheckboxMenu>
+                        </f:facet>
+                        <h:outputText value="#{item.cliente.territoriotrabajo.nombre}"/>
+                    </p:column>-->
+                    
+                    <p:column headerText="Acción" style="width:12%;">
+                        <p:commandButton title="Nota/Factura" id="printNotaDeVenta2"
+                                         actionListener="#{ventadirectaController.printFacturaNotaVentaDirecta(item)}"
+                                         ajax="false"
+                                         icon="icon-print"
+                                         rendered="#{item.conFactura()}"/>
+
+                        <p:commandButton title="Nota" id="printNotaDeVenta"
+                                         actionListener="#{pedidosReportController.imprimirNotaEntrega(item)}"
+                                         ajax="false"
+                                         icon="#{item.estado.equals('PENDIENTE')? 'ui-icon-document':'ui-icon-document'}"
+                                         rendered="#{!item.estado.equals('ANULADO')}"/>
+
+                        <!-- <p:commandButton title="GENERAR FACTURA"
+                                         id="printFacturaButton"
+                                         oncomplete="PF('ImprimirFacturaDialog').show()"
+                                         icon="#{item.estado.equals('PENDIENTE')? 'ui-icon-script':'ui-icon-star'}"
+                                         rendered="#{!item.estado.equals('ANULADO') and item.conFactura()}">
+
+                            <f:setPropertyActionListener value="#{item}" target="#{pedidosReportController.ventadirecta}" />
+                        </p:commandButton> -->
+                        <p:commandButton id="anularPedido"
+                                         actionListener="#{ventadirectaController.prepareEdit(item)}"
+                                         icon="ui-icon-circle-close"
+                                         title="ANULAR PEDIDO"
+                                         update=":VentaAnularForm"
+                                         oncomplete="PF('VentaAnularDialog').show()"
+                                         rendered="#{!item.estado.equals('ANULADO')}"/>
+                    </p:column>
+                </p:dataTable>
+            <!--</p:panel>-->
+        </h:form>
+        <h:form rendered="#{!loginBean.logeado}">
+            <ui:include src="./../../../accesodenegado.xhtml"/>
+        </h:form>
+        <ui:include src="newSale.xhtml"/>
+        <ui:include src="Create.xhtml"/>
+        <ui:include src="View.xhtml"/>
+        <ui:include src="Edit.xhtml"/>
+        <!-- <ui:include src="ImprimirFactura.xhtml"/> -->
+        <!--<ui:include src="ImprimirTodasLasFacturas.xhtml"/>--> <!-- quitar -->
+        <ui:include src="AnularVenta.xhtml"/>
+        <ui:include src="PdfDisplayRedirect.xhtml"/>
+
+        <ui:include src="PdfDisplayRedirect2.xhtml"/> <!-- quitar -->
+
+        <ui:include src="../sfTmpenc/KardexCliente.xhtml"/>
+        <ui:include src="../sfTmpenc/Recaudaciones.xhtml"/>
+        <ui:include src="../sfTmpenc/ResumenRecaudacion.xhtml"/>
+    </ui:define>
+</ui:composition>
+
+</html>

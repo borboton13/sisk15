@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="CompaniaViewDlg" widgetVar="CompaniaViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewCompaniaTitle}">
+            <h:form id="CompaniaViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{companiaController.selected != null}">
+                        <h:outputText value="#{bundle.ViewCompaniaLabel_idcompania}"/>
+                        <h:outputText value="#{companiaController.selected.idcompania}" title="#{bundle.ViewCompaniaTitle_idcompania}"/>
+                        <h:outputText value="#{bundle.ViewCompaniaLabel_codigo}"/>
+                        <h:outputText value="#{companiaController.selected.codigo}" title="#{bundle.ViewCompaniaTitle_codigo}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="CompaniaViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

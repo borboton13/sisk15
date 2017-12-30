@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+<ui:composition>
+
+    <p:dialog id="ClienteViewDlg" widgetVar="ClienteViewDialog" modal="true" resizable="false" appendTo="@(body)" header="Distribuidor">
+        <h:form id="ClienteViewForm">
+            <h:panelGroup id="display">
+                <p:panelGrid columns="2" rendered="#{distribuidorController.selected != null}">
+                    <p:outputLabel value="C.I.:" for="nroDoc"/>
+                    <p:outputLabel id="nroDoc" value="#{distribuidorController.selected.nroDoc}" title="Cedula de identidad" />
+                    <p:outputLabel value="Nombre:" for="nom" />
+                    <p:outputLabel id="nom" value="#{distribuidorController.selected.nombreCompleto}" title="Nombre/Razon Social"/>
+                    <p:outputLabel value="#{bundle.CreateClienteLabel_sexo}" for="sexo" />
+                    <p:outputLabel id="sexo" value="#{distribuidorController.selected.sexo}" title="sexo" />
+                    <p:outputLabel value="#{bundle.CreateClienteLabel_direccion}" for="direccion" />
+                    <p:outputLabel id="direccion" value="#{distribuidorController.selected.direccion}" title="#{bundle.CreateClienteTitle_direccion}" />
+                    <p:outputLabel value="#{bundle.CreateClienteLabel_telefono}" for="telefono" />
+                    <p:outputLabel id="telefono" value="#{distribuidorController.selected.telefono}" title="#{bundle.CreateClienteTitle_telefono}" />
+                    <p:outputLabel value="#{bundle.CreateClienteLabel_nit}" for="nit" />
+                    <p:outputLabel id="nit" value="#{distribuidorController.selected.nit}" title="#{bundle.CreateClienteTitle_nit}" />
+                </p:panelGrid>
+                <p:commandButton value="#{bundle.Close}" onclick="ClienteViewDialog.hide()"/>
+            </h:panelGroup>
+        </h:form>
+    </p:dialog>
+
+</ui:composition>
+</html>

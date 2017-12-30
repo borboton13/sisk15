@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui" xmlns:f="http://java.sun.com/jsf/core">
+ 
+    <h:body> 
+        <ui:composition> 
+            <h:form id="menuForm" > 
+              <p:megaMenu rendered="#{loginBean.logeado}">
+               <p:menuitem value="Salir" title="logout" icon="ui-icon-power" actionListener="#{loginBean.logout}" ajax="false" rendered="#{loginBean.logeado}"/>
+               <p:submenu label="Opciones" icon="ui­icon­check">
+                <p:column>
+                    <p:submenu label="Usuarios">   
+                       <p:menuitem value="Insertar"  url="/faces/page/admin/usuarioinsert.xhtml" />                          
+                    </p:submenu>
+                    <p:submenu label="Pedidos">
+                        <p:menuitem value="Pedidos"  url="/faces/page/sales/pedidos/List.xhtml" />
+                        <p:menuitem value="Clientes"  url="/faces/page/sales/persona/List.xhtml" />
+                        <p:menuitem value="Distribuidores"  url="/faces/page/sales/distribuidor/List.xhtml" />
+                        <p:menuitem value="Territorio"  url="/faces/page/sales/territoriotrabajo/List.xhtml" />
+                        <p:menuitem value="Dosificaciones"  url="/faces/page/sales/dosificacion/List.xhtml" />
+                        <p:menuitem value="Ventas"  url="/faces/page/sales/ventadirecta/List.xhtml" />
+                        <p:menuitem value="Fijar precio articulos"  url="/faces/page/sales/ventaarticulo/List.xhtml" />
+                        <p:menuitem value="Promoción"  url="/faces/page/sales/promocion/List.xhtml" />
+                        <p:menuitem value="Asientos Contables"  url="/faces/page/sales/sfConfenc/List.xhtml" />
+                        <p:menuitem value="Kardex"  url="/faces/page/sales/sfTmpenc/List.xhtml" />
+                        <p:menuitem value="Pagos"  url="/faces/page/sales/pago/List.xhtml" />
+                    </p:submenu>
+                </p:column>
+               </p:submenu>
+                               
+                <p:menuitem value="CLIENTES"  url="/faces/page/sales/persona/List.xhtml" icon="ui-icon-person" />
+                <p:menuitem value="VENTAS"  url="/faces/page/sales/ventadirecta/List.xhtml" icon="ui-icon-document" />
+                <p:menuitem value="PEDIDOS"  url="/faces/page/sales/pedidos/List.xhtml" icon="ui-icon-cart" />
+                
+            </p:megaMenu>
+            
+            <p:dialog header="tema" widgetVar="dlgTheme" showEffect="bounce" hideEffect="explode" width="400" height="200">
+                    <h:panelGroup>
+                        <p:outputLabel value="tema"/>
+                        <p:selectOneMenu value="#{managementThemes.tema}" immediate="true" editable="true">
+                            <f:selectItems value="#{managementThemes.themes}"/>
+                        </p:selectOneMenu>
+                        <p:commandButton value="Cambiar Tema" action="#{managementThemes.cambiar}" ajax="false"/>
+                    </h:panelGroup>
+            </p:dialog>
+          </h:form> 
+        </ui:composition> 
+ 
+    </h:body> 
+</html>

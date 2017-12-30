@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="InstitucionViewDlg" widgetVar="InstitucionViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewInstitucionTitle}">
+            <h:form id="InstitucionViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{institucionController.selected != null}">
+                        <h:outputText value="#{bundle.ViewInstitucionLabel_razonsocial}"/>
+                        <h:outputText value="#{institucionController.selected.razonsocial}" title="#{bundle.ViewInstitucionTitle_razonsocial}"/>
+                        <h:outputText value="#{bundle.ViewInstitucionLabel_direccion}"/>
+                        <h:outputText value="#{institucionController.selected.direccion}" title="#{bundle.ViewInstitucionTitle_direccion}"/>
+                        <h:outputText value="#{bundle.ViewInstitucionLabel_telefono}"/>
+                        <h:outputText value="#{institucionController.selected.telefono}" title="#{bundle.ViewInstitucionTitle_telefono}"/>
+                        <h:outputText value="#{bundle.ViewInstitucionLabel_nit}"/>
+                        <h:outputText value="#{institucionController.selected.nit}" title="#{bundle.ViewInstitucionTitle_nit}"/>
+                        <h:outputText value="#{bundle.ViewInstitucionLabel_codigo}"/>
+                        <h:outputText value="#{institucionController.selected.codigo}" title="#{bundle.ViewInstitucionTitle_codigo}"/>
+                        <h:outputText value="#{bundle.ViewInstitucionLabel_idinstitucion}"/>
+                        <h:outputText value="#{institucionController.selected.idinstitucion}" title="#{bundle.ViewInstitucionTitle_idinstitucion}"/>
+                        <h:outputText value="#{bundle.ViewInstitucionLabel_idtipocliente}"/>
+                        <h:outputText value="#{institucionController.selected.idtipocliente}" title="#{bundle.ViewInstitucionTitle_idtipocliente}"/>
+                        <h:outputText value="#{bundle.ViewInstitucionLabel_piId}"/>
+                        <h:outputText value="#{institucionController.selected.clienteRetencion}" title="#{bundle.ViewInstitucionTitle_piId}"/>
+                        <h:outputText value="#{bundle.ViewInstitucionLabel_nroDoc}"/>
+                        <h:outputText value="#{institucionController.selected.nroDoc}" title="#{bundle.ViewInstitucionTitle_nroDoc}"/>
+                        <h:outputText value="#{bundle.ViewInstitucionLabel_ap}"/>
+                        <h:outputText value="#{institucionController.selected.ap}" title="#{bundle.ViewInstitucionTitle_ap}"/>
+                        <h:outputText value="#{bundle.ViewInstitucionLabel_am}"/>
+                        <h:outputText value="#{institucionController.selected.am}" title="#{bundle.ViewInstitucionTitle_am}"/>
+                        <h:outputText value="#{bundle.ViewInstitucionLabel_nom}"/>
+                        <h:outputText value="#{institucionController.selected.nom}" title="#{bundle.ViewInstitucionTitle_nom}"/>
+                        <h:outputText value="#{bundle.ViewInstitucionLabel_sexo}"/>
+                        <h:outputText value="#{institucionController.selected.sexo}" title="#{bundle.ViewInstitucionTitle_sexo}"/>
+                        <h:outputText value="#{bundle.ViewInstitucionLabel_estCivil}"/>
+                        <h:outputText value="#{institucionController.selected.estCivil}" title="#{bundle.ViewInstitucionTitle_estCivil}"/>
+                        <h:outputText value="#{bundle.ViewInstitucionLabel_fechaNac}"/>
+                        <h:outputText value="#{institucionController.selected.fechaNac}" title="#{bundle.ViewInstitucionTitle_fechaNac}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewInstitucionLabel_cemCod}"/>
+                        <h:outputText value="#{institucionController.selected.cemCod}" title="#{bundle.ViewInstitucionTitle_cemCod}"/>
+                        <h:outputText value="#{bundle.ViewInstitucionLabel_ocuCod}"/>
+                        <h:outputText value="#{institucionController.selected.ocuCod}" title="#{bundle.ViewInstitucionTitle_ocuCod}"/>
+                        <h:outputText value="#{bundle.ViewInstitucionLabel_tdoCod}"/>
+                        <h:outputText value="#{institucionController.selected.tdoCod}" title="#{bundle.ViewInstitucionTitle_tdoCod}"/>
+                        <h:outputText value="#{bundle.ViewInstitucionLabel_sisCod}"/>
+                        <h:outputText value="#{institucionController.selected.sisCod}" title="#{bundle.ViewInstitucionTitle_sisCod}"/>
+                        <h:outputText value="#{bundle.ViewInstitucionLabel_idcliente}"/>
+                        <h:outputText value="#{institucionController.selected.idcliente}" title="#{bundle.ViewInstitucionTitle_idcliente}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="InstitucionViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

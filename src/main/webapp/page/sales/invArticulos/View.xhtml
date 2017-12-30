@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="InvArticulosViewDlg" widgetVar="InvArticulosViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewInvArticulosTitle}">
+            <h:form id="InvArticulosViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{invArticulosController.selected != null}">
+                        <h:outputText value="#{bundle.ViewInvArticulosLabel_invArticulosPK_codArt}"/>
+                        <h:outputText value="#{invArticulosController.selected.invArticulosPK.codArt}" title="#{bundle.ViewInvArticulosTitle_invArticulosPK_codArt}"/>
+                        <h:outputText value="#{bundle.ViewInvArticulosLabel_controlValorado}"/>
+                        <h:outputText value="#{invArticulosController.selected.controlValorado}" title="#{bundle.ViewInvArticulosTitle_controlValorado}"/>
+                        <h:outputText value="#{bundle.ViewInvArticulosLabel_cantiadEqui}"/>
+                        <h:outputText value="#{invArticulosController.selected.cantiadEqui}" title="#{bundle.ViewInvArticulosTitle_cantiadEqui}"/>
+                        <h:outputText value="#{bundle.ViewInvArticulosLabel_codMedMay}"/>
+                        <h:outputText value="#{invArticulosController.selected.codMedMay}" title="#{bundle.ViewInvArticulosTitle_codMedMay}"/>
+                        <h:outputText value="#{bundle.ViewInvArticulosLabel_saldoMon}"/>
+                        <h:outputText value="#{invArticulosController.selected.saldoMon}" title="#{bundle.ViewInvArticulosTitle_saldoMon}"/>
+                        <h:outputText value="#{bundle.ViewInvArticulosLabel_stockmaximo}"/>
+                        <h:outputText value="#{invArticulosController.selected.stockmaximo}" title="#{bundle.ViewInvArticulosTitle_stockmaximo}"/>
+                        <h:outputText value="#{bundle.ViewInvArticulosLabel_stockminimo}"/>
+                        <h:outputText value="#{invArticulosController.selected.stockminimo}" title="#{bundle.ViewInvArticulosTitle_stockminimo}"/>
+                        <h:outputText value="#{bundle.ViewInvArticulosLabel_descri}"/>
+                        <h:outputText value="#{invArticulosController.selected.descri}" title="#{bundle.ViewInvArticulosTitle_descri}"/>
+                        <h:outputText value="#{bundle.ViewInvArticulosLabel_nombrecorto}"/>
+                        <h:outputText value="#{invArticulosController.selected.nombrecorto}" title="#{bundle.ViewInvArticulosTitle_nombrecorto}"/>
+                        <h:outputText value="#{bundle.ViewInvArticulosLabel_cuentaArt}"/>
+                        <h:outputText value="#{invArticulosController.selected.cuentaArt}" title="#{bundle.ViewInvArticulosTitle_cuentaArt}"/>
+                        <h:outputText value="#{bundle.ViewInvArticulosLabel_vendible}"/>
+                        <h:outputText value="#{invArticulosController.selected.vendible}" title="#{bundle.ViewInvArticulosTitle_vendible}"/>
+                        <h:outputText value="#{bundle.ViewInvArticulosLabel_estado}"/>
+                        <h:outputText value="#{invArticulosController.selected.estado}" title="#{bundle.ViewInvArticulosTitle_estado}"/>
+                        <h:outputText value="#{bundle.ViewInvArticulosLabel_codSub}"/>
+                        <h:outputText value="#{invArticulosController.selected.codSub}" title="#{bundle.ViewInvArticulosTitle_codSub}"/>
+                        <h:outputText value="#{bundle.ViewInvArticulosLabel_costoUni}"/>
+                        <h:outputText value="#{invArticulosController.selected.costoUni}" title="#{bundle.ViewInvArticulosTitle_costoUni}"/>
+                        <h:outputText value="#{bundle.ViewInvArticulosLabel_codMed}"/>
+                        <h:outputText value="#{invArticulosController.selected.codMed}" title="#{bundle.ViewInvArticulosTitle_codMed}"/>
+                        <h:outputText value="#{bundle.ViewInvArticulosLabel_version}"/>
+                        <h:outputText value="#{invArticulosController.selected.version}" title="#{bundle.ViewInvArticulosTitle_version}"/>
+                        <h:outputText value="#{bundle.ViewInvArticulosLabel_invGrupos}"/>
+                        <h:outputText value="#{invArticulosController.selected.invGrupos}" title="#{bundle.ViewInvArticulosTitle_invGrupos}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="InvArticulosViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

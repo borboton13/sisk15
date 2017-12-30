@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ArcgmsEditDlg" widgetVar="ArcgmsEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditArcgmsTitle}">
+            <h:form id="ArcgmsEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{arcgmsController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditArcgmsLabel_cuenta}" for="cuenta" />
+                        <p:inputText id="cuenta" value="#{arcgmsController.selected.cuenta}" title="#{bundle.EditArcgmsTitle_cuenta}" />
+                        <p:outputLabel value="#{bundle.EditArcgmsLabel_descri}" for="descri" />
+                        <p:inputText id="descri" value="#{arcgmsController.selected.descri}" title="#{bundle.EditArcgmsTitle_descri}" />
+                        <p:outputLabel value="#{bundle.EditArcgmsLabel_cnAna}" for="cnAna" />
+                        <p:inputText id="cnAna" value="#{arcgmsController.selected.cnAna}" title="#{bundle.EditArcgmsTitle_cnAna}" />
+                        <p:outputLabel value="#{bundle.EditArcgmsLabel_cnNivel}" for="cnNivel" />
+                        <p:inputText id="cnNivel" value="#{arcgmsController.selected.cnNivel}" title="#{bundle.EditArcgmsTitle_cnNivel}" />
+                        <p:outputLabel value="#{bundle.EditArcgmsLabel_cnDv}" for="cnDv" />
+                        <p:inputText id="cnDv" value="#{arcgmsController.selected.cnDv}" title="#{bundle.EditArcgmsTitle_cnDv}" />
+                        <p:outputLabel value="#{bundle.EditArcgmsLabel_cnTip}" for="cnTip" />
+                        <p:inputText id="cnTip" value="#{arcgmsController.selected.cnTip}" title="#{bundle.EditArcgmsTitle_cnTip}" />
+                        <p:outputLabel value="#{bundle.EditArcgmsLabel_cnAct}" for="cnAct" />
+                        <p:inputText id="cnAct" value="#{arcgmsController.selected.cnAct}" title="#{bundle.EditArcgmsTitle_cnAct}" />
+                        <p:outputLabel value="#{bundle.EditArcgmsLabel_noCia}" for="noCia" />
+                        <p:inputText id="noCia" value="#{arcgmsController.selected.noCia}" title="#{bundle.EditArcgmsTitle_noCia}" />
+                        <p:outputLabel value="#{bundle.EditArcgmsLabel_clase}" for="clase" />
+                        <p:inputText id="clase" value="#{arcgmsController.selected.clase}" title="#{bundle.EditArcgmsTitle_clase}" />
+                        <p:outputLabel value="#{bundle.EditArcgmsLabel_tipo}" for="tipo" />
+                        <p:inputText id="tipo" value="#{arcgmsController.selected.tipo}" title="#{bundle.EditArcgmsTitle_tipo}" />
+                        <p:outputLabel value="#{bundle.EditArcgmsLabel_activa}" for="activa" />
+                        <p:inputText id="activa" value="#{arcgmsController.selected.activa}" title="#{bundle.EditArcgmsTitle_activa}" />
+                        <p:outputLabel value="#{bundle.EditArcgmsLabel_permiteIva}" for="permiteIva" />
+                        <p:inputText id="permiteIva" value="#{arcgmsController.selected.permiteIva}" title="#{bundle.EditArcgmsTitle_permiteIva}" />
+                        <p:outputLabel value="#{bundle.EditArcgmsLabel_indPresup}" for="indPresup" />
+                        <p:inputText id="indPresup" value="#{arcgmsController.selected.indPresup}" title="#{bundle.EditArcgmsTitle_indPresup}" />
+                        <p:outputLabel value="#{bundle.EditArcgmsLabel_creditos}" for="creditos" />
+                        <p:inputText id="creditos" value="#{arcgmsController.selected.creditos}" title="#{bundle.EditArcgmsTitle_creditos}" />
+                        <p:outputLabel value="#{bundle.EditArcgmsLabel_moneda}" for="moneda" />
+                        <p:inputText id="moneda" value="#{arcgmsController.selected.moneda}" title="#{bundle.EditArcgmsTitle_moneda}" />
+                        <p:outputLabel value="#{bundle.EditArcgmsLabel_debitos}" for="debitos" />
+                        <p:inputText id="debitos" value="#{arcgmsController.selected.debitos}" title="#{bundle.EditArcgmsTitle_debitos}" />
+                        <p:outputLabel value="#{bundle.EditArcgmsLabel_saldoMesAntDol}" for="saldoMesAntDol" />
+                        <p:inputText id="saldoMesAntDol" value="#{arcgmsController.selected.saldoMesAntDol}" title="#{bundle.EditArcgmsTitle_saldoMesAntDol}" />
+                        <p:outputLabel value="#{bundle.EditArcgmsLabel_saldoPerAntDol}" for="saldoPerAntDol" />
+                        <p:inputText id="saldoPerAntDol" value="#{arcgmsController.selected.saldoPerAntDol}" title="#{bundle.EditArcgmsTitle_saldoPerAntDol}" />
+                        <p:outputLabel value="#{bundle.EditArcgmsLabel_creditosDol}" for="creditosDol" />
+                        <p:inputText id="creditosDol" value="#{arcgmsController.selected.creditosDol}" title="#{bundle.EditArcgmsTitle_creditosDol}" />
+                        <p:outputLabel value="#{bundle.EditArcgmsLabel_debitosDol}" for="debitosDol" />
+                        <p:inputText id="debitosDol" value="#{arcgmsController.selected.debitosDol}" title="#{bundle.EditArcgmsTitle_debitosDol}" />
+                        <p:outputLabel value="#{bundle.EditArcgmsLabel_gruCta}" for="gruCta" />
+                        <p:inputText id="gruCta" value="#{arcgmsController.selected.gruCta}" title="#{bundle.EditArcgmsTitle_gruCta}" />
+                        <p:outputLabel value="#{bundle.EditArcgmsLabel_permisoCon}" for="permisoCon" />
+                        <p:inputText id="permisoCon" value="#{arcgmsController.selected.permisoCon}" title="#{bundle.EditArcgmsTitle_permisoCon}" />
+                        <p:outputLabel value="#{bundle.EditArcgmsLabel_exijeCc}" for="exijeCc" />
+                        <p:inputText id="exijeCc" value="#{arcgmsController.selected.exijeCc}" title="#{bundle.EditArcgmsTitle_exijeCc}" />
+                        <p:outputLabel value="#{bundle.EditArcgmsLabel_permisoAfijo}" for="permisoAfijo" />
+                        <p:inputText id="permisoAfijo" value="#{arcgmsController.selected.permisoAfijo}" title="#{bundle.EditArcgmsTitle_permisoAfijo}" />
+                        <p:outputLabel value="#{bundle.EditArcgmsLabel_permisoCxp}" for="permisoCxp" />
+                        <p:inputText id="permisoCxp" value="#{arcgmsController.selected.permisoCxp}" title="#{bundle.EditArcgmsTitle_permisoCxp}" />
+                        <p:outputLabel value="#{bundle.EditArcgmsLabel_permisoCxc}" for="permisoCxc" />
+                        <p:inputText id="permisoCxc" value="#{arcgmsController.selected.permisoCxc}" title="#{bundle.EditArcgmsTitle_permisoCxc}" />
+                        <p:outputLabel value="#{bundle.EditArcgmsLabel_permisoChe}" for="permisoChe" />
+                        <p:inputText id="permisoChe" value="#{arcgmsController.selected.permisoChe}" title="#{bundle.EditArcgmsTitle_permisoChe}" />
+                        <p:outputLabel value="#{bundle.EditArcgmsLabel_permisoInv}" for="permisoInv" />
+                        <p:inputText id="permisoInv" value="#{arcgmsController.selected.permisoInv}" title="#{bundle.EditArcgmsTitle_permisoInv}" />
+                        <p:outputLabel value="#{bundle.EditArcgmsLabel_fInactiva}" for="fInactiva" />
+                        <p:inputText id="fInactiva" value="#{arcgmsController.selected.fInactiva}" title="#{bundle.EditArcgmsTitle_fInactiva}" />
+                        <p:outputLabel value="#{bundle.EditArcgmsLabel_indMov}" for="indMov" />
+                        <p:inputText id="indMov" value="#{arcgmsController.selected.indMov}" title="#{bundle.EditArcgmsTitle_indMov}" />
+                        <p:outputLabel value="#{bundle.EditArcgmsLabel_saldoMesAnt}" for="saldoMesAnt" />
+                        <p:inputText id="saldoMesAnt" value="#{arcgmsController.selected.saldoMesAnt}" title="#{bundle.EditArcgmsTitle_saldoMesAnt}" />
+                        <p:outputLabel value="#{bundle.EditArcgmsLabel_saldoPerAnt}" for="saldoPerAnt" />
+                        <p:inputText id="saldoPerAnt" value="#{arcgmsController.selected.saldoPerAnt}" title="#{bundle.EditArcgmsTitle_saldoPerAnt}" />
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{arcgmsController.update}" value="#{bundle.Save}" update="display,:ArcgmsListForm:datalist,:growl" oncomplete="handleSubmit(args, 'ArcgmsEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="ArcgmsEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

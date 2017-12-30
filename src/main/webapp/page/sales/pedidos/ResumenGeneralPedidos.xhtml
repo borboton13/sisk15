@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<ui:composition>
+
+    <p:dialog id="ResumenGeneralDlg" widgetVar="ResumenGeneralDialog" modal="true" resizable="false" appendTo="@(body)" header="Reporte de recepción de pedidos">
+        <h:form id="ResumenGeneralForm">
+            <p:panelGrid id="display" columns="2" >
+                <p:outputLabel value="Territorio:" for="territorio" />
+                <p:selectOneMenu id="territorio" value="#{ResumenGeneralReportController.territoriotrabajo}">
+                    <f:selectItem itemLabel="" itemValue="" noSelectionOption="true" />
+                    <f:selectItems value="#{territoriotrabajoController.itemsAvailableSelectOne}"
+                                   var="territoriotrabajo"
+                                   itemValue="#{territoriotrabajo}"/>
+                </p:selectOneMenu>
+                <p:outputLabel for="fechaEntrega" value="Fecha Entrega:" />
+                <p:calendar id="fechaEntrega" value="#{ResumenGeneralReportController.fechaEntrega}" required="true" requiredMessage="La fecha de entrega es necesario."/>
+            </p:panelGrid>
+            <p:commandButton value="Generar" actionListener="#{ResumenGeneralReportController.imprimirReporte}" ajax="false"/>
+            <p:commandButton value="#{bundle.Close}" onclick="ResumenGeneralDialog.hide()"/>
+        </h:form>
+    </p:dialog>
+
+</ui:composition>
+</html>

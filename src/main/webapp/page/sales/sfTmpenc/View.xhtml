@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="SfTmpencViewDlg" widgetVar="SfTmpencViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewSfTmpencTitle}">
+            <h:form id="SfTmpencViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{sfTmpencController.selected != null}">
+                        <h:outputText value="#{bundle.ViewSfTmpencLabel_idTmpenc}"/>
+                        <h:outputText value="#{sfTmpencController.selected.idTmpenc}" title="#{bundle.ViewSfTmpencTitle_idTmpenc}"/>
+                        <h:outputText value="#{bundle.ViewSfTmpencLabel_noTrans}"/>
+                        <h:outputText value="#{sfTmpencController.selected.noTrans}" title="#{bundle.ViewSfTmpencTitle_noTrans}"/>
+                        <h:outputText value="#{bundle.ViewSfTmpencLabel_agregarCtaProv}"/>
+                        <h:outputText value="#{sfTmpencController.selected.agregarCtaProv}" title="#{bundle.ViewSfTmpencTitle_agregarCtaProv}"/>
+                        <h:outputText value="#{bundle.ViewSfTmpencLabel_monto}"/>
+                        <h:outputText value="#{sfTmpencController.selected.monto}" title="#{bundle.ViewSfTmpencTitle_monto}"/>
+                        <h:outputText value="#{bundle.ViewSfTmpencLabel_ctaBco}"/>
+                        <h:outputText value="#{sfTmpencController.selected.ctaBco}" title="#{bundle.ViewSfTmpencTitle_ctaBco}"/>
+                        <h:outputText value="#{bundle.ViewSfTmpencLabel_cuenta}"/>
+                        <h:outputText value="#{sfTmpencController.selected.cuenta}" title="#{bundle.ViewSfTmpencTitle_cuenta}"/>
+                        <h:outputText value="#{bundle.ViewSfTmpencLabel_sedePagoChq}"/>
+                        <h:outputText value="#{sfTmpencController.selected.sedePagoChq}" title="#{bundle.ViewSfTmpencTitle_sedePagoChq}"/>
+                        <h:outputText value="#{bundle.ViewSfTmpencLabel_noCia}"/>
+                        <h:outputText value="#{sfTmpencController.selected.noCia}" title="#{bundle.ViewSfTmpencTitle_noCia}"/>
+                        <h:outputText value="#{bundle.ViewSfTmpencLabel_moneda}"/>
+                        <h:outputText value="#{sfTmpencController.selected.moneda}" title="#{bundle.ViewSfTmpencTitle_moneda}"/>
+                        <h:outputText value="#{bundle.ViewSfTmpencLabel_fecha}"/>
+                        <h:outputText value="#{sfTmpencController.selected.fecha}" title="#{bundle.ViewSfTmpencTitle_fecha}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewSfTmpencLabel_descri}"/>
+                        <h:outputText value="#{sfTmpencController.selected.descri}" title="#{bundle.ViewSfTmpencTitle_descri}"/>
+                        <h:outputText value="#{bundle.ViewSfTmpencLabel_noDoc}"/>
+                        <h:outputText value="#{sfTmpencController.selected.noDoc}" title="#{bundle.ViewSfTmpencTitle_noDoc}"/>
+                        <h:outputText value="#{bundle.ViewSfTmpencLabel_tipoDoc}"/>
+                        <h:outputText value="#{sfTmpencController.selected.tipoDoc}" title="#{bundle.ViewSfTmpencTitle_tipoDoc}"/>
+                        <h:outputText value="#{bundle.ViewSfTmpencLabel_beneficiario}"/>
+                        <h:outputText value="#{sfTmpencController.selected.beneficiario}" title="#{bundle.ViewSfTmpencTitle_beneficiario}"/>
+                        <h:outputText value="#{bundle.ViewSfTmpencLabel_tc}"/>
+                        <h:outputText value="#{sfTmpencController.selected.tc}" title="#{bundle.ViewSfTmpencTitle_tc}"/>
+                        <h:outputText value="#{bundle.ViewSfTmpencLabel_fechaVen}"/>
+                        <h:outputText value="#{sfTmpencController.selected.fechaVen}" title="#{bundle.ViewSfTmpencTitle_fechaVen}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewSfTmpencLabel_formulario}"/>
+                        <h:outputText value="#{sfTmpencController.selected.formulario}" title="#{bundle.ViewSfTmpencTitle_formulario}"/>
+                        <h:outputText value="#{bundle.ViewSfTmpencLabel_glosa}"/>
+                        <h:outputText value="#{sfTmpencController.selected.glosa}" title="#{bundle.ViewSfTmpencTitle_glosa}"/>
+                        <h:outputText value="#{bundle.ViewSfTmpencLabel_observacion}"/>
+                        <h:outputText value="#{sfTmpencController.selected.observacion}" title="#{bundle.ViewSfTmpencTitle_observacion}"/>
+                        <h:outputText value="#{bundle.ViewSfTmpencLabel_pendienteRegistro}"/>
+                        <h:outputText value="#{sfTmpencController.selected.pendienteRegistro}" title="#{bundle.ViewSfTmpencTitle_pendienteRegistro}"/>
+                        <h:outputText value="#{bundle.ViewSfTmpencLabel_codProv}"/>
+                        <h:outputText value="#{sfTmpencController.selected.codProv}" title="#{bundle.ViewSfTmpencTitle_codProv}"/>
+                        <h:outputText value="#{bundle.ViewSfTmpencLabel_entregadoA}"/>
+                        <h:outputText value="#{sfTmpencController.selected.entregadoA}" title="#{bundle.ViewSfTmpencTitle_entregadoA}"/>
+                        <h:outputText value="#{bundle.ViewSfTmpencLabel_noTransRel}"/>
+                        <h:outputText value="#{sfTmpencController.selected.noTransRel}" title="#{bundle.ViewSfTmpencTitle_noTransRel}"/>
+                        <h:outputText value="#{bundle.ViewSfTmpencLabel_procedencia}"/>
+                        <h:outputText value="#{sfTmpencController.selected.procedencia}" title="#{bundle.ViewSfTmpencTitle_procedencia}"/>
+                        <h:outputText value="#{bundle.ViewSfTmpencLabel_estado}"/>
+                        <h:outputText value="#{sfTmpencController.selected.estado}" title="#{bundle.ViewSfTmpencTitle_estado}"/>
+                        <h:outputText value="#{bundle.ViewSfTmpencLabel_noUsr}"/>
+                        <h:outputText value="#{sfTmpencController.selected.noUsr}" title="#{bundle.ViewSfTmpencTitle_noUsr}"/>
+                        <h:outputText value="#{bundle.ViewSfTmpencLabel_codEnti}"/>
+                        <h:outputText value="#{sfTmpencController.selected.codEnti}" title="#{bundle.ViewSfTmpencTitle_codEnti}"/>
+                        <h:outputText value="#{bundle.ViewSfTmpencLabel_pago}"/>
+                        <h:outputText value="#{sfTmpencController.selected.pago}" title="#{bundle.ViewSfTmpencTitle_pago}"/>
+                        <h:outputText value="#{bundle.ViewSfTmpencLabel_pedido}"/>
+                        <h:outputText value="#{sfTmpencController.selected.pedido}" title="#{bundle.ViewSfTmpencTitle_pedido}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="SfTmpencViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

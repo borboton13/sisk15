@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="PromocionEditDlg" widgetVar="PromocionEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditPromocionTitle}">
+            <h:form id="PromocionEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{promocionController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditPromocionLabel_idpromocion}" for="idpromocion" />
+                        <p:inputText id="idpromocion" value="#{promocionController.selected.idpromocion}" title="#{bundle.EditPromocionTitle_idpromocion}" required="true" requiredMessage="#{bundle.EditPromocionRequiredMessage_idpromocion}"/>
+                        <p:outputLabel value="#{bundle.EditPromocionLabel_nombre}" for="nombre" />
+                        <p:inputText id="nombre" value="#{promocionController.selected.nombre}" title="#{bundle.EditPromocionTitle_nombre}" />
+                        <p:outputLabel value="#{bundle.EditPromocionLabel_fechainicio}" for="fechainicio" />
+                        <p:calendar id="fechainicio" pattern="MM/dd/yyyy" value="#{promocionController.selected.fechainicio}" title="#{bundle.EditPromocionTitle_fechainicio}"  showOn="button"/>
+                        <p:outputLabel value="#{bundle.EditPromocionLabel_fechafin}" for="fechafin" />
+                        <p:calendar id="fechafin" pattern="MM/dd/yyyy" value="#{promocionController.selected.fechafin}" title="#{bundle.EditPromocionTitle_fechafin}"  showOn="button"/>
+                        <p:outputLabel value="#{bundle.EditPromocionLabel_estado}" for="estado" />
+                        <p:inputText id="estado" value="#{promocionController.selected.estado}" title="#{bundle.EditPromocionTitle_estado}" />
+                        <p:outputLabel value="#{bundle.EditPromocionLabel_total}" for="total" />
+                        <p:inputText id="total" value="#{promocionController.selected.total}" title="#{bundle.EditPromocionTitle_total}" />
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{promocionController.update}" value="#{bundle.Save}" update="display,:PromocionListForm:datalist,:growl" oncomplete="handleSubmit(args, 'PromocionEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="PromocionEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>
