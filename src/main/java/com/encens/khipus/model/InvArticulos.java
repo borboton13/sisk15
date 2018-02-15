@@ -123,6 +123,10 @@ public class InvArticulos implements Serializable {
     @Column(name = "VERSION")
     private BigInteger version;
 
+    @Size(max = 1)
+    @Column(name = "CONTROL_S")
+    private String stockControl;
+
     @JoinColumns({
         @JoinColumn(name = "NO_CIA", referencedColumnName = "NO_CIA", insertable = false, updatable = false),
         @JoinColumn(name = "COD_GRU", referencedColumnName = "COD_GRU")})
@@ -354,5 +358,13 @@ public class InvArticulos implements Serializable {
 
     public void setCt(Double ct) {
         this.ct = ct;
+    }
+
+    public String getStockControl() {
+        return stockControl;
+    }
+
+    public void setStockControl(String stockControl) {
+        this.stockControl = stockControl;
     }
 }

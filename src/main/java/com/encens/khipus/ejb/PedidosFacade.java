@@ -351,6 +351,7 @@ public class PedidosFacade extends AbstractFacade<Pedidos> {
     }
 
     public BigDecimal findInventoryByCode(String cod_art){
+        System.out.println("...........0000000> " + cod_art);
         BigDecimal result = BigDecimal.ZERO;
         try {
             result = (BigDecimal) em.createNativeQuery("SELECT i.saldo_uni "

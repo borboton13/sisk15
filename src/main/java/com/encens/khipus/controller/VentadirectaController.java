@@ -16,7 +16,6 @@ import org.primefaces.context.RequestContext;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
-import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.enterprise.context.SessionScoped;
@@ -93,6 +92,9 @@ public class VentadirectaController implements Serializable {
     private String codNota;
     private ControlCode controlCode = null;
 
+    private String messageStock = "...";
+    private Boolean flagStock = false;
+
     public VentadirectaController() {
         System.out.println("************* VENTADIRECTA CONTROLLER ()...");
     }
@@ -168,7 +170,41 @@ public class VentadirectaController implements Serializable {
     {
         if(articuloElegido == null)
             return;
+
         Ventaarticulo ventaarticulo = ventaarticuloFacade.findByInvArticulo(articuloElegido);
+
+        if (ventaarticulo == null){
+            messageStock = "NO TIENE PRECIO DE VENTA !";
+            return;
+        }
+
+        /** ----------------- **/
+        BigDecimal value = BigDecimal.ZERO;
+        if (ventaarticulo != null){
+
+            value = getInventoryStock(ventaarticulo.getInvArticulos().getProductItemCode());
+
+            if (value.doubleValue() <= 0.0 && ventaarticulo.getInvArticulos().getStockControl().equals("S")) {
+                messageStock = "NO EXISTE SUFICIENTE INVENTARIO ! ! !";
+                setFlagStock(false);
+            }
+            else {
+
+                if (ventaarticulo.getInvArticulos().getStockControl().equals("N"))
+                    messageStock = "Sin control de Inventario...";
+                else
+                    messageStock = "Inventario con existencia...";
+
+                setFlagStock(true);
+            }
+        }
+
+
+        if (!flagStock) return;
+
+        /** ----------------- **/
+
+
         Double precio = ventaarticulo.getPrecio();
         if(personaElegida.getVentaclientes().size() >0)
         {
@@ -191,6 +227,8 @@ public class VentadirectaController implements Serializable {
         selected.getArticulosPedidos().add(articulosPedido);
         articulos.remove(articuloElegido);
         articuloElegido = new InvArticulos();
+
+
     }
 
     public ActionListener createActionListener() throws IOException, JRException {
@@ -820,6 +858,30 @@ public class VentadirectaController implements Serializable {
         this.factura = factura;
     }
 
+    public String getMessageInventory() {
+        return messageInventory;
+    }
+
+    public void setMessageInventory(String messageInventory) {
+        this.messageInventory = messageInventory;
+    }
+
+    public String getMessageStock() {
+        return messageStock;
+    }
+
+    public void setMessageStock(String messageStock) {
+        this.messageStock = messageStock;
+    }
+
+    public Boolean getFlagStock() {
+        return flagStock;
+    }
+
+    public void setFlagStock(Boolean flagStock) {
+        this.flagStock = flagStock;
+    }
+
     @FacesConverter(forClass = Ventadirecta.class)
     public static class VentadirectaControllerConverter implements Converter {
 
@@ -1436,8 +1498,13 @@ public class VentadirectaController implements Serializable {
     }
 
     public BigDecimal getInventoryStock(String cod_art){
-        return pedidosFacade.findInventoryByCode(cod_art);
+        BigDecimal res = pedidosFacade.findInventoryByCode(cod_art);
+        setMessageInventory(res.toString());
+        return res;
     }
+
+    private String messageInventory = "...";
+
 
     /**
      * -----------------------------------------------------------------------------------------------------------------
@@ -1481,7 +1548,7 @@ public class VentadirectaController implements Serializable {
         //barcodeRenderer = new BarcodeRenderer();
         Dosificacion dosificacion    = dosificacionFacade.findByOffice(loginBean.getUsuario().getSucursal());
         //moneyUtil = new MoneyUtil();
-        dosificacion.setNumeroactual(dosificacion.getNumeroactual()+1);
+
         ControlCode controlCode = generateCodControl(
                 ventadirecta,
                 dosificacion.getNumeroactual(),
@@ -1489,6 +1556,7 @@ public class VentadirectaController implements Serializable {
                 dosificacion.getLlave(),
                 dosificacion.getNitEmpresa());
 
+        dosificacion.setNumeroactual(dosificacion.getNumeroactual()+1);
         guardarMovimientoFactura(ventadirecta, controlCode, dosificacion);
         crearAsientoFactura(ventadirecta.getTotalimporte(), nomcliente, ventadirecta, operacion);
         //nota = ventadirecta.getDocumento();

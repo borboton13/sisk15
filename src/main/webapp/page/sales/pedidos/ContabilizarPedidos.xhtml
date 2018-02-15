@@ -13,8 +13,11 @@
                     <p:panelGrid columns="2">                        
                         <p:outputLabel value="¿Está seguro(a) que desea contabilizar los pedidos elegidos?"/>
                     </p:panelGrid>
-                    <p:commandButton value="Contabilizar" id="contabilizarPedido" actionListener="#{pedidosReportController.contabilzarPedidos}" ajax="false" oncomplete="ImprimirFacturaDialog.close()"/>
-                    <p:commandButton value="#{bundle.Close}" update=":PedidosListForm:datalist" onclick="ImprimirFacturaDialog.close()"/>
+                    <p:commandButton value="Contabilizar" id="contabilizarPedido"
+                                     actionListener="#{pedidosReportController.contabilzarPedidos}"
+                                     onclick="PF('ContabilzarPedidosDialog').hide();"
+                                     update=":PedidosListForm:datalist, :PedidosListForm:growl"/>
+                    <p:commandButton value="#{bundle.Close}" update=":PedidosListForm:datalist" onclick="PF('ContabilzarPedidosDialog').hide();"/>
                 </h:panelGroup>
             </h:form>
         </p:dialog>

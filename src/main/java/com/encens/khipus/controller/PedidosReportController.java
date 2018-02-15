@@ -214,8 +214,7 @@ public class PedidosReportController implements Serializable {
 
         boolean band = false;
         for(Pedidos pedidos:pedidosElegidos){
-            if(pedidos.getTieneFactura() == null)
-            {
+            if(pedidos.getTieneFactura() == null){
                 JSFUtil.addWarningMessage("El pedido tiene datos inconsistentes contactese con el administrador "+pedidos.getCodigo()+"\n");
                 band = true;
             }
@@ -225,7 +224,6 @@ public class PedidosReportController implements Serializable {
         }
 
         quitarAnulados();
-        //quitarNoEnviados();  //habilitar cuando se soluciones el problema de las entregas
         quitarContabilizados();
 
         for(Pedidos pedido:pedidosElegidos)
@@ -250,7 +248,7 @@ public class PedidosReportController implements Serializable {
 
         }
         pedidosElegidos.clear();
-        JSFUtil.addWarningMessage("Se contabilizo con exito.");
+        JSFUtil.addWarningMessage("SE CONTABILIZO CON EXITO.");
     }
 
     private void setMonto(Pedidos pedido,SfConfdet detConf,SfTmpdet asiento,Boolean conRepo)

@@ -51,27 +51,42 @@
             </p:panelGrid>
 
             <!--<p:inputTextarea id="observacion" rows="2" cols="60" value="#{ventadirectaController.selected.observacion}" />-->
-            <p:panelGrid columns="3" rendered="#{ventadirectaController.selected != null}">
+            <p:panelGrid columns="4" rendered="#{ventadirectaController.selected != null}">
+
                 <p:outputLabel value="Articulo:" for="itemTip" />
-                <p:autoComplete id="itemTip" size="54" value="#{ventadirectaController.articuloElegido}" completeMethod="#{ventadirectaController.completarArticulo}"
-                                var="articulo" itemLabel="#{articulo.descri}" itemValue="#{articulo}" converter="convertirArticulos">
+
+                <p:autoComplete id="itemTip" size="54"
+                                value="#{ventadirectaController.articuloElegido}"
+                                completeMethod="#{ventadirectaController.completarArticulo}"
+                                var="articulo"
+                                itemLabel="#{articulo.descri}"
+                                itemValue="#{articulo}"
+                                converter="convertirArticulos">
                     <f:facet name="itemtip">
                         <h:panelGrid columns="2" cellpadding="5">
                             <h:outputText value="Nombre:" />
-                            <h:outputText value="#{articulo.descri}" />
+                            <h:outputText value="#{articulo.descri}" size="50" />
 
                             <h:outputText value="Codigo:" />
                             <h:outputText value="#{articulo.invArticulosPK.codArt}" />
 
-                            <h:outputText value="Stock:" />
-                            <h:outputText value="#{ventadirectaController.getProductStock(articulo.invArticulosPK.codArt)}" />
+                            <h:outputText value="Existencia:" />
+                            <h:outputText value="#{ventadirectaController.getInventoryStock(articulo.invArticulosPK.codArt)}" />
 
                         </h:panelGrid>
                     </f:facet>
                 </p:autoComplete>
-                <p:commandButton actionListener="#{ventadirectaController.agregarArticulo}" value="Agregar" update=":newSaleForm:articulosTable,:newSaleForm:itemTip"/>
+
+                <p:commandButton actionListener="#{ventadirectaController.agregarArticulo}"
+                                 value="Agregar"
+                                 update=":newSaleForm:articulosTable,:newSaleForm:itemTip,messageStockId" />
+
+                <h:outputText id="messageStockId" value="#{ventadirectaController.messageStock}" />
+
             </p:panelGrid>
+
             <p:remoteCommand name="refreshFooter" update="pago,importeTotal"/>
+
             <p:dataTable
                     id="articulosTable"
                     var="item"
@@ -102,7 +117,9 @@
                     </h:outputText>
                 </p:column>
                 <p:column headerText="Acción" style="width:7%;">
-                    <p:commandLink value="Quitar" actionListener="#{ventadirectaController.reponerArticulo(item)}" update="articulosTable,:VentaDirectaListForm:growl,:newSaleForm:totalPago">
+                    <p:commandLink value="Quitar"
+                                   actionListener="#{ventadirectaController.reponerArticulo(item)}"
+                                   update="articulosTable,:VentaDirectaListForm:growl,:newSaleForm:totalPago">
                         <p:collector value="#{item}" removeFrom="#{ventadirectaController.selected.articulosPedidos}" unique="true"/>
                     </p:commandLink>
                 </p:column>
@@ -116,27 +133,34 @@
                 </f:facet>
             </p:dataTable>
             <p:panelGrid id="totalPago" rendered="#{ventadirectaController.selected != null}" columns="6" >
+
                 <h:outputText value="TOTAL :" />
+
                 <h:outputText id="importeTotal" value="#{ventadirectaController.selected.totalimporte}">
                     <f:convertNumber type="currency" currencySymbol="Bs." locale="en_US" />
                 </h:outputText>
+
                 <p:outputLabel for="pago" value="Pagó con:" />
+
                 <p:inputText id="pago" value="#{ventadirectaController.selected.pago}" disabled="#{ventadirectaController.selected.totalimporte==0.0}">
                     <p:ajax event="blur" update="cambio"/>
                 </p:inputText>
+
                 <p:outputLabel for="cambio" value="Cambio:" />
+
                 <h:outputText id="cambio" value="#{ventadirectaController.selected.cambio}">
                     <f:convertNumber type="currency" currencySymbol="Bs." locale="en_US" />
                 </h:outputText>
             </p:panelGrid>
 
-            <p:commandButton  value="Guardar Venta SF"
+            <p:commandButton  id="saveSFId"
+                              value="Guardar Venta SF"
                               actionListener="#{ventadirectaController.registrarImprimirNota}"
                               update=":VentaDirectaListForm:datalist,:VentaDirectaListForm:growl,:newSaleForm:articulosTable,totalPago,nitField,razonSocialField,cliente"
                               onclick="PF('newSaleDialog').hide();"/>
             &nbsp;&nbsp;&nbsp;
-            <p:commandButton  value="Guardar Venta CF"
-                              id="registrarId"
+            <p:commandButton  id="saveCFId"
+                              value="Guardar Venta CF"
                               actionListener="#{ventadirectaController.registrarVentaDirectaCF}"
                               onclick="PF('newSaleDialog').hide();" update=":VentaDirectaListForm:datalist,:newSaleForm:articulosTable,totalPago,nitField,razonSocialField,cliente"
             />
