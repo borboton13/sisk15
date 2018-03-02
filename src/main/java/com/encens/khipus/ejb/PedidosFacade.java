@@ -5,14 +5,8 @@
  */
 package com.encens.khipus.ejb;
 
-import com.encens.khipus.model.ArticulosPedido;
-import com.encens.khipus.model.Pedidos;
-import com.encens.khipus.model.Persona;
-import com.encens.khipus.model.ProductInventory;
-import com.encens.khipus.model.ProductInventoryRecord;
-import com.encens.khipus.model.ProductInventoryRecordType;
-import com.encens.khipus.model.SfTmpenc;
-import com.encens.khipus.model.Territoriotrabajo;
+import com.encens.khipus.model.*;
+
 import java.math.BigDecimal;
 
 import javax.ejb.Stateless;
@@ -290,8 +284,29 @@ public class PedidosFacade extends AbstractFacade<Pedidos> {
         List<Pedidos> result = new ArrayList<>();
         try{
             em.flush();
-            result = (List<Pedidos>)em.createQuery("select pe from Pedidos pe where pe.fechaEntrega >=:dateFrom order by pe.idpedidos desc")
+            result = (List<Pedidos>)em.createQuery("select pe from Pedidos pe " +
+                    "where pe.fechaEntrega >=:dateFrom " +
+                    "and pe.usuario.usuario <> 'cisc' " +
+                    "order by pe.idpedidos desc")
                     .setParameter("dateFrom", dateFrom)
+                    .getResultList();
+        }catch (NoResultException e){
+            return result;
+        }
+        return result;
+    }
+
+    /** TODO **/
+    public List<Pedidos> findPedidosFromCisc(Date dateFrom, Usuario usuario) {
+        List<Pedidos> result = new ArrayList<>();
+        try{
+            em.flush();
+            result = (List<Pedidos>)em.createQuery("select pe from Pedidos pe " +
+                    "where pe.fechaEntrega >=:dateFrom " +
+                    "and pe.usuario =:usuario " +
+                    "order by pe.idpedidos desc ")
+                    .setParameter("dateFrom", dateFrom)
+                    .setParameter("usuario", usuario)
                     .getResultList();
         }catch (NoResultException e){
             return result;

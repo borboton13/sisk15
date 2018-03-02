@@ -240,8 +240,8 @@ public class PedidosController implements Serializable {
             return;
         }
         FacesContext facesContext = FacesContext.getCurrentInstance();
-        LoginBean loginBean = (LoginBean) facesContext.getApplication().getELResolver().
-                getValue(facesContext.getELContext(), null, "loginBean");
+        LoginBean loginBean = (LoginBean) facesContext.getApplication().getELResolver().getValue(facesContext.getELContext(), null, "loginBean");
+
         selected.setUsuario(loginBean.getUsuario());
         selected.setCliente(personaElegida);
         selected.setCodigo(new BigInteger(getFacade().getSiguienteCodigo()));
@@ -369,15 +369,14 @@ public class PedidosController implements Serializable {
     }
 
     public List<Pedidos> getItems() {
-        /*if (items == null) {
-            if(pedidosFiltrado != null)
-            pedidosFiltrado.clear();
-            if(pedidosElegidos != null)
-            pedidosElegidos.clear();
-            items = getFacade().findPedidosOrdDecs();
-        }*/
-        items = getFacade().findPedidosFrom(fechaDesde);
-        System.out.println(".......GET ITEMS..... " + fechaDesde);
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        LoginBean loginBean = (LoginBean) facesContext.getApplication().getELResolver().getValue(facesContext.getELContext(), null, "loginBean");
+
+        if (loginBean.getUsuario().getUsuario().equals("cisc"))
+            items = getFacade().findPedidosFromCisc(fechaDesde, loginBean.getUsuario());
+        else
+            items = getFacade().findPedidosFrom(fechaDesde);
+
         return items;
     }
 

@@ -196,6 +196,7 @@ public class PedidosReportController implements Serializable {
             return;
         }
         SfConfenc operacionPedidoConFactura = sfConfencFacade.getOperacion("PEDIDOCONFACTURA");
+
         if(operacionPedidoConFactura == null){
             JSFUtil.addWarningMessage("No se encuentra una operacion registrada para generar el pedido con factura\n");
             return;
@@ -211,6 +212,7 @@ public class PedidosReportController implements Serializable {
             return;
         }
         SfConfenc operacionPedidoDegRefRep = sfConfencFacade.getOperacion("DEG_REF_REP");
+        SfConfenc operacionVentaCreditoVet = sfConfencFacade.getOperacion("VENTACREDITOVETERINARIO");
 
         boolean band = false;
         for(Pedidos pedidos:pedidosElegidos){
@@ -233,7 +235,10 @@ public class PedidosReportController implements Serializable {
                     if (pedido.getValorComision() > 0)
                         contabilizarPedidoConfacturaComision(operacionPedidoConFacturaComision, pedido);
                     else {
-                        contabilizarPedidoConfactura(operacionPedidoConFactura, pedido);
+                        if (pedido.getUsuario().getUsuario().equals("cisc")) /** todo **/
+                            contabilizarPedidoConfacturaCisc(operacionVentaCreditoVet, pedido);
+                        else
+                            contabilizarPedidoConfactura(operacionPedidoConFactura, pedido);
                     }
                 } else
                     contabilizarPedidoSinfactura(operacionPedidoSinFactura, pedido);
@@ -694,6 +699,135 @@ public class PedidosReportController implements Serializable {
         pedido.setAsiento(sfTmpenc);
        /* sfTmpencController.setSelected(sfTmpenc);
         sfTmpencController.createGeneral();*/
+    }
+
+    private void contabilizarPedidoConfacturaCisc(SfConfenc operacion, Pedidos pedido) {
+        pedido.setContabilizado(true);
+        pedido.setEstado("CONTABILIZADO");
+        SfTmpenc sfTmpenc = new SfTmpenc();
+        String nroTrans = sfTmpencFacade.getSiguienteNumeroTransacccion();
+        sfTmpenc.setNoTrans(nroTrans);
+        sfTmpenc.setDescri(operacion.getGlosa() + " " + pedido.getCodigo().toString() + " " + pedido.getCliente().getNombreCompleto());
+        sfTmpenc.setGlosa(operacion.getGlosa() + " " + pedido.getCodigo().toString() + " " + pedido.getCliente().getNombreCompleto());
+        sfTmpenc.setFecha(pedido.getFechaEntrega());
+        sfTmpenc.setTipoDoc(operacion.getTipoDoc());
+        sfTmpenc.setCliente(pedido.getCliente());
+        sfTmpenc.setNombreCliente(pedido.getCliente().getNombreCompleto());
+        sfTmpenc.setNoDoc(sfConfencFacade.getSiguienteNumeroDocumento(operacion.getTipoDoc()));
+        sfTmpenc.setEstado("APR");
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        LoginBean loginBean = (LoginBean) facesContext.getApplication().getELResolver().getValue(facesContext.getELContext(), null, "loginBean");
+        sfTmpenc.setUsuario(loginBean.getUsuario());
+        pedido.setSucursal(loginBean.getUsuario().getSucursal());
+
+        List<SfConfdet> asientos = new ArrayList<>(operacion.getAsientos());
+        for (SfConfdet asiento:asientos){
+            System.out.println("--------> " + asiento.getCuenta().getDescri() + " - " + asiento.getTipomovimiento());
+        }
+
+        SfConfdet cuentasPorCobrar = asientos.get(0);
+        SfConfdet ctaITgasto       = asientos.get(1);
+        SfConfdet ventaDeProductos = asientos.get(2);
+        SfConfdet debitoFiscalIVA  = asientos.get(3);
+        SfConfdet impuestoALasTransacciones = asientos.get(4);
+
+        //SfConfdet ctaMerma = asientos.get(5);
+        //SfConfdet ctaPromo = asientos.get(6);
+        //SfConfdet ctaAlmPT = asientos.get(7);
+
+        BigDecimal importeReposicion = calcularImporteReposicion(pedido);
+        BigDecimal importePromocion  = calcularImportePromocion(pedido);
+
+        BigDecimal IT_VALUE  = new BigDecimal("0.03");
+        BigDecimal IVA_VALUE = new BigDecimal("0.13");
+
+        BigDecimal totalImporte = BigDecimalUtil.toBigDecimal(pedido.getTotalimporte());
+
+        BigDecimal iva = BigDecimalUtil.multiply(totalImporte, IVA_VALUE, 2);
+        BigDecimal it = BigDecimalUtil.multiply(totalImporte, IT_VALUE, 2);
+
+        BigDecimal importe87 = BigDecimalUtil.subtract(totalImporte, iva, 2);
+
+        BigDecimal totalD = BigDecimalUtil.sum(totalImporte, it, 2);
+        BigDecimal totalH = BigDecimalUtil.sum(importe87, iva, 2);
+        totalH = BigDecimalUtil.sum(totalH   , it , 2);
+
+        /** Diferencia en totales **/
+        if ( BigDecimalUtil.compareTo(totalD, totalH) != 0)
+            importe87 = BigDecimalUtil.subtract(totalD, totalH, 2);
+
+        /** 1. Clientes **/
+        SfTmpdet asientoCuentasPorCobrar = new SfTmpdet();
+        asientoCuentasPorCobrar.setCuenta(cuentasPorCobrar.getCuenta().getCuenta());
+        asientoCuentasPorCobrar.setNoTrans(nroTrans);
+        setDebeOHaber(cuentasPorCobrar, asientoCuentasPorCobrar, totalImporte);
+        asientoCuentasPorCobrar.setSfTmpenc(sfTmpenc);
+        asientoCuentasPorCobrar.setClient(pedido.getCliente());
+        sfTmpenc.getAsientos().add(asientoCuentasPorCobrar);
+
+        SfTmpdet itGastoAsiento = new SfTmpdet();
+        itGastoAsiento.setCuenta(ctaITgasto.getCuenta().getCuenta());
+        itGastoAsiento.setNoTrans(nroTrans);
+        setDebeOHaber(cuentasPorCobrar, itGastoAsiento, it);
+        itGastoAsiento.setSfTmpenc(sfTmpenc);
+        sfTmpenc.getAsientos().add(itGastoAsiento);
+
+        /////
+        SfTmpdet asientoVentaDeProductos = new SfTmpdet();
+        asientoVentaDeProductos.setCuenta(ventaDeProductos.getCuenta().getCuenta());
+        asientoVentaDeProductos.setNoTrans(nroTrans);
+        setDebeOHaber(ventaDeProductos, asientoVentaDeProductos, importe87);
+        asientoVentaDeProductos.setSfTmpenc(sfTmpenc);
+        sfTmpenc.getAsientos().add(asientoVentaDeProductos);
+        ////
+        SfTmpdet asientoIVA = new SfTmpdet();
+        asientoIVA.setCuenta(debitoFiscalIVA.getCuenta().getCuenta());
+        asientoIVA.setNoTrans(nroTrans);
+        setDebeOHaber(debitoFiscalIVA, asientoIVA, iva);
+        asientoIVA.setSfTmpenc(sfTmpenc);
+        sfTmpenc.getAsientos().add(asientoIVA);
+        ////
+        SfTmpdet asientoIT = new SfTmpdet();
+        asientoIT.setCuenta(impuestoALasTransacciones.getCuenta().getCuenta());
+        asientoIT.setNoTrans(nroTrans);
+        setDebeOHaber(impuestoALasTransacciones, asientoIT, it);
+        asientoIT.setSfTmpenc(sfTmpenc);
+        sfTmpenc.getAsientos().add(asientoIT);
+        sfTmpenc.getAsientos().add(asientoIVA);
+
+        /** Si existe Reposiciones (Mermas) **/
+        /*if (importeReposicion.doubleValue() > 0){
+
+            SfTmpdet asientoMerma = new SfTmpdet();
+            asientoMerma.setCuenta(ctaMerma.getCuenta().getCuenta());
+            asientoMerma.setNoTrans(nroTrans);
+            setDebeOHaber(ctaMerma, asientoMerma, importeReposicion);
+            asientoMerma.setSfTmpenc(sfTmpenc);
+            sfTmpenc.getAsientos().add(asientoMerma);
+        }*/
+        /** Si existe Promocion **/
+        /*if (importePromocion.doubleValue() > 0){
+
+            SfTmpdet asientoPromo = new SfTmpdet();
+            asientoPromo.setCuenta(ctaPromo.getCuenta().getCuenta());
+            asientoPromo.setNoTrans(nroTrans);
+            setDebeOHaber(ctaPromo, asientoPromo, importePromocion);
+            asientoPromo.setSfTmpenc(sfTmpenc);
+            sfTmpenc.getAsientos().add(asientoPromo);
+        }*/
+        /** Cta. Almacen **/
+        /*if (importeReposicion.doubleValue() > 0 || importePromocion.doubleValue() > 0){
+            SfTmpdet asientoCtaAlmPT = new SfTmpdet();
+            asientoCtaAlmPT.setCuenta(ctaAlmPT.getCuenta().getCuenta());
+            asientoCtaAlmPT.setNoTrans(nroTrans);
+            setDebeOHaber(ctaAlmPT, asientoCtaAlmPT, BigDecimalUtil.sum(importeReposicion, importePromocion));
+            asientoCtaAlmPT.setSfTmpenc(sfTmpenc);
+            sfTmpenc.getAsientos().add(asientoCtaAlmPT);
+        }*/
+
+        sfTmpenc.getPedidos().add(pedido);
+        pedido.setAsiento(sfTmpenc);
+
     }
 
     private BigDecimal calcularImporteReposicion(Pedidos pedido){

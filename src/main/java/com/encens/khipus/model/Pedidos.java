@@ -346,7 +346,6 @@ public class Pedidos implements Serializable {
     }
 
     public void setUsuario(Usuario usuario) {
-        if(this.usuario != null)
             this.usuario = usuario;
     }
 

@@ -77,8 +77,8 @@
                             <h:outputText value="#{articulo.descri}" />
                             <h:outputText value="Codigo:" />
                             <h:outputText value="#{articulo.invArticulosPK.codArt}" />
-                            <h:outputText value="Stock:" />
-                            <h:outputText value="#{ventadirectaController.getProductStock(articulo.invArticulosPK.codArt)}" />
+                            <h:outputText value="Existencia:" />
+                            <h:outputText value="#{ventadirectaController.getInventoryStock(articulo.invArticulosPK.codArt)}" />
                         </h:panelGrid>
                     </f:facet>
                 </p:autoComplete>
