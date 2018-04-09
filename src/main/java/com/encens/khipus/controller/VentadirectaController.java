@@ -1273,7 +1273,8 @@ public class VentadirectaController implements Serializable {
         HashMap parameters = new HashMap();
         File jasper = new File(FacesContext.getCurrentInstance().getExternalContext().getRealPath("/resources/reportes/factura.jasper"));
 
-        String razonSocial = venta.getCliente().getRazonsocial();
+        //String razonSocial = venta.getCliente().getRazonsocial();
+        String razonSocial = venta.getMovimiento().getRazonSocial();
         if (razonSocial.equals("") || razonSocial == null )
             razonSocial = venta.getCliente().getNom()+" "+venta.getCliente().getAp()+" "+venta.getCliente().getAm();
 
