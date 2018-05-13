@@ -40,7 +40,7 @@
                                          oncomplete="PF('newSaleDialog').show()"/>
 
                         <p:commandButton id="generarKardex" value="Generar Kardex Cliente" oncomplete="PF('KardexDialog').show()" />
-                        <p:commandButton id="generarRecaudaciones" value="Recaudacion Diaria" oncomplete="PF('RecaudacionDialog').show()" />
+                        <p:commandButton id="generarRecaudaciones" value="Recaudacion Diaria" actionListener="#{sfTmpencController.prepareAccounts}" oncomplete="PF('RecaudacionDialog').show()" />
                         <p:commandButton id="resumenRecaudacion" value="Resumen Recaudacion" oncomplete="PF('ResumenRecaudacionDialog').show()" />
                         <p:commandButton id="genAsiento" value="Contabilizar"
                                          actionListener="#{ventadirectaController.contabilizar}"

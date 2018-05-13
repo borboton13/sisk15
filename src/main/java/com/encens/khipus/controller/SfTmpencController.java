@@ -1,6 +1,8 @@
 package com.encens.khipus.controller;
 
+import com.encens.khipus.ejb.ArcgmsFacade;
 import com.encens.khipus.ejb.SfTmpencFacade;
+import com.encens.khipus.model.Arcgms;
 import com.encens.khipus.model.Persona;
 import com.encens.khipus.model.SfTmpenc;
 import com.encens.khipus.util.JSFUtil;
@@ -36,11 +38,17 @@ public class SfTmpencController implements Serializable {
 
     @EJB
     private com.encens.khipus.ejb.SfTmpencFacade ejbFacade;
+    @EJB
+    private ArcgmsFacade arcgmsFacade;
+
     private List<SfTmpenc> items = null;
     private SfTmpenc selected;
     private Persona personaElegida = new Persona();
     private Date fechaIni;
     private Date fechaFin;
+
+    private List<Arcgms> cuentas= new ArrayList<>();
+    private Arcgms cuentaElegida;
 
     public SfTmpencController() {
     }
@@ -159,12 +167,16 @@ public class SfTmpencController implements Serializable {
     }
     
     private Map<String,Object> getReportParamsRecaudaciones(){
+
+        String detalleCuenta = "";
+        if (cuentaElegida != null)
+            detalleCuenta = cuentaElegida.getCuenta() + " - " + cuentaElegida.getDescri();
+
         Map<String, Object> paramMap = new HashMap<String, Object>();
         DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-        String periodo = df.format(fechaIni)+" - "+df.format(fechaFin);        
-        String detalleCuentaPeriodo = "1110110100 (Caja General M.N.)";
+        String periodo = df.format(fechaIni)+" - "+df.format(fechaFin);
         paramMap.put("periodo",periodo);
-        paramMap.put("detalleCuentaPeriodo",detalleCuentaPeriodo);
+        paramMap.put("detalleCuentaPeriodo", detalleCuenta);
 
         return paramMap;
     }
@@ -189,11 +201,22 @@ public class SfTmpencController implements Serializable {
     }
 
     public void exportarPDFRecaudaciones(HashMap parametros, File jasper) throws JRException, IOException {
+
+        String cuentaCaja = "";
+        if (cuentaElegida != null)
+            cuentaCaja = cuentaElegida.getCuenta();
+
         FacesContext facesContext = FacesContext.getCurrentInstance();
         LoginBean loginBean = (LoginBean) facesContext.getApplication().getELResolver().
                 getValue(facesContext.getELContext(), null, "loginBean");
 
-        JasperPrint jasperPrint = JasperFillManager.fillReport(jasper.getPath(), parametros, new JRBeanCollectionDataSource(getFacade().getRecaudacionesUsuario(loginBean.getUsuario(), fechaIni, fechaFin, "1110110100")));
+        JasperPrint jasperPrint = JasperFillManager.fillReport(
+                jasper.getPath(),
+                parametros, new JRBeanCollectionDataSource(getFacade().getRecaudacionesUsuario( loginBean.getUsuario(),
+                                                                                                fechaIni,
+                                                                                                fechaFin,
+                                                                                                cuentaCaja)));
+
         HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
         response.addHeader("Content-disposition", "attachment; filename=Recaudacion.pdf");
         ServletOutputStream stream = response.getOutputStream();
@@ -292,6 +315,22 @@ public class SfTmpencController implements Serializable {
         persist(PersistAction.CREATE, "");
     }
 
+    public Arcgms getCuentaElegida() {
+        return cuentaElegida;
+    }
+
+    public void setCuentaElegida(Arcgms cuentaElegida) {
+        this.cuentaElegida = cuentaElegida;
+    }
+
+    public List<Arcgms> getCuentas() {
+        return cuentas;
+    }
+
+    public void setCuentas(List<Arcgms> cuentas) {
+        this.cuentas = cuentas;
+    }
+
 
     @FacesConverter(forClass = SfTmpenc.class)
     public static class SfTmpencControllerConverter implements Converter {
@@ -357,4 +396,28 @@ public class SfTmpencController implements Serializable {
     public void setFechaFin(Date fechaFin) {
         this.fechaFin = fechaFin;
     }
+
+    public void prepareAccounts() {
+        cuentas = arcgmsFacade.findAll();
+        cuentaElegida = new Arcgms();
+    }
+
+    public List<Arcgms> completarCuentaDescripcion(String query) {
+        List<Arcgms> clientesFiltrados = new ArrayList<>();
+        for(Arcgms cuenta: getCuentas()) {
+
+            if(cuenta.getDescri().toLowerCase().contains(query)) {
+                clientesFiltrados.add(cuenta);
+            }
+        }
+        return clientesFiltrados;
+    }
+
+    public  void closeAccount(){
+        cuentas = null;
+        cuentaElegida = null;
+        fechaIni = null;
+        fechaFin = null;
+    }
+
 }

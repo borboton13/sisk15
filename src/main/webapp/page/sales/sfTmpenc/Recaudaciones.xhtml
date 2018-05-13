@@ -15,9 +15,30 @@
                         <p:calendar id="fechaIni" value="#{sfTmpencController.fechaIni}" showOn="button" />
                         <p:outputLabel for="fechaFin" value="Fecha final:" />
                         <p:calendar id="fechaFin" value="#{sfTmpencController.fechaFin}" showOn="button" />
+
+
+
+                    <p:outputLabel value="Cuenta Caja:" />
+                    <p:autoComplete id="cuentaConfDescri" value="#{sfTmpencController.cuentaElegida}" completeMethod="#{sfTmpencController.completarCuentaDescripcion}"
+                                    var="cuenta" itemLabel="#{cuenta.descri}" itemValue="#{cuenta}"
+                                    required="true"
+                                    converter="convertirCuenta" forceSelection="true" maxResults="15"
+                                    cache="true" cacheTimeout="30000">
+                        <f:facet name="itemtip">
+                            <h:panelGrid columns="2" cellpadding="5">
+                                <h:outputText value="Descrición:" />
+                                <h:outputText value="#{cuenta.descri}" />
+                                <h:outputText value="Número de cuenta:" />
+                                <h:outputText value="#{cuenta.cuenta}" />
+                            </h:panelGrid>
+                        </f:facet>
+                        <p:ajax event="itemSelect" update=":RecaudacionForm:cuentaConfDescri" />
+                    </p:autoComplete>
+
                     </p:panelGrid>
+
                     <p:commandButton value="Generar Recaudación" actionListener="#{sfTmpencController.generarRecaudacion}" ajax="false"/>
-                    <p:commandButton value="#{bundle.Close}" onclick="RecaudacionDialog.hide()"/>
+                    <p:commandButton value="#{bundle.Close}" actionListener="#{sfTmpencController.closeAccount}" onclick="RecaudacionDialog.hide()"/>
                 </h:panelGroup>
             </h:form>
         </p:dialog>

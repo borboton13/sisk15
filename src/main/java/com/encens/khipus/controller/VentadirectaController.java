@@ -412,6 +412,11 @@ public class VentadirectaController implements Serializable {
         ///
         List<SfConfdet> asientos = new ArrayList<>(operacion.getAsientos());
         SfConfdet cajaGeneralMN = asientos.get(0);
+
+        if (loginBean.getUsuario().getUsuario().equals("cisc")){ //Ventas veterinarios
+            cajaGeneralMN = asientos.get(7);
+        }
+
         SfConfdet ctaITgasto = asientos.get(1);
         //SfConfdet ventaProductosILVA = asientos.get(1);
         //SfConfdet ventaProductosCISC = asientos.get(2);
