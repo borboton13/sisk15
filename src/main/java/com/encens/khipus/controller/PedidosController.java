@@ -52,6 +52,8 @@ public class PedidosController implements Serializable {
     private VentaarticuloFacade ventaarticuloFacade;
     @EJB
     private VentaclienteFacade ventaclienteFacade;
+    @EJB
+    SfTmpencFacade sfTmpencFacade;
     @Inject
     private ArticulosPedidoController articulosPedidoController;
 
@@ -253,6 +255,8 @@ public class PedidosController implements Serializable {
             selected.setReposicion(selected);
         }
         persist(PersistAction.CREATE, "El pedido se registro correctamente.");
+        sfTmpencFacade.restarInventario(selected); /** Resta inv_inventario **/
+        invArticulosFacade.updateArticleSubtractTotalCost(selected); /** Actualiza Costo Total en inv_articulos **/
         //invArticulosFacade.outputProducts(selected);
 
         actualizarReposiciones();

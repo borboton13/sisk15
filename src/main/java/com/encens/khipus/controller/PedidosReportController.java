@@ -248,9 +248,6 @@ public class PedidosReportController implements Serializable {
             /** crearAsientoCostoVentas(pedido, sfConfencFacade.getOperacion("COSTOVENTAS")); **/
             pedidosController.generalUpdate(pedido);
 
-            sfTmpencFacade.restarInventario(pedido); /** Resta inv_inventario **/
-            invArticulosFacade.updateArticleSubtractTotalCost(pedido); /** Actualiza Costo Total en inv_articulos **/
-
         }
         pedidosElegidos.clear();
         JSFUtil.addWarningMessage("SE CONTABILIZO CON EXITO.");
