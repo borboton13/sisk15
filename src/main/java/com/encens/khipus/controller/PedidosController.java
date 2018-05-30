@@ -414,13 +414,13 @@ public class PedidosController implements Serializable {
         {
             return;
         }
-        if(selected.getEstado().equals("CONTABILIZADO")){
+        //if(selected.getEstado().equals("CONTABILIZADO")){
             pedidosFacade.anularAsiento(selected.getAsiento());
             //pedidosFacade.anularAsiento(selected.getAsientocv());
-            pedidosFacade.sumarInventario(selected); // inv_inventario
+            pedidosFacade.sumarInventario(selected); /** inv_inventario **/
             /** Actualiza Costo Sum **/
             invArticulosFacade.updateArticleSumTotalCost(selected);
-        }
+        //}
         selected.setEstado("ANULADO");
         /*if(selected.getFlagstock())
             pedidosFacade.revertirStock(selected);*/
