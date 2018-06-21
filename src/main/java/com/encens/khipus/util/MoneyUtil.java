@@ -31,7 +31,7 @@ public class MoneyUtil{
     }
 
     public String Convertir(String numero, boolean mayusculas) {
-        System.out.println("=====> LITERAL: " + numero);
+
         String literal = "";
         String parte_decimal;
         //si el numero utiliza (.) en lugar de (,) -> se reemplaza
@@ -208,7 +208,7 @@ public class MoneyUtil{
 
     public void getLlaveQR(ControlCode controlCode,String llaveDosificacion)
     {
-        System.out.println("======================================================================== " + llaveDosificacion);
+
         
         try {
             CodigoControl7 cc7 = new CodigoControl7();
@@ -220,11 +220,7 @@ public class MoneyUtil{
             cc7.setLlaveDosificacion(llaveDosificacion);
             controlCode.setCodigoControl(cc7.obtener());
             
-            System.out.println("Fecha: " + controlCode.getFechaEmision() + 
-                           " - Nit: " + controlCode.getNitCliente() + 
-                           " - NroAuto: " + controlCode.getNumeroAutorizacion() + 
-                           " - Monto: " + controlCode.getTotal().intValue() + 
-                           " - CC: " + cc7.obtener());
+
 
         } catch (Exception ex) {
             System.out.println(ex.getMessage());

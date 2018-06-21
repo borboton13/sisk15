@@ -86,7 +86,6 @@ public class PedidosController implements Serializable {
     public void init() {
         //fechaDesde = new Date();
         //items = getFacade().findPedidosFrom(fechaDesde);
-        System.out.println(".....init FECHA DESDE: " + fechaDesde);
     }
 
     public Pedidos getSelected() {
@@ -391,7 +390,7 @@ public class PedidosController implements Serializable {
         fechaEntregaFiltro = null;
         pedidosFiltrado = null;
         pedidosElegidos = null;
-        System.out.println("......ON DATE SELECT.....desde: " + fechaDesde + " - " + dateFrom);
+
     }
 
     public void actualizar(){
@@ -400,7 +399,7 @@ public class PedidosController implements Serializable {
         pedidosElegidos = null; //*
         //items = getFacade().findPedidosOrdDecs();
         items = getFacade().findPedidosFrom(this.fechaDesde);
-        System.out.println("........ACTUALIZAR......GET ITEMS....." + fechaDesde);
+
     }
     
     public String reinit() {

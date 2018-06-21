@@ -84,7 +84,7 @@ public class DosificacionFacade extends AbstractFacade<Dosificacion> {
     
     /*public void updateNextNumber(Sucursal sucursal){
         
-        System.out.println("====> update idsucursal: " + sucursal.getIdsucursal() + " - "+
+
         em.createNativeQuery("UPDATE dosificacion SET NUMEROACTUAL = NUMEROACTUAL + 1 " + 
                              "WHERE  IDSUCURSAL = " + sucursal.getIdsucursal()).executeUpdate()
         );

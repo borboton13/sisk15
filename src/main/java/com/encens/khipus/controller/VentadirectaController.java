@@ -96,7 +96,7 @@ public class VentadirectaController implements Serializable {
     private Boolean flagStock = false;
 
     public VentadirectaController() {
-        System.out.println("************* VENTADIRECTA CONTROLLER ()...");
+
     }
 
     public Ventadirecta getSelected() {
@@ -369,7 +369,7 @@ public class VentadirectaController implements Serializable {
 
     /** TMP Para actualizar asientos CI **/
     public void actualizarAsiento(){
-        System.out.println(".....Actualizando.....");
+
         sfTmpencFacade.actualizarCI("21248");
     }
 
@@ -749,7 +749,7 @@ public class VentadirectaController implements Serializable {
             return;
         }
         selected.setEstado("ANULADO");
-        System.out.println("-----------> ANULAR VENTA 1: " + selected.getAsiento().getTipoDoc() + " - " + selected.getAsiento().getNoDoc());
+
         sfTmpencFacade.anularAsiento(selected.getAsiento());
         //sfTmpencFacade.anularAsiento(selected.getAsientocv());
         sfTmpencFacade.sumarInventario(selected); // inv_inventario
@@ -1135,8 +1135,8 @@ public class VentadirectaController implements Serializable {
 
     /** temp **/
     public void registrarCV(Ventadirecta ventadirecta){
-        System.out.println(". . . .");
-        System.out.println("...Registrando Costo Ventas: " + ventadirecta.getCodigo());
+
+
         //this.selected = ventadirecta;
         //crearAsientoCostoVentas2(ventadirecta, sfConfencFacade.getOperacion("COSTOVENTAS"));
         //persist(PersistAction.UPDATE, "CV OK");
@@ -1186,7 +1186,7 @@ public class VentadirectaController implements Serializable {
         jasperPrintNotaVenta.getPages().addAll(jasperPrintFactura.getPages());
         //byte[] pdf = JasperExportManager.exportReportToPdf(jasperPrintNotaVenta);
         //guardarMovimientoFactura(venta, controlCode, dosificacion);
-        System.out.println("......For export PDF....");
+
     }
 
     public void printFacturaNotaVentaDirecta(Ventadirecta ventadirecta) throws IOException, JRException {
@@ -1201,12 +1201,12 @@ public class VentadirectaController implements Serializable {
         Integer numeroFactura = mov.getNrofactura();
 
         ControlCode controlCode = generateCodControl(ventadirecta, numeroFactura, dosificacion.getNroautorizacion(), dosificacion.getLlave(), dosificacion.getNitEmpresa());
-        System.out.println("------------------------>printFacturaNotaVentaDirecta: " + ventadirecta);
+
         JasperPrint jasperPrintNotaVenta = getJasperPrintNotaVenta(ventadirecta);
         JasperPrint jasperPrintFactura = getJasperPrintFacturaOriginalCopia(ventadirecta,controlCode,numeroFactura, dosificacion);
         jasperPrintNotaVenta.getPages().addAll(jasperPrintFactura.getPages());
         //byte[] pdf = JasperExportManager.exportReportToPdf(jasperPrintNotaVenta);
-        System.out.println("......For export PDF....22");
+
         HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
         response.addHeader("Content-disposition", "attachment; filename=VentaContado.pdf");
         ServletOutputStream stream = response.getOutputStream();
@@ -1487,7 +1487,7 @@ public class VentadirectaController implements Serializable {
     // -- //
 
     public void contabilizar(){
-        System.out.println(". . . CONTABILIZAR: " + this.ventaDirectaElegidos.size());
+
 
         for ( Ventadirecta ventadirecta:ventaDirectaElegidos ){
 
@@ -1521,7 +1521,7 @@ public class VentadirectaController implements Serializable {
      */
 
     public void registrarVentaDirectaCF() throws IOException, JRException {
-        System.out.println("----------- REGISTRAR VENTA CF -----------");
+
         if(validarCampos()) return;
         SfConfenc operacion = sfConfencFacade.getOperacion("VENTACONFACTURA");
 
@@ -1580,7 +1580,7 @@ public class VentadirectaController implements Serializable {
         }
 
         //printFacturaNotaVentaDirecta(ventadirecta);
-        System.out.println("............printFacturaNotaVentaDirecta(ventadirecta).......");
+
 
     }
 

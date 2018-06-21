@@ -98,9 +98,9 @@ public class PersonaController implements Serializable {
     }
 
     public void prepareEdit(Persona persona) {
-        System.out.println("======> prepareEdit: " + persona);
+
         selected = getFacade().findById(persona);
-        System.out.println("======> prepareEdit selected: " + selected);
+
         articulos = invArticulosFacade.findAllInvArticulos();
         confacura = persona.getConfactura();
         if(selected.getVentaclientes().size() >0){
@@ -116,7 +116,7 @@ public class PersonaController implements Serializable {
             if(selected.getPorcentajeGarantia() != null)
                 tieneGarantia = selected.getPorcentajeGarantia() > 0.0;
         }
-        System.out.println("======> esPersona: " + esPersona);
+
     }
 
     private boolean validarCampos() {
@@ -239,10 +239,7 @@ public class PersonaController implements Serializable {
     }
 
     public void update() {
-        System.out.println("Precio especial: ");
-        for (Ventacliente vc : selected.getVentaclientes()){
-            System.out.println(vc.getInvArticulos().getDescri() + " - " + vc.getPrecioespecial());
-        }
+
         if(!tieneComision)
             selected.setPorcentajeComision(0.0);
         if(!tieneGarantia)

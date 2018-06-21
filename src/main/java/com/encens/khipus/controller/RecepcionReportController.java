@@ -124,11 +124,6 @@ public class RecepcionReportController implements Serializable {
     
     private JRDataSource createDataSource() {
         List<Object[]> resultado;
-        System.out.println("==========> selectedTerritorios: " + selectedTerritoriosTrab.size());
-        
-        for( String territoriotrabajo : selectedTerritoriosTrab ){
-            System.out.println("------------> " + territoriotrabajo);
-        }
         
         resultado = pedidosFacade.recepcionDePedidos(fechaEntrega, selectedTerritoriosTrab);
 

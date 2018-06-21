@@ -602,8 +602,7 @@ public class PedidosReportController implements Serializable {
         BigDecimal importeReposicion = calcularImporteReposicion(pedido);
         BigDecimal importePromocion  = calcularImportePromocion(pedido);
 
-        System.out.println("---> Reposicion: " + importeReposicion);
-        System.out.println("---> Promocion: " + importePromocion);
+
 
         BigDecimal IT_VALUE  = new BigDecimal("0.03");
         BigDecimal IVA_VALUE = new BigDecimal("0.13");
@@ -718,9 +717,6 @@ public class PedidosReportController implements Serializable {
         pedido.setSucursal(loginBean.getUsuario().getSucursal());
 
         List<SfConfdet> asientos = new ArrayList<>(operacion.getAsientos());
-        for (SfConfdet asiento:asientos){
-            System.out.println("--------> " + asiento.getCuenta().getDescri() + " - " + asiento.getTipomovimiento());
-        }
 
         SfConfdet cuentasPorCobrar = asientos.get(0);
         SfConfdet ctaITgasto       = asientos.get(1);
@@ -831,7 +827,7 @@ public class PedidosReportController implements Serializable {
 
         BigDecimal importe = new BigDecimal(0);
         for (ArticulosPedido articulo : pedido.getArticulosPedidos()){
-            System.out.println("--> Rep: " + articulo.getReposicion());
+
             importe = BigDecimalUtil.sum(importe, BigDecimalUtil.multiply(BigDecimalUtil.toBigDecimal(articulo.getReposicion()), BigDecimalUtil.toBigDecimal(articulo.getCu().toString(), 6)));
         }
         return importe;
@@ -841,7 +837,7 @@ public class PedidosReportController implements Serializable {
 
         BigDecimal importe = new BigDecimal(0);
         for (ArticulosPedido articulo : pedido.getArticulosPedidos()){
-            System.out.println("--> Prom: " + articulo.getPromocion());
+
             importe = BigDecimalUtil.sum(importe, BigDecimalUtil.multiply(BigDecimalUtil.toBigDecimal(articulo.getPromocion()), BigDecimalUtil.toBigDecimal(articulo.getCu().toString(), 6)));
         }
         return importe;
@@ -918,7 +914,6 @@ public class PedidosReportController implements Serializable {
         if ( BigDecimalUtil.compareTo(totalD, totalH) != 0)
             valorVentaProductos = BigDecimalUtil.subtract(totalD, totalH, 2);
 
-        //System.out.println("===> Venta Comision CF: " + totalD + " - " + totalH + " : " + (BigDecimalUtil.subtract(totalD, totalH, 2)));
 
                 /** 1. Clientes **/
         SfTmpdet asientoCuentasPorCobrar = new SfTmpdet();

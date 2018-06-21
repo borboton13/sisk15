@@ -142,7 +142,7 @@ public class SfTmpencFacade extends AbstractFacade<SfTmpenc> {
                            .setParameter("fechaFin", fin)
                            .getResultList();
 
-            System.out.println("["+ventas.size()+"]");
+
             for (Ventadirecta venta:ventas){
 
             //if (venta.getAsiento().getNoDoc().equals("5990")){
@@ -196,8 +196,7 @@ public class SfTmpencFacade extends AbstractFacade<SfTmpenc> {
                 }
             }
             em.flush();
-            System.out.println("----> FOR DIFERENCES...");
-            System.out.println("......START......");
+
             ventas = (List<Ventadirecta>)em2.createQuery(" SELECT v FROM Ventadirecta v " +
                            " WHERE v.movimiento is not null " +
                            " AND v.fechaPedido between :fechaIni AND :fechaFin " +
@@ -206,7 +205,7 @@ public class SfTmpencFacade extends AbstractFacade<SfTmpenc> {
                            .setParameter("fechaFin", fin)
                            .getResultList();
 
-            System.out.println("["+ventas.size()+"]");
+
 
             for (Ventadirecta venta:ventas){
                 totalD = new BigDecimal("0.00");
@@ -222,7 +221,7 @@ public class SfTmpencFacade extends AbstractFacade<SfTmpenc> {
                 //totalD = BigDecimalUtil.roundDouble(totalD, 2);
                 //totalH = BigDecimalUtil.roundDouble(totalH, 2);
 
-                //System.out.println("---> " + venta.getAsiento().getTipoDoc() + venta.getAsiento().getNoDoc() + " - " + BigDecimalUtil.subtract(totalD, totalH, 2));
+
 
                 /** Diferencias **/
                 for (SfTmpdet det:venta.getAsiento().getAsientos()){
@@ -238,7 +237,7 @@ public class SfTmpencFacade extends AbstractFacade<SfTmpenc> {
                 }
 
             }
-            System.out.println("......END......");
+
         //}
         }catch (NoResultException e){}
     }
@@ -363,7 +362,7 @@ public class SfTmpencFacade extends AbstractFacade<SfTmpenc> {
         }catch (NoResultException e){
             return recaudaciones;
         }
-        System.out.println("------SIZE DATOS: " + datos.size());
+
         Double debe = 0.0;
         Double haber = 0.0;
         Double saldo = 0.0;
@@ -419,7 +418,7 @@ public class SfTmpencFacade extends AbstractFacade<SfTmpenc> {
             return resumenRecaudacionList;
         }
         
-        System.out.println("------SIZE DATOS: " + datos.size());
+
         
         /*
         Double debe = 0.0;
@@ -479,7 +478,7 @@ public class SfTmpencFacade extends AbstractFacade<SfTmpenc> {
 
         if (asiento != null){
             asiento.setEstado("ANL");
-            System.out.println("-----------> ANULAR VENTA ASIENTO 2: " + asiento.getTipoDoc() + " - " + asiento.getNoDoc());
+
 
             em.merge(asiento);
             em.flush();
@@ -546,13 +545,13 @@ public class SfTmpencFacade extends AbstractFacade<SfTmpenc> {
 
     public Double getBalance(Date startDate, String cashAccountCode, Persona personaElegida){
 
-        System.out.println("TOTAL BALANCE 1");
+
 
         List<SfTmpdet> voucherDetailList = new ArrayList<SfTmpdet>();
         List<Object[]> datos = new ArrayList<>();
 
         String start = DateUtils.format(startDate, "yyyy-MM-dd");
-        System.out.println("..............patter yyyy-MM-dd: " + start);
+
         try {
             /** Consulta Error Datos incompletos por inconsistencia **/
             /*voucherDetailList = em.createQuery("select voucherDetail from SfTmpdet voucherDetail " +
@@ -594,7 +593,7 @@ public class SfTmpencFacade extends AbstractFacade<SfTmpenc> {
         Double balance = new Double("0.00");
         Double balanceD = new Double("0.00");
         Double balanceC = new Double("0.00");
-        System.out.println("TOTAL BALANCE 3");
+
         for (SfTmpdet voucherDetail : voucherDetailList){
             balanceD = balanceD + voucherDetail.getDebe().doubleValue();
             balanceC = balanceC + voucherDetail.getHaber().doubleValue();

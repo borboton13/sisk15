@@ -190,7 +190,7 @@ public class SfTmpencController implements Serializable {
 
         Double balance = ejbFacade.getBalance(fechaIni, "1421010100", personaElegida);
 
-        System.out.println("TOTAL TOTAL: " + balance);
+
 
         paramMap.put("periodo",periodo);
         paramMap.put("nombreCliente",personaElegida.getNombreCompleto());

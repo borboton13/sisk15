@@ -181,7 +181,7 @@ public class PedidosFacade extends AbstractFacade<Pedidos> {
         
         String query = "";
         for (int i=0; i < selectedTerritorios.size(); i++ ) {
-            System.out.println(".....TERRITORIO: " + selectedTerritorios.get(i) );
+
             
             if(selectedTerritorios.size() == 1)
                 query = query + " and pe.cliente.territoriotrabajo.idterritoriotrabajo = " + selectedTerritorios.get(i) + " ";
@@ -197,9 +197,9 @@ public class PedidosFacade extends AbstractFacade<Pedidos> {
             }   
         }
         
-        System.out.println("--------query------");
-        System.out.println(query);
-        System.out.println("-------------------");
+
+
+
         
         try {
             
@@ -319,7 +319,7 @@ public class PedidosFacade extends AbstractFacade<Pedidos> {
 
         if (asiento != null){
             asiento.setEstado("ANL");
-            System.out.println("-----------> ANULAR ASIENTO: " + asiento.getTipoDoc() + " - " + asiento.getNoDoc());
+
             em.merge(asiento);
             em.flush();
         }
@@ -366,7 +366,7 @@ public class PedidosFacade extends AbstractFacade<Pedidos> {
     }
 
     public BigDecimal findInventoryByCode(String cod_art){
-        System.out.println("...........0000000> " + cod_art);
+
         BigDecimal result = BigDecimal.ZERO;
         try {
             result = (BigDecimal) em.createNativeQuery("SELECT i.saldo_uni "
@@ -401,7 +401,7 @@ public class PedidosFacade extends AbstractFacade<Pedidos> {
         }catch (NoResultException e){
             e.printStackTrace();
         }
-        System.out.println("=======> Result OBJ: " + result);
+
     }
 
     /** Suma inventario INV_INVENTARIO, INV_INVENTARIO_DETALLE **/
