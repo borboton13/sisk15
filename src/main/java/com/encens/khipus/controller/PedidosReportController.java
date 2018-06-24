@@ -5,10 +5,7 @@
  */
 package com.encens.khipus.controller;
 
-import com.encens.khipus.ejb.DosificacionFacade;
-import com.encens.khipus.ejb.InvArticulosFacade;
-import com.encens.khipus.ejb.SfConfencFacade;
-import com.encens.khipus.ejb.SfTmpencFacade;
+import com.encens.khipus.ejb.*;
 import com.encens.khipus.model.*;
 import com.encens.khipus.util.*;
 import net.sf.jasperreports.engine.*;
@@ -54,6 +51,8 @@ public class PedidosReportController implements Serializable {
     SfTmpencFacade sfTmpencFacade;
     @EJB
     private InvArticulosFacade invArticulosFacade;
+    @EJB
+    private PedidosFacade pedidosFacade;
     @Inject
     PedidosController pedidosController;
     @Inject
@@ -250,6 +249,58 @@ public class PedidosReportController implements Serializable {
 
         }
         pedidosElegidos.clear();
+        JSFUtil.addWarningMessage("SE CONTABILIZO CON EXITO.");
+    }
+
+
+    public void contabilzarPedidosAgain(){
+
+        SfConfenc operacionPedidoConFactura = sfConfencFacade.getOperacion("PEDIDOCONFACTURA");
+        SfConfenc operacionPedidoConFacturaComision = sfConfencFacade.getOperacion("PEDIDOCONFACTURACOMISION");
+        SfConfenc operacionPedidoSinFactura= sfConfencFacade.getOperacion("PEDIDOSINFACTURA");
+
+        SfConfenc operacionPedidoDegRefRep = sfConfencFacade.getOperacion("DEG_REF_REP");
+        SfConfenc operacionVentaCreditoVet = sfConfencFacade.getOperacion("VENTACREDITOVETERINARIO");
+
+        boolean band = false;
+        for(Pedidos pedidos:pedidosElegidos){
+            if(pedidos.getTieneFactura() == null){
+                JSFUtil.addWarningMessage("El pedido tiene datos inconsistentes contactese con el administrador "+pedidos.getCodigo()+"\n");
+                band = true;
+            }
+        }
+        if(band){
+            return;
+        }
+
+        quitarAnulados();
+        quitarContabilizados();
+
+        List<Pedidos> pedidosAgain = pedidosFacade.findPedidosAgain();
+        int p = 0;
+        for(Pedidos pedido:pedidosAgain)
+        {
+            if (pedido.getIdtipopedido().getNombre().equals("NORMAL")) {
+                if (pedido.getTieneFactura()) {
+                    if (pedido.getValorComision() > 0)
+                        contabilizarPedidoConfacturaComision(operacionPedidoConFacturaComision, pedido);
+                    else {
+                        if (pedido.getUsuario().getUsuario().equals("cisc")) /** todo **/
+                            contabilizarPedidoConfacturaCisc(operacionVentaCreditoVet, pedido);
+                        else
+                            contabilizarPedidoConfactura(operacionPedidoConFactura, pedido);
+                    }
+                } else
+                    contabilizarPedidoSinfactura(operacionPedidoSinFactura, pedido);
+            } else{
+                contabilizarPedidoDegRefRep(operacionPedidoDegRefRep, pedido);
+            }
+
+            pedido.setDescripcion("CONTAB");
+            pedidosController.generalUpdate(pedido);
+            System.out.println("Contabilizando AGAIN... " + p++);
+        }
+        pedidosAgain.clear();
         JSFUtil.addWarningMessage("SE CONTABILIZO CON EXITO.");
     }
 

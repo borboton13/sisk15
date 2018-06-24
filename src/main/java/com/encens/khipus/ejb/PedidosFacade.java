@@ -296,6 +296,20 @@ public class PedidosFacade extends AbstractFacade<Pedidos> {
         return result;
     }
 
+    /**  **/
+    public List<Pedidos> findPedidosAgain() {
+        List<Pedidos> result = new ArrayList<>();
+        try{
+            em.flush();
+            result = (List<Pedidos>)em.createQuery("select pe from Pedidos pe " +
+                    "where pe.descripcion = 'AGAIN'")
+                    .getResultList();
+        }catch (NoResultException e){
+            return result;
+        }
+        return result;
+    }
+
     /** TODO **/
     public List<Pedidos> findPedidosFromCisc(Date dateFrom, Usuario usuario) {
         List<Pedidos> result = new ArrayList<>();

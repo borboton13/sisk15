@@ -795,4 +795,18 @@ public class PedidosController implements Serializable {
             }
         return totalimporte;
     }
+
+    public Boolean isRoot() {
+
+        Boolean result = false;
+
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        LoginBean loginBean = (LoginBean) facesContext.getApplication().getELResolver().getValue(facesContext.getELContext(), null, "loginBean");
+
+        if (loginBean.getUsuario().getUsuario().equals("root"))
+            result = true;
+
+        return result;
+    }
+
 }

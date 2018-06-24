@@ -204,11 +204,20 @@
                                          actionListener="#{pedidosReportController.imprimirNota(pedidosController.pedidosElegidos)}"
                                          ajax="false"
                                          update=":PedidosListForm:datalist"/>
+
                         <p:commandButton id="contabilizarPedidos" value="Contabiliza Pedidos"
                                          oncomplete="PF('ContabilzarPedidosDialog').show()">
                             <f:setPropertyActionListener value="#{pedidosController.pedidosElegidos}"
                                                          target="#{pedidosReportController.pedidosElegidos}"/>
                         </p:commandButton>
+
+                        <p:commandButton id="contabilizarAgain" value="Contabiliza Again"
+                                         oncomplete="PF('ContabilzarPedidosDialog').show()"
+                                         rendered="#{pedidosController.isRoot()}">
+                            <f:setPropertyActionListener value="#{pedidosController.pedidosElegidos}"
+                                                         target="#{pedidosReportController.pedidosElegidos}"/>
+                        </p:commandButton>
+
                     </f:facet>
                 </p:dataTable>
                 <p:blockUI id="block" block="datalist" trigger="datalist">Cargando<br />
