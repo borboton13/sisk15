@@ -212,7 +212,7 @@
                         </p:commandButton>
 
                         <p:commandButton id="contabilizarAgain" value="Contabiliza Again"
-                                         oncomplete="PF('ContabilzarPedidosDialog').show()"
+                                         oncomplete="PF('ContabilzarPedidosAgainDialog').show()"
                                          rendered="#{pedidosController.isRoot()}">
                             <f:setPropertyActionListener value="#{pedidosController.pedidosElegidos}"
                                                          target="#{pedidosReportController.pedidosElegidos}"/>

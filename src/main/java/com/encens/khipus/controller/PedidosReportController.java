@@ -229,7 +229,10 @@ public class PedidosReportController implements Serializable {
 
         for(Pedidos pedido:pedidosElegidos)
         {
-            if (pedido.getIdtipopedido().getNombre().equals("NORMAL")) {
+            if(     pedido.getIdtipopedido().getNombre().equals("NORMAL") ||
+                    pedido.getIdtipopedido().getNombre().equals("DESC_LACTEOS") ||
+                    pedido.getIdtipopedido().getNombre().equals("DESC_VETERINARIO")  ) {
+
                 if (pedido.getTieneFactura()) {
                     if (pedido.getValorComision() > 0)
                         contabilizarPedidoConfacturaComision(operacionPedidoConFacturaComision, pedido);
@@ -277,10 +280,13 @@ public class PedidosReportController implements Serializable {
         quitarContabilizados();
 
         List<Pedidos> pedidosAgain = pedidosFacade.findPedidosAgain();
-        int p = 0;
+        int p = 1;
         for(Pedidos pedido:pedidosAgain)
         {
-            if (pedido.getIdtipopedido().getNombre().equals("NORMAL")) {
+            if(     pedido.getIdtipopedido().getNombre().equals("NORMAL") ||
+                    pedido.getIdtipopedido().getNombre().equals("DESC_LACTEOS") ||
+                    pedido.getIdtipopedido().getNombre().equals("DESC_VETERINARIO")  ) {
+
                 if (pedido.getTieneFactura()) {
                     if (pedido.getValorComision() > 0)
                         contabilizarPedidoConfacturaComision(operacionPedidoConFacturaComision, pedido);
@@ -293,7 +299,7 @@ public class PedidosReportController implements Serializable {
                 } else
                     contabilizarPedidoSinfactura(operacionPedidoSinFactura, pedido);
             } else{
-                contabilizarPedidoDegRefRep(operacionPedidoDegRefRep, pedido);
+                contabilizarPedidoDegRefRep(operacionPedidoDegRefRep, pedido); /** Contabiliza Degustacion, Refrigerio, Reposicion **/
             }
 
             pedido.setDescripcion("CONTAB");

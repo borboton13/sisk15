@@ -22,17 +22,17 @@
             </h:form>
         </p:dialog>
 
-        <p:dialog id="ContabilzarAgainDlg" widgetVar="ContabilzarPedidosDialog" modal="true" closable="false" resizable="true" appendTo="@(body)" header="Contabilizar Again">
+        <p:dialog id="ContabilzarAgainDlg" widgetVar="ContabilzarPedidosAgainDialog" modal="true" closable="false" resizable="true" appendTo="@(body)" header="Contabilizar Again">
             <h:form id="ContabilzarAgainForm">
                 <h:panelGroup id="displayAgain">
                     <p:panelGrid columns="2">
                         <p:outputLabel value="¿Está seguro(a) que desea contabilizar DE NUEVO?"/>
                     </p:panelGrid>
-                    <p:commandButton value="Contabilizar" id="contabilizarAgain"
+                    <p:commandButton value="Contabilizar" id="contabilizarPedidoAgain"
                                      actionListener="#{pedidosReportController.contabilzarPedidosAgain}"
-                                     onclick="PF('ContabilzarAgainDialog').hide();"
+                                     onclick="PF('ContabilzarPedidosAgainDialog').hide();"
                                      update=":PedidosListForm:datalist, :PedidosListForm:growl"/>
-                    <p:commandButton value="#{bundle.Close}" update=":PedidosListForm:datalist" onclick="PF('ContabilzarAgainDialog').hide();"/>
+                    <p:commandButton value="#{bundle.Close}" update=":PedidosListForm:datalist" onclick="PF('ContabilzarPedidosAgainDialog').hide();"/>
                 </h:panelGroup>
             </h:form>
         </p:dialog>
