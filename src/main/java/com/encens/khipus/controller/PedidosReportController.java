@@ -18,6 +18,7 @@ import javax.faces.context.FacesContext;
 import javax.imageio.ImageIO;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.NoResultException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
@@ -227,32 +228,51 @@ public class PedidosReportController implements Serializable {
         quitarAnulados();
         quitarContabilizados();
 
+        boolean insert = true;
+
         for(Pedidos pedido:pedidosElegidos)
         {
-            if(     pedido.getIdtipopedido().getNombre().equals("NORMAL") ||
-                    pedido.getIdtipopedido().getNombre().equals("DESC_LACTEOS") ||
-                    pedido.getIdtipopedido().getNombre().equals("DESC_VETERINARIO")  ) {
 
-                if (pedido.getTieneFactura()) {
-                    if (pedido.getValorComision() > 0)
-                        contabilizarPedidoConfacturaComision(operacionPedidoConFacturaComision, pedido);
-                    else {
-                        if (pedido.getUsuario().getUsuario().equals("cisc")) /** todo **/
-                            contabilizarPedidoConfacturaCisc(operacionVentaCreditoVet, pedido);
-                        else
-                            contabilizarPedidoConfactura(operacionPedidoConFactura, pedido);
-                    }
-                } else
-                    contabilizarPedidoSinfactura(operacionPedidoSinFactura, pedido);
-            } else{
-                contabilizarPedidoDegRefRep(operacionPedidoDegRefRep, pedido);
-            }
-            /** crearAsientoCostoVentas(pedido, sfConfencFacade.getOperacion("COSTOVENTAS")); **/
-            pedidosController.generalUpdate(pedido);
+            if (pedido.getIdtipopedido().getNombre().equals("DESC_LACTEOS") || pedido.getIdtipopedido().getNombre().equals("DESC_VETERINARIO")  )
+                insert = pedidosFacade.insertarDescuento(pedido);
 
+            if (insert) { // Se inserto el descuento
+                if (pedido.getIdtipopedido().getNombre().equals("NORMAL") ||
+                        pedido.getIdtipopedido().getNombre().equals("DESC_LACTEOS") ||
+                        pedido.getIdtipopedido().getNombre().equals("DESC_VETERINARIO")) {
+
+                    if (pedido.getTieneFactura()) {
+                        if (pedido.getValorComision() > 0)
+                            contabilizarPedidoConfacturaComision(operacionPedidoConFacturaComision, pedido);
+                        else {
+                            if (pedido.getUsuario().getUsuario().equals("cisc")) { /** MODIFYID **/
+                                contabilizarPedidoConfacturaCisc(operacionVentaCreditoVet, pedido);
+
+                            } else {
+                                contabilizarPedidoConfactura(operacionPedidoConFactura, pedido);
+
+                            }
+
+                        }
+                    } else
+                        contabilizarPedidoSinfactura(operacionPedidoSinFactura, pedido);
+                } else {
+                    contabilizarPedidoDegRefRep(operacionPedidoDegRefRep, pedido); /** Contabiliza degustacion, refrigerio, reposicion **/
+                }
+
+                /** crearAsientoCostoVentas(pedido, sfConfencFacade.getOperacion("COSTOVENTAS")); **/
+                pedidosController.generalUpdate(pedido);
+            }else
+                break;
         }
+
+        if (insert)
+            JSFUtil.addWarningMessage("SE CONTABILIZO CON EXITO.");
+        else
+            JSFUtil.addErrorMessage("ERROR DESC, NO SE CONTABILIZO COMPLETO!");
+
+
         pedidosElegidos.clear();
-        JSFUtil.addWarningMessage("SE CONTABILIZO CON EXITO.");
     }
 
 
@@ -922,61 +942,60 @@ public class PedidosReportController implements Serializable {
         sfTmpenc.setUsuario(loginBean.getUsuario());
         pedido.setSucursal(loginBean.getUsuario().getSucursal());
         List<SfConfdet> asientos = new ArrayList<>(operacion.getAsientos());
-        
-        SfConfdet cuentaClientes        = asientos.get(0);
-        SfConfdet cuentaComisiones      = asientos.get(1);
-        SfConfdet cuentaCreditoFiscal   = asientos.get(2);
-        SfConfdet cuentaITgasto         = asientos.get(3);
-        SfConfdet ventaDeProductos      = asientos.get(4);
-        SfConfdet cuentaDebitoIVA       = asientos.get(5);
-        SfConfdet cuentaIT              = asientos.get(6);
+
+        SfConfdet cuentaClientes = asientos.get(0);
+        SfConfdet cuentaComisiones = asientos.get(1);
+        SfConfdet cuentaCreditoFiscal = asientos.get(2);
+        SfConfdet cuentaITgasto = asientos.get(3);
+        SfConfdet ventaDeProductos = asientos.get(4);
+        SfConfdet cuentaDebitoIVA = asientos.get(5);
+        SfConfdet cuentaIT = asientos.get(6);
 
         SfConfdet ctaMerma = asientos.get(7);
         SfConfdet ctaPromo = asientos.get(8);
         SfConfdet ctaAlmPT = asientos.get(9);
 
-        BigDecimal importeReposicion = calcularImporteReposicion(pedido);
-        BigDecimal importePromocion  = calcularImportePromocion(pedido);
+        SfConfdet cuentaCreditoFiscalHaber = asientos.get(10);
 
-        BigDecimal IT_VALUE  = new BigDecimal("0.03");
+        BigDecimal importeReposicion = calcularImporteReposicion(pedido);
+        BigDecimal importePromocion = calcularImportePromocion(pedido);
+
+        BigDecimal IT_VALUE = new BigDecimal("0.03");
         BigDecimal IVA_VALUE = new BigDecimal("0.13");
 
-        //Double subTotal = pedido.getTotalimporte();
-        //Double descuento = pedido.getValorComision();
-        //Double totalPagar = subTotal - descuento;
-
-        BigDecimal subtotal   = BigDecimalUtil.toBigDecimal(pedido.getTotalimporte());
-        BigDecimal descuento  = BigDecimalUtil.toBigDecimal(pedido.getValorComision());
-        BigDecimal totalPagar = BigDecimalUtil.subtract(subtotal, descuento, 2);
+        BigDecimal subtotal = BigDecimalUtil.toBigDecimal(pedido.getTotalimporte());
+        BigDecimal comision = BigDecimalUtil.toBigDecimal(pedido.getValorComision());
+        BigDecimal totalPagarClientes = BigDecimalUtil.subtract(subtotal, comision, 2);
 
         //Double descuento87      = descuento * 0.87;
         //Double descuento13      = descuento * 0.13;
 
-        BigDecimal descuento13 = BigDecimalUtil.multiply(descuento, IVA_VALUE, 2);
-        BigDecimal descuento87 = BigDecimalUtil.subtract(descuento, descuento13, 2);
+        BigDecimal comision13 = BigDecimalUtil.multiply(comision, IVA_VALUE, 2);
+        BigDecimal comision87 = BigDecimalUtil.subtract(comision, comision13, 2);
 
-        //Double valorIVA            = subTotal * 0.13;
-        //Double valorVentaProductos = subTotal * 0.87;
-        //Double valorIT = totalPagar * 0.03;
 
-        BigDecimal valorIVA            = BigDecimalUtil.multiply(subtotal, IVA_VALUE, 2);
+
+        BigDecimal valorIVA = BigDecimalUtil.multiply(subtotal, IVA_VALUE, 2);
+        BigDecimal valorIVAtotalPagar = BigDecimalUtil.multiply(totalPagarClientes, IVA_VALUE, 2);
+
         BigDecimal valorVentaProductos = BigDecimalUtil.subtract(subtotal, valorIVA, 2);  /** Ajuste Dif **/
         //BigDecimal valorIT             = BigDecimalUtil.multiply(totalPagar, IT_VALUE, 2);
-        BigDecimal valorIT             = BigDecimalUtil.multiply(subtotal, IT_VALUE, 2);
+        BigDecimal valorIT = BigDecimalUtil.multiply(subtotal, IT_VALUE, 2);
 
-        BigDecimal totalD = BigDecimalUtil.sum(totalPagar, descuento87, descuento13, valorIT);
-        BigDecimal totalH = BigDecimalUtil.sum(valorVentaProductos, valorIVA, valorIT);
+        BigDecimal totalD = BigDecimalUtil.sum(totalPagarClientes, comision87, comision13, valorIT);
+        BigDecimal totalH = BigDecimalUtil.sum(valorVentaProductos, valorIVAtotalPagar, valorIT, comision13);
 
         /** Diferencia en totales **/
-        if ( BigDecimalUtil.compareTo(totalD, totalH) != 0)
-            valorVentaProductos = BigDecimalUtil.subtract(totalD, totalH, 2);
-
+        if (totalH.doubleValue() > totalD.doubleValue()) {
+            BigDecimal diff = BigDecimalUtil.subtract(totalH, totalD, 2);
+            valorVentaProductos = BigDecimalUtil.subtract(valorVentaProductos, diff, 2);
+        }
 
                 /** 1. Clientes **/
         SfTmpdet asientoCuentasPorCobrar = new SfTmpdet();
         asientoCuentasPorCobrar.setCuenta(cuentaClientes.getCuenta().getCuenta());
         asientoCuentasPorCobrar.setNoTrans(nroTrans);
-        setDebeOHaber(cuentaClientes, asientoCuentasPorCobrar, totalPagar);
+        setDebeOHaber(cuentaClientes, asientoCuentasPorCobrar, totalPagarClientes);
         asientoCuentasPorCobrar.setSfTmpenc(sfTmpenc);
         asientoCuentasPorCobrar.setClient(pedido.getCliente());
         sfTmpenc.getAsientos().add(asientoCuentasPorCobrar);
@@ -985,7 +1004,7 @@ public class PedidosReportController implements Serializable {
         SfTmpdet asientoComision = new SfTmpdet();
         asientoComision.setCuenta(cuentaComisiones.getCuenta().getCuenta());
         asientoComision.setNoTrans(nroTrans);
-        setDebeOHaber(cuentaComisiones, asientoComision, descuento87);
+        setDebeOHaber(cuentaComisiones, asientoComision, comision87);
         asientoComision.setSfTmpenc(sfTmpenc);
         sfTmpenc.getAsientos().add(asientoComision);
 
@@ -993,7 +1012,7 @@ public class PedidosReportController implements Serializable {
         SfTmpdet asientoCreditoFiscal = new SfTmpdet();
         asientoCreditoFiscal.setCuenta(cuentaCreditoFiscal.getCuenta().getCuenta());
         asientoCreditoFiscal.setNoTrans(nroTrans);
-        setDebeOHaber(cuentaCreditoFiscal, asientoCreditoFiscal, descuento13);
+        setDebeOHaber(cuentaCreditoFiscal, asientoCreditoFiscal, comision13);
         asientoCreditoFiscal.setSfTmpenc(sfTmpenc);
         sfTmpenc.getAsientos().add(asientoCreditoFiscal);
 
@@ -1017,7 +1036,7 @@ public class PedidosReportController implements Serializable {
         SfTmpdet asientoIVA = new SfTmpdet();
         asientoIVA.setCuenta(cuentaDebitoIVA.getCuenta().getCuenta());
         asientoIVA.setNoTrans(nroTrans);
-        setDebeOHaber(cuentaDebitoIVA, asientoIVA, valorIVA);
+        setDebeOHaber(cuentaDebitoIVA, asientoIVA, valorIVAtotalPagar);
         asientoIVA.setSfTmpenc(sfTmpenc);
         sfTmpenc.getAsientos().add(asientoIVA);
 
@@ -1058,6 +1077,14 @@ public class PedidosReportController implements Serializable {
             asientoCtaAlmPT.setSfTmpenc(sfTmpenc);
             sfTmpenc.getAsientos().add(asientoCtaAlmPT);
         }
+
+        /** 11. Credito Fiscal 2 haber **/
+        SfTmpdet asientoCreditoFiscalHaber = new SfTmpdet();
+        asientoCreditoFiscalHaber.setCuenta(cuentaCreditoFiscalHaber.getCuenta().getCuenta());
+        asientoCreditoFiscalHaber.setNoTrans(nroTrans);
+        setDebeOHaber(cuentaCreditoFiscalHaber, asientoCreditoFiscalHaber, comision13);
+        asientoCreditoFiscalHaber.setSfTmpenc(sfTmpenc);
+        sfTmpenc.getAsientos().add(asientoCreditoFiscalHaber);
 
         sfTmpenc.getPedidos().add(pedido);
         pedido.setAsiento(sfTmpenc);

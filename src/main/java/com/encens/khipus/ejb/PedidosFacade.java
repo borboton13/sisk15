@@ -6,6 +6,7 @@
 package com.encens.khipus.ejb;
 
 import com.encens.khipus.model.*;
+import com.encens.khipus.util.JSFUtil;
 
 import java.math.BigDecimal;
 
@@ -14,6 +15,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TemporalType;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -433,6 +436,43 @@ public class PedidosFacade extends AbstractFacade<Pedidos> {
                     " WHERE i.cod_art = " + articulo.getInvArticulos().getProductItemCode())
                     .executeUpdate();
         }
+    }
+
+    public boolean insertarDescuento(Pedidos pedido){
+
+        String nrodoc = pedido.getCliente().getNroDoc();
+        Long id = (Long) em.createNativeQuery("SELECT MAX(idmovimientosalarioproductor)+1 FROM movimientosalarioproductor").getSingleResult();
+
+        Long identidad = null;
+        Long idzonaproductiva = null;
+
+        try { /** MODIFYID **/
+            identidad = (Long) em.createNativeQuery("SELECT e.identidad FROM entidad e WHERE e.noidentificacion = "+nrodoc).getSingleResult();
+            idzonaproductiva = (Long) em.createNativeQuery("SELECT idzonaproductiva FROM productormateriaprima WHERE idproductormateriaprima = "+identidad).getSingleResult();
+        }catch (NoResultException e){
+            return false;
+        }
+
+        System.out.println("-----> identidad: " + identidad);
+
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        Double valor = pedido.getTotalimporte();
+        String fecha = df.format(pedido.getFechaEntrega());
+        String descripcion = pedido.getIdtipopedido().getNombre() + " venta a credito Nro. " + pedido.getCodigo();
+
+        String idtipomovimiento = "3"; //Lacteos MODIFYID
+
+        if (pedido.getIdtipopedido().getNombre().equals("DESC_VETERINARIO"))
+            idtipomovimiento = "4"; //Veterinario MODIFYID
+
+
+        String query =  "INSERT INTO movimientosalarioproductor (idmovimientosalarioproductor, fecha, descripcion, estado, valor, idcompania, idzonaproductiva, idproductormateriaprima, idtipomovimientoproductor) " +
+                        "VALUES (" + id + ",'" + fecha + "','" + descripcion + "','PENDING'," + valor + ", 1 , " + idzonaproductiva + ", " + identidad + "," + idtipomovimiento + ");";
+
+        em.createNativeQuery(query).executeUpdate();
+        em.createNativeQuery("UPDATE SECUENCIA SET VALOR=(SELECT MAX(E.IDMOVIMIENTOSALARIOPRODUCTOR)+1 FROM MOVIMIENTOSALARIOPRODUCTOR E) WHERE TABLA='MOVIMIENTOSALARIOPRODUCTOR'").executeUpdate();
+
+        return  true;
     }
 
     public class RecepcionPedido{
