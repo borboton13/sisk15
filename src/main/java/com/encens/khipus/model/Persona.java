@@ -354,7 +354,7 @@ public class Persona implements Serializable {
         if(this.piId == null)
             return "";        
         if(!StringUtils.isEmpty(nom))
-            return nom+" "+ap+" "+am;
+            return nroDoc + " - " + nom + " " + ap + " " + am;
         else
             return razonsocial;
     }

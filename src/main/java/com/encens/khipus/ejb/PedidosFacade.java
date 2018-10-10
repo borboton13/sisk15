@@ -450,6 +450,7 @@ public class PedidosFacade extends AbstractFacade<Pedidos> {
             identidad = (Long) em.createNativeQuery("SELECT e.identidad FROM entidad e WHERE e.noidentificacion = "+nrodoc).getSingleResult();
             idzonaproductiva = (Long) em.createNativeQuery("SELECT idzonaproductiva FROM productormateriaprima WHERE idproductormateriaprima = "+identidad).getSingleResult();
         }catch (NoResultException e){
+            JSFUtil.addErrorMessage("Error, datos inconsistentes..."); // ???
             return false;
         }
 
