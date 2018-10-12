@@ -338,7 +338,7 @@ public class VentadirectaController implements Serializable {
         // Asiento Venta de Productos (Cta Ingreso)
         SfConfdet ventaProductos = new SfConfdet();
         for ( ArticulosPedido articuloPedido : ventadirecta.getArticulosPedidos() ){
-            ventaProductos = getConfDet(operacion, articuloPedido.getInvArticulos().getInvGrupos().getCuentaIngreso());
+            ventaProductos = getConfDet(operacion, articuloPedido.getInvArticulos().getInvGrupos().getCuentaIngreso());  // BUG retorna null para venta sin factura productos veterinarios
             break;
         }
         SfTmpdet asientoVentaProductos = new SfTmpdet();
@@ -1189,6 +1189,21 @@ public class VentadirectaController implements Serializable {
 
     }
 
+/*
+    private ControlCode generateCodControl(Ventadirecta venta, Integer numberInvoice, BigInteger numberAutorization, String key,String nitEmpresa) {
+        Double importeBaseCreditFisical = venta.getTotalimporte();
+        String nroDoc = venta.getCliente().getNroDoc();
+        if(StringUtils.isNotEmpty(venta.getCliente().getNit()))
+        {
+            nroDoc = venta.getCliente().getNit();
+        }
+        venta.setImpuesto(venta.getTotalimporte() * 0.13);
+        ControlCode controlCode = new ControlCode(nitEmpresa, numberInvoice, numberAutorization.toString(), venta.getFechaPedido(), venta.getTotalimporte(), importeBaseCreditFisical, nroDoc);
+        moneyUtil.getLlaveQR(controlCode, key);
+        controlCode.generarCodigoQR();
+        return controlCode;
+    }
+*/
     public void printFacturaNotaVentaDirecta(Ventadirecta ventadirecta) throws IOException, JRException {
 
         barcodeRenderer = new BarcodeRenderer();
@@ -1198,12 +1213,21 @@ public class VentadirectaController implements Serializable {
         //BigInteger numberAuthorization = dosificacion.getNroautorizacion();
         //String key = dosificacion.getLlave();
 
-        Integer numeroFactura = mov.getNrofactura();
+        //Integer numeroFactura = mov.getNrofactura();
+        //ControlCode controlCode = generateCodControl(ventadirecta, numeroFactura, dosificacion.getNroautorizacion(), dosificacion.getLlave(), dosificacion.getNitEmpresa());
 
-        ControlCode controlCode = generateCodControl(ventadirecta, numeroFactura, dosificacion.getNroautorizacion(), dosificacion.getLlave(), dosificacion.getNitEmpresa());
+        ControlCode controlCode = new ControlCode(  dosificacion.getNitEmpresa(),
+                                                    mov.getNrofactura(),
+                                                    dosificacion.getNroautorizacion().toString(),
+                                                    ventadirecta.getFechaPedido(),
+                                                    ventadirecta.getTotalimporte(),
+                                                    ventadirecta.getTotalimporte(), // Importe Base para credito fiscal
+                                                    mov.getNitCliente());
+        moneyUtil.getLlaveQR(controlCode, dosificacion.getLlave());
+        controlCode.generarCodigoQR();
 
-        JasperPrint jasperPrintNotaVenta = getJasperPrintNotaVenta(ventadirecta);
-        JasperPrint jasperPrintFactura = getJasperPrintFacturaOriginalCopia(ventadirecta,controlCode,numeroFactura, dosificacion);
+                JasperPrint jasperPrintNotaVenta = getJasperPrintNotaVenta(ventadirecta);
+        JasperPrint jasperPrintFactura = getJasperPrintFacturaOriginalCopia(ventadirecta,controlCode, mov.getNrofactura(), dosificacion);
         jasperPrintNotaVenta.getPages().addAll(jasperPrintFactura.getPages());
         //byte[] pdf = JasperExportManager.exportReportToPdf(jasperPrintNotaVenta);
 
@@ -1417,10 +1441,14 @@ public class VentadirectaController implements Serializable {
         String filePath = FileCacheLoader.i.getPath("/resources/reportes/qr_inv.png");
         String nroDoc = venta.getCliente().getNroDoc();
         DateUtil dateUtil = new DateUtil();
-        if(StringUtils.isNotEmpty(venta.getCliente().getNit()))
-        {
-            nroDoc = venta.getCliente().getNit();
+
+        if (venta.getMovimiento() != null){
+            nroDoc = venta.getMovimiento().getNitCliente();
+        }else {
+            if(StringUtils.isNotEmpty(venta.getCliente().getNit()))
+                nroDoc = venta.getCliente().getNit();
         }
+
         //todo:completar los datos de la tabla
         Calendar cal = Calendar.getInstance();
         cal.setTime(venta.getFechaPedido());
