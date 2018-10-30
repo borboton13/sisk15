@@ -57,6 +57,12 @@
                                    itemValue="#{tipoPedido}"/>
                 </p:selectOneMenu>
 
+                <p:selectOneMenu id="territorio" value="#{pedidosController.selected.descripcion}">
+                    <f:selectItems value="#{pedidosController.etiquetas}"
+                                   var="etiqueta"
+                                   itemValue="#{etiqueta}"/>
+                </p:selectOneMenu>
+
                 <!--<p:outputLabel value="Reposición:" for="conReposicion"/>
                 <p:selectBooleanButton id="conReposicion" value="#{pedidosController.conReposicion}" onLabel="Quitar" offLabel="Agregar" disabled="#{!pedidosController.tieneReposicion}">
                     <p:ajax update="articulosTable"/>

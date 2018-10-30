@@ -23,14 +23,12 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.IOException;
 import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.math.BigInteger;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -57,6 +55,9 @@ public class PedidosController implements Serializable {
     @Inject
     private ArticulosPedidoController articulosPedidoController;
 
+    private List<String> etiquetas = Arrays.asList(new String[]{ "", "(S.P. Y LACT.)", "(S. UNIV.)" });
+
+    private String etiquetaSel;
 
     private List<ArticulosPedido> articulosPedidos = new ArrayList<>();
     private List<ArticulosPedido> articulosPedidosElegidos = new ArrayList<>();
@@ -485,6 +486,22 @@ public class PedidosController implements Serializable {
 
     public void setFechaDesde(Date fechaDesde) {
         this.fechaDesde = fechaDesde;
+    }
+
+    public List<String> getEtiquetas() {
+        return etiquetas;
+    }
+
+    public void setEtiquetas(List<String> etiquetas) {
+        this.etiquetas = etiquetas;
+    }
+
+    public String getEtiquetaSel() {
+        return etiquetaSel;
+    }
+
+    public void setEtiquetaSel(String etiquetaSel) {
+        this.etiquetaSel = etiquetaSel;
     }
 
     @FacesConverter(forClass = Pedidos.class)

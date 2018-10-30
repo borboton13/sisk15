@@ -1911,8 +1911,11 @@ public class PedidosReportController implements Serializable {
         // Verificando Articulo con cantidad 0 y q tiene reposicion
         Collection<ArticulosPedido> articulos = new ArrayList<>();
         for (ArticulosPedido articulo : pedidosElegidos.get(0).getArticulosPedidos()) {
-            if (articulo.getCantidad() > 0)
+            if (articulo.getCantidad() > 0){
+                String etiquetaSub =  articulo.getPedidos().getDescripcion() != null ? " " + articulo.getPedidos().getDescripcion() : "";
+                articulo.getInvArticulos().setDescri(articulo.getInvArticulos().getDescri() + etiquetaSub);
                 articulos.add(articulo);
+            }
         }
         // End
         try {
@@ -1930,8 +1933,11 @@ public class PedidosReportController implements Serializable {
             /** Verificando Articulo con cantidad 0 y q tiene reposicion **/
             Collection<ArticulosPedido> articulosPed = new ArrayList<>();
             for ( ArticulosPedido articulo:pedidosElegidos.get(i).getArticulosPedidos()){
-                if (articulo.getCantidad() > 0)
+                if (articulo.getCantidad() > 0) {
+                    String etiquetaSub =  articulo.getPedidos().getDescripcion() != null ? " " + articulo.getPedidos().getDescripcion() : "";
+                    articulo.getInvArticulos().setDescri(articulo.getInvArticulos().getDescri() + etiquetaSub);
                     articulosPed.add(articulo);
+                }
             }
 
             /** End **/
