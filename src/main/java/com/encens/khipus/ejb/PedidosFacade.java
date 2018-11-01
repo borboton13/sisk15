@@ -205,7 +205,6 @@ public class PedidosFacade extends AbstractFacade<Pedidos> {
 
         
         try {
-            
                 resultado = (List<Object[]>)em.createQuery(""+
                     " select concat(pe.codigo,'-',pe.cliente.nom,' ',pe.cliente.ap,' ',pe.cliente.am) as CLIENTE\n" +
                     "               ,articulos.invArticulos.nombrecorto as PRODUCTO\n" +
@@ -214,7 +213,7 @@ public class PedidosFacade extends AbstractFacade<Pedidos> {
                     " from Pedidos pe join pe.articulosPedidos articulos" +
                     " where pe.fechaEntrega =:fechaEntrega " +
                     query +
-                    " and pe.estado != 'ANULADO' and pe.estado != 'CONTABILIZADO'")
+                    " and pe.estado != 'ANULADO' and pe.estado != 'CONTABILIZADO' and pe.usuario.idusuario <> 5 ") /** MODIFYID **/
                     .setParameter("fechaEntrega", fechaEntrega, TemporalType.DATE)
                     .getResultList();
 
