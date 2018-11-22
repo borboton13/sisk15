@@ -213,7 +213,7 @@ public class PedidosFacade extends AbstractFacade<Pedidos> {
                     " from Pedidos pe join pe.articulosPedidos articulos" +
                     " where pe.fechaEntrega =:fechaEntrega " +
                     query +
-                    " and pe.estado != 'ANULADO' and pe.estado != 'CONTABILIZADO' and pe.usuario.idusuario <> 5 ") /** MODIFYID **/
+                    " and pe.estado != 'ANULADO' and pe.usuario.idusuario <> 5 ") /** MODIFYID **/
                     .setParameter("fechaEntrega", fechaEntrega, TemporalType.DATE)
                     .getResultList();
 

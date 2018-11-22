@@ -55,7 +55,7 @@ public class PedidosController implements Serializable {
     @Inject
     private ArticulosPedidoController articulosPedidoController;
 
-    private List<String> etiquetas = Arrays.asList(new String[]{ "", "(S.P. Y LACT.)", "(S. UNIV.)" });
+    private List<String> etiquetas = Arrays.asList(new String[]{ "", "S.PRENATAL Y L.", "S. UNIVERSAL" });
 
     private String etiquetaSel;
 
