@@ -124,9 +124,9 @@ public class PedidosReportController implements Serializable {
         List<SfConfdet> asientos = new ArrayList<>(operacion.getAsientos());
         SfConfdet cuentasPorCobrar = asientos.get(0);
         SfConfdet ventaDeProductos = asientos.get(1);
-        SfConfdet ctaMerma = asientos.get(2);
-        SfConfdet ctaPromo = asientos.get(3);
-        SfConfdet ctaAlmPT = asientos.get(4);
+        //SfConfdet ctaMerma = asientos.get(2);
+        //SfConfdet ctaPromo = asientos.get(3);
+        //SfConfdet ctaAlmPT = asientos.get(4);
 
         BigDecimal importeReposicion = calcularImporteReposicion(pedido);
         BigDecimal importePromocion  = calcularImportePromocion(pedido);
@@ -153,7 +153,7 @@ public class PedidosReportController implements Serializable {
         sfTmpenc.getAsientos().add(asientoVentaDeProductos);
 
         /** Si existe Reposiciones (Mermas) **/
-        if (importeReposicion.doubleValue() > 0){
+        /*if (importeReposicion.doubleValue() > 0){
 
             SfTmpdet asientoMerma = new SfTmpdet();
             asientoMerma.setCuenta(ctaMerma.getCuenta().getCuenta());
@@ -161,9 +161,9 @@ public class PedidosReportController implements Serializable {
             setDebeOHaber(ctaMerma, asientoMerma, importeReposicion);
             asientoMerma.setSfTmpenc(sfTmpenc);
             sfTmpenc.getAsientos().add(asientoMerma);
-        }
+        }*/
         /** Si existe Promocion **/
-        if (importePromocion.doubleValue() > 0){
+        /*if (importePromocion.doubleValue() > 0){
 
             SfTmpdet asientoPromo = new SfTmpdet();
             asientoPromo.setCuenta(ctaPromo.getCuenta().getCuenta());
@@ -171,16 +171,16 @@ public class PedidosReportController implements Serializable {
             setDebeOHaber(ctaPromo, asientoPromo, importePromocion);
             asientoPromo.setSfTmpenc(sfTmpenc);
             sfTmpenc.getAsientos().add(asientoPromo);
-        }
+        }*/
         /** Cta. Almacen **/
-        if (importeReposicion.doubleValue() > 0 || importePromocion.doubleValue() > 0){
+        /*if (importeReposicion.doubleValue() > 0 || importePromocion.doubleValue() > 0){
             SfTmpdet asientoCtaAlmPT = new SfTmpdet();
             asientoCtaAlmPT.setCuenta(ctaAlmPT.getCuenta().getCuenta());
             asientoCtaAlmPT.setNoTrans(nroTrans);
             setDebeOHaber(ctaAlmPT, asientoCtaAlmPT, BigDecimalUtil.sum(importeReposicion, importePromocion));
             asientoCtaAlmPT.setSfTmpenc(sfTmpenc);
             sfTmpenc.getAsientos().add(asientoCtaAlmPT);
-        }
+        }*/
 
         sfTmpenc.getPedidos().add(pedido);
         pedido.setAsiento(sfTmpenc);
@@ -672,9 +672,9 @@ public class PedidosReportController implements Serializable {
         SfConfdet ventaDeProductos = asientos.get(2);
         SfConfdet debitoFiscalIVA  = asientos.get(3);
         SfConfdet impuestoALasTransacciones = asientos.get(4);
-        SfConfdet ctaMerma = asientos.get(5);
-        SfConfdet ctaPromo = asientos.get(6);
-        SfConfdet ctaAlmPT = asientos.get(7);
+        //SfConfdet ctaMerma = asientos.get(5);
+        //SfConfdet ctaPromo = asientos.get(6);
+        //SfConfdet ctaAlmPT = asientos.get(7);
 
         BigDecimal importeReposicion = calcularImporteReposicion(pedido);
         BigDecimal importePromocion  = calcularImportePromocion(pedido);
@@ -739,7 +739,7 @@ public class PedidosReportController implements Serializable {
         sfTmpenc.getAsientos().add(asientoIVA);
 
         /** Si existe Reposiciones (Mermas) **/
-        if (importeReposicion.doubleValue() > 0){
+        /*if (importeReposicion.doubleValue() > 0){
 
             SfTmpdet asientoMerma = new SfTmpdet();
             asientoMerma.setCuenta(ctaMerma.getCuenta().getCuenta());
@@ -747,9 +747,9 @@ public class PedidosReportController implements Serializable {
             setDebeOHaber(ctaMerma, asientoMerma, importeReposicion);
             asientoMerma.setSfTmpenc(sfTmpenc);
             sfTmpenc.getAsientos().add(asientoMerma);
-        }
+        }*/
         /** Si existe Promocion **/
-        if (importePromocion.doubleValue() > 0){
+        /*if (importePromocion.doubleValue() > 0){
 
             SfTmpdet asientoPromo = new SfTmpdet();
             asientoPromo.setCuenta(ctaPromo.getCuenta().getCuenta());
@@ -757,16 +757,16 @@ public class PedidosReportController implements Serializable {
             setDebeOHaber(ctaPromo, asientoPromo, importePromocion);
             asientoPromo.setSfTmpenc(sfTmpenc);
             sfTmpenc.getAsientos().add(asientoPromo);
-        }
+        }*/
         /** Cta. Almacen **/
-        if (importeReposicion.doubleValue() > 0 || importePromocion.doubleValue() > 0){
+        /*if (importeReposicion.doubleValue() > 0 || importePromocion.doubleValue() > 0){
             SfTmpdet asientoCtaAlmPT = new SfTmpdet();
             asientoCtaAlmPT.setCuenta(ctaAlmPT.getCuenta().getCuenta());
             asientoCtaAlmPT.setNoTrans(nroTrans);
             setDebeOHaber(ctaAlmPT, asientoCtaAlmPT, BigDecimalUtil.sum(importeReposicion, importePromocion));
             asientoCtaAlmPT.setSfTmpenc(sfTmpenc);
             sfTmpenc.getAsientos().add(asientoCtaAlmPT);
-        }
+        }*/
 
         sfTmpenc.getPedidos().add(pedido);
         pedido.setAsiento(sfTmpenc);
@@ -1096,6 +1096,7 @@ public class PedidosReportController implements Serializable {
     private void contabilizarPedidoDegRefRep(SfConfenc operacion, Pedidos pedido) {
         pedido.setContabilizado(true);
         pedido.setEstado("CONTABILIZADO");
+        /*
         SfTmpenc sfTmpenc = new SfTmpenc();
         String nroTrans = sfTmpencFacade.getSiguienteNumeroTransacccion();
         sfTmpenc.setNoTrans(nroTrans);
@@ -1147,7 +1148,7 @@ public class PedidosReportController implements Serializable {
             sfTmpenc.getAsientos().add(asiento);
         }
 
-        /** Cta. Almacen **/
+        *//** Cta. Almacen **//*
         SfTmpdet asientoCtaAlmPT = new SfTmpdet();
         asientoCtaAlmPT.setCuenta(ctaAlmPT.getCuenta().getCuenta());
         asientoCtaAlmPT.setNoTrans(nroTrans);
@@ -1157,9 +1158,8 @@ public class PedidosReportController implements Serializable {
 
         sfTmpenc.getPedidos().add(pedido);
         pedido.setAsiento(sfTmpenc);
+        */
 
-       /* sfTmpencController.setSelected(sfTmpenc);
-        sfTmpencController.createGeneral();*/
     }
 
     private BigDecimal calcularImporteCostoDegRefRep(Pedidos pedido){

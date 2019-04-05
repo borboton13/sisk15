@@ -222,7 +222,7 @@ public class VentadirectaController implements Serializable {
         articulosPedido.setReposicion(0);
         articulosPedido.setVentadirecta(selected);
         articulosPedido.setTipo(ventaarticulo.getTipo());
-        articulosPedido.setCu(articuloElegido.getCu());
+        articulosPedido.setCu(articuloElegido.getCostoUni());
         
         selected.getArticulosPedidos().add(articulosPedido);
         articulos.remove(articuloElegido);
