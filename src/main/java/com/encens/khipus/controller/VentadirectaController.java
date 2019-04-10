@@ -31,6 +31,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
+import javax.sound.midi.Soundbank;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -1207,8 +1208,8 @@ public class VentadirectaController implements Serializable {
     public void printFacturaNotaVentaDirecta(Ventadirecta ventadirecta) throws IOException, JRException {
 
         barcodeRenderer = new BarcodeRenderer();
-        Movimiento mov = ventadirecta.getMovimiento();
-        Dosificacion dosificacion = dosificacionFacade.findByAuthorization(mov.getNroAutorizacion());
+        Movimiento movimiento = ventadirecta.getMovimiento();
+        Dosificacion dosificacion = dosificacionFacade.findByAuthorization(movimiento.getNroAutorizacion());
         moneyUtil = new MoneyUtil();
         //BigInteger numberAuthorization = dosificacion.getNroautorizacion();
         //String key = dosificacion.getLlave();
@@ -1216,18 +1217,23 @@ public class VentadirectaController implements Serializable {
         //Integer numeroFactura = mov.getNrofactura();
         //ControlCode controlCode = generateCodControl(ventadirecta, numeroFactura, dosificacion.getNroautorizacion(), dosificacion.getLlave(), dosificacion.getNitEmpresa());
 
-        ControlCode controlCode = new ControlCode(  dosificacion.getNitEmpresa(),
-                                                    mov.getNrofactura(),
-                                                    dosificacion.getNroautorizacion().toString(),
-                                                    ventadirecta.getFechaPedido(),
-                                                    ventadirecta.getTotalimporte(),
-                                                    ventadirecta.getTotalimporte(), // Importe Base para credito fiscal
-                                                    mov.getNitCliente());
+        ControlCode controlCode = new ControlCode(
+                dosificacion.getNitEmpresa(),
+                movimiento.getNrofactura(),
+                dosificacion.getNroautorizacion().toString(),
+                //ventadirecta.getFechaPedido(),
+                movimiento.getFechaFactura(),
+                //ventadirecta.getTotalimporte(),
+                movimiento.getImporteTotal().doubleValue(),
+                //ventadirecta.getTotalimporte(), // Importe Base para debito fiscal
+                movimiento.getImporteParaDebitoFiscal().doubleValue(),
+                movimiento.getNitCliente());
+
         moneyUtil.getLlaveQR(controlCode, dosificacion.getLlave());
         controlCode.generarCodigoQR();
 
-                JasperPrint jasperPrintNotaVenta = getJasperPrintNotaVenta(ventadirecta);
-        JasperPrint jasperPrintFactura = getJasperPrintFacturaOriginalCopia(ventadirecta,controlCode, mov.getNrofactura(), dosificacion);
+        JasperPrint jasperPrintNotaVenta = getJasperPrintNotaVenta(ventadirecta);
+        JasperPrint jasperPrintFactura = getJasperPrintFacturaOriginalCopia(ventadirecta, controlCode, movimiento.getNrofactura(), dosificacion);
         jasperPrintNotaVenta.getPages().addAll(jasperPrintFactura.getPages());
         //byte[] pdf = JasperExportManager.exportReportToPdf(jasperPrintNotaVenta);
 
@@ -1297,22 +1303,32 @@ public class VentadirectaController implements Serializable {
         guardarMovimientoFactura(venta, controlCode, dosificacion);
     }
 
-    public JasperPrint getJasperPrintFacturaOriginalCopia(Ventadirecta venta,ControlCode controlCode,Integer numeroFactura, Dosificacion dosificacion) throws JRException {
+    public JasperPrint getJasperPrintFacturaOriginalCopia(Ventadirecta venta, ControlCode controlCode, Integer numeroFactura, Dosificacion dosificacion) throws JRException {
+
+        System.out.println("====> USADO AL FACTURAR...");
+        Movimiento movimiento = venta.getMovimiento();
 
         HashMap parameters = new HashMap();
         File jasper = new File(FacesContext.getCurrentInstance().getExternalContext().getRealPath("/resources/reportes/factura.jasper"));
 
-        //String razonSocial = venta.getCliente().getRazonsocial();
-        String razonSocial = venta.getMovimiento().getRazonSocial();
+        /*String razonSocial = venta.getMovimiento().getRazonSocial();
         if (razonSocial.equals("") || razonSocial == null )
-            razonSocial = venta.getCliente().getNom()+" "+venta.getCliente().getAp()+" "+venta.getCliente().getAm();
+            razonSocial = venta.getCliente().getNom()+" "+venta.getCliente().getAp()+" "+venta.getCliente().getAm();*/
+
+        String razonSocial = movimiento.getRazonSocial();
+        Long nroFactura = movimiento.getNrofactura().longValue();
+        String codigoControl = movimiento.getCodigocontrol();
 
         razonSocial = razonSocial.toUpperCase();
-        parameters.putAll(getReportParamsFactura(razonSocial, numeroFactura, "ORIGINAL", controlCode.getCodigoControl(), controlCode.getKeyQR(), venta, dosificacion));
+
+        System.out.println("====> controlCode.getKeyQR()::: " + controlCode.getKeyQR());
+        System.out.println("====> dosificacion.getLlave()::: " + dosificacion.getLlave());
+
+        parameters.putAll(getReportParamsFactura(razonSocial, nroFactura, "ORIGINAL", codigoControl, controlCode.getKeyQR(), venta, dosificacion));
         ////////////
         JasperPrint original = JasperFillManager.fillReport(jasper.getPath(), parameters, new JRBeanCollectionDataSource(venta.getArticulosPedidos()));
         HashMap parametersCopia = new HashMap();
-        parametersCopia.putAll(getReportParamsFactura(razonSocial, numeroFactura, "COPIA", controlCode.getCodigoControl(), controlCode.getKeyQR(), venta, dosificacion));
+        parametersCopia.putAll(getReportParamsFactura(razonSocial, nroFactura, "COPIA", codigoControl, controlCode.getKeyQR(), venta, dosificacion));
         ////////////
         JasperPrint copia = JasperFillManager.fillReport(jasper.getPath(), parametersCopia, new JRBeanCollectionDataSource(venta.getArticulosPedidos()));
         original.getPages().addAll(copia.getPages());
