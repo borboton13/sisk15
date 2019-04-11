@@ -47,12 +47,15 @@ public class VentadirectaFacade extends AbstractFacade<Ventadirecta> {
     
     public List<Ventadirecta> findItemsDesc(Usuario usuario) {
         List<Ventadirecta> result = new ArrayList<>();
+        Date currentDate = new Date();
         try{
             em.flush();
             result = (List<Ventadirecta>)em.createQuery("select v from Ventadirecta v " +
                                                         "where v.usuario =:usuario " +
+                                                        " and v.fechaPedido =:currentDate " +
                                                         "order by v.idventadirecta desc")
                     .setParameter("usuario", usuario)
+                    .setParameter("currentDate", currentDate)
                     .getResultList();
         }catch (NoResultException e){
             return result;

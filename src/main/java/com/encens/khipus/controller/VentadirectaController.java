@@ -790,7 +790,6 @@ public class VentadirectaController implements Serializable {
     public List<Ventadirecta> getItems() {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         LoginBean loginBean = (LoginBean) facesContext.getApplication().getELResolver().getValue(facesContext.getELContext(), null, "loginBean");
-        System.out.println("LOGIN: " + loginBean.getUsuario().getIdusuario() + " " + loginBean.getUsuario().getUsuario());
         
         if (items == null) {
             items = getFacade().findItemsDesc(loginBean.getUsuario());
@@ -1221,9 +1220,7 @@ public class VentadirectaController implements Serializable {
                 dosificacion.getNitEmpresa(),
                 movimiento.getNrofactura(),
                 dosificacion.getNroautorizacion().toString(),
-                //ventadirecta.getFechaPedido(),
                 movimiento.getFechaFactura(),
-                //ventadirecta.getTotalimporte(),
                 movimiento.getImporteTotal().doubleValue(),
                 //ventadirecta.getTotalimporte(), // Importe Base para debito fiscal
                 movimiento.getImporteParaDebitoFiscal().doubleValue(),
@@ -1315,11 +1312,13 @@ public class VentadirectaController implements Serializable {
         if (razonSocial.equals("") || razonSocial == null )
             razonSocial = venta.getCliente().getNom()+" "+venta.getCliente().getAp()+" "+venta.getCliente().getAm();*/
 
-        String razonSocial = movimiento.getRazonSocial();
-        Long nroFactura = movimiento.getNrofactura().longValue();
+        String razonSocial   = movimiento.getRazonSocial();
+        Long nroFactura      = movimiento.getNrofactura().longValue();
         String codigoControl = movimiento.getCodigocontrol();
 
         razonSocial = razonSocial.toUpperCase();
+
+        controlCode.setKeyQR(movimiento.getCodigoQR());
 
         System.out.println("====> controlCode.getKeyQR()::: " + controlCode.getKeyQR());
         System.out.println("====> dosificacion.getLlave()::: " + dosificacion.getLlave());
@@ -1454,20 +1453,26 @@ public class VentadirectaController implements Serializable {
 
     private Map<String, Object> getReportParamsFactura(String nameClient, long numfac, String etiqueta, String codControl, String keyQR, Ventadirecta venta, Dosificacion dosificacion) {
 
+        System.out.println("======> getReportParamsFactura...");
+
+        Movimiento movimiento = venta.getMovimiento();
         String filePath = FileCacheLoader.i.getPath("/resources/reportes/qr_inv.png");
-        String nroDoc = venta.getCliente().getNroDoc();
+        String nroDoc   = venta.getCliente().getNroDoc();
         DateUtil dateUtil = new DateUtil();
 
-        if (venta.getMovimiento() != null){
+        /*if (venta.getMovimiento() != null){
             nroDoc = venta.getMovimiento().getNitCliente();
         }else {
             if(StringUtils.isNotEmpty(venta.getCliente().getNit()))
                 nroDoc = venta.getCliente().getNit();
-        }
+        }*/
+
+        String nitCliente = movimiento.getNitCliente();
 
         //todo:completar los datos de la tabla
         Calendar cal = Calendar.getInstance();
-        cal.setTime(venta.getFechaPedido());
+        //cal.setTime(venta.getFechaPedido());
+        cal.setTime(movimiento.getFechaFactura());
         int anio = cal.get(Calendar.YEAR);
         int mes = cal.get(Calendar.MONTH);
         int dia = cal.get(Calendar.DAY_OF_MONTH);
@@ -1479,8 +1484,7 @@ public class VentadirectaController implements Serializable {
         paramMap.put("nitEmpresa", dosificacion.getNitEmpresa());
         paramMap.put("numFac", numfac);
         paramMap.put("numAutorizacion", dosificacion.getNroautorizacion().toString());
-        //paramMap.put("numAutorizacion", venta.getMovimiento().getNroAutorizacion());
-        paramMap.put("nitCliente", nroDoc);
+        paramMap.put("nitCliente", nitCliente);
         paramMap.put("fecha", fecha);
         paramMap.put("nombreCliente", nameClient);
         paramMap.put("fechaLimite", dosificacion.getFechavencimiento());
@@ -1490,8 +1494,8 @@ public class VentadirectaController implements Serializable {
         paramMap.put("etiquetaLey",dosificacion.getEtiquetaLey());
         //verificar por que no requiere el codigo de control
         paramMap.put("llaveQR", keyQR);
-        paramMap.put("totalLiteral", moneyUtil.Convertir(venta.getTotalimporte().toString(), true));
-        paramMap.put("total", venta.getTotalimporte());
+        paramMap.put("totalLiteral", moneyUtil.Convertir(movimiento.getImporteTotal().toString(), true));
+        paramMap.put("total", movimiento.getImporteTotal().doubleValue());
         paramMap.put("valorComision", new Double("0"));
         paramMap.put("REPORT_LOCALE", new java.util.Locale("en", "US"));
         barcodeRenderer.generateQR(keyQR, filePath);
