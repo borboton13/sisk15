@@ -1291,10 +1291,11 @@ public class PedidosReportController implements Serializable {
 
         File jasper = new File(FacesContext.getCurrentInstance().getExternalContext().getRealPath("/resources/reportes/factura.jasper"));
 
-        Movimiento mov = pedido.getMovimiento();
-        Dosificacion dosage = dosificacionFacade.findByAuthorization(mov.getNroAutorizacion());
-        ControlCode controlCode = generateCodControl(pedido, mov.getNrofactura(), new BigInteger(mov.getNroAutorizacion()), dosage.getLlave(), dosage.getNitEmpresa());
-        Map<String, Object> paramMap = getParamMapReimpresion(controlCode, dosage, mov);
+        Movimiento movimiento = pedido.getMovimiento();
+        Dosificacion dosage = dosificacionFacade.findByAuthorization(movimiento.getNroAutorizacion());
+        //ControlCode controlCode = generateCodControl(pedido, mov.getNrofactura(), new BigInteger(mov.getNroAutorizacion()), dosage.getLlave(), dosage.getNitEmpresa());
+        ControlCode controlCode = recuperarCodControl(movimiento, dosage);
+        Map<String, Object> paramMap = getParamMapReimpresion(controlCode, dosage, movimiento);
         /**/
         /*DateUtil dateUtil = new DateUtil();
         Calendar cal = Calendar.getInstance();
@@ -2253,6 +2254,23 @@ public class PedidosReportController implements Serializable {
         JasperPrint jasperPrint = JasperFillManager.fillReport(jasper.getPath(), parametros, new JRBeanCollectionDataSource(venta.getArticulosPedidos()));
         byte[] pdf = JasperExportManager.exportReportToPdf(jasperPrint);
         return pdf;
+    }
+
+    private ControlCode recuperarCodControl(Movimiento movimiento, Dosificacion dosificacion) {
+
+        ControlCode controlCode = new ControlCode(
+                dosificacion.getNitEmpresa(),
+                movimiento.getNrofactura(),
+                dosificacion.getNroautorizacion().toString(),
+                movimiento.getFechaFactura(),
+                movimiento.getImporteTotal().doubleValue(),
+                movimiento.getImporteParaDebitoFiscal().doubleValue(),
+                movimiento.getNitCliente(),
+                movimiento.getDescuentos().doubleValue());
+
+        moneyUtil.getLlaveQR(controlCode, dosificacion.getLlave());
+        controlCode.generarCodigoQR();
+        return controlCode;
     }
 
     //todo: dar formato al total importe y al importeBaseCreditFisical
