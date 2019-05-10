@@ -793,7 +793,10 @@ public class VentadirectaController implements Serializable {
         System.out.println("LOGIN: " + loginBean.getUsuario().getIdusuario() + " " + loginBean.getUsuario().getUsuario());
         
         if (items == null) {
-            items = getFacade().findItemsDesc(loginBean.getUsuario());
+            if (loginBean.getUsuario().getUsuario().equals("root"))
+                items = getFacade().findItemsAllDesc();
+            else
+                items = getFacade().findItemsDesc(loginBean.getUsuario());
         }
         return items;
     }

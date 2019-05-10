@@ -63,6 +63,20 @@ public class VentadirectaFacade extends AbstractFacade<Ventadirecta> {
         return result;
     }
 
+    public List<Ventadirecta> findItemsAllDesc() {
+        List<Ventadirecta> result = new ArrayList<>();
+        Date currentDate = new Date();
+        try{
+            em.flush();
+            result = (List<Ventadirecta>)em.createQuery("select v from Ventadirecta v " +
+                    "order by v.idventadirecta desc")
+                    .getResultList();
+        }catch (NoResultException e){
+            return result;
+        }
+        return result;
+    }
+
     public void actualizarVentadirecta(Ventadirecta ventadirecta){
 
         em.merge(ventadirecta);
