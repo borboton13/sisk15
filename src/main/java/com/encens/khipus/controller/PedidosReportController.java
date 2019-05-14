@@ -1049,7 +1049,7 @@ public class PedidosReportController implements Serializable {
         sfTmpenc.getAsientos().add(asientoIT);
 
         /** Si existe Reposiciones (Mermas) **/
-        if (importeReposicion.doubleValue() > 0){
+        /*if (importeReposicion.doubleValue() > 0){
 
             SfTmpdet asientoMerma = new SfTmpdet();
             asientoMerma.setCuenta(ctaMerma.getCuenta().getCuenta());
@@ -1057,9 +1057,9 @@ public class PedidosReportController implements Serializable {
             setDebeOHaber(ctaMerma, asientoMerma, importeReposicion);
             asientoMerma.setSfTmpenc(sfTmpenc);
             sfTmpenc.getAsientos().add(asientoMerma);
-        }
+        }*/
         /** Si existe Promocion **/
-        if (importePromocion.doubleValue() > 0){
+        /*if (importePromocion.doubleValue() > 0){
 
             SfTmpdet asientoPromo = new SfTmpdet();
             asientoPromo.setCuenta(ctaPromo.getCuenta().getCuenta());
@@ -1067,16 +1067,16 @@ public class PedidosReportController implements Serializable {
             setDebeOHaber(ctaPromo, asientoPromo, importePromocion);
             asientoPromo.setSfTmpenc(sfTmpenc);
             sfTmpenc.getAsientos().add(asientoPromo);
-        }
+        }*/
         /** Cta. Almacen **/
-        if (importeReposicion.doubleValue() > 0 || importePromocion.doubleValue() > 0){
+        /*if (importeReposicion.doubleValue() > 0 || importePromocion.doubleValue() > 0){
             SfTmpdet asientoCtaAlmPT = new SfTmpdet();
             asientoCtaAlmPT.setCuenta(ctaAlmPT.getCuenta().getCuenta());
             asientoCtaAlmPT.setNoTrans(nroTrans);
             setDebeOHaber(ctaAlmPT, asientoCtaAlmPT, BigDecimalUtil.sum(importeReposicion, importePromocion));
             asientoCtaAlmPT.setSfTmpenc(sfTmpenc);
             sfTmpenc.getAsientos().add(asientoCtaAlmPT);
-        }
+        }*/
 
         /** 11. Credito Fiscal 2 haber **/
         SfTmpdet asientoCreditoFiscalHaber = new SfTmpdet();
