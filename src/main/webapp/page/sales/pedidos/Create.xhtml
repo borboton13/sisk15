@@ -146,6 +146,11 @@
                     </h:outputText>
                 </f:facet>
             </p:dataTable>
+            <p:panelGrid columns="3" rendered="#{pedidosController.selected != null}">
+                <p:outputLabel value="Observacion:" />
+                <h:inputText value="#{pedidosController.selected.observacion}" />
+
+            </p:panelGrid>
             <p:commandButton actionListener="#{pedidosController.registrar}" 
                              value="#{bundle.Save}" 
                              rendered="#{pedidosController.selected!=null}" 
