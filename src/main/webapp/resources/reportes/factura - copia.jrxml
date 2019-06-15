@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="factura" pageWidth="609" pageHeight="452" columnWidth="575" leftMargin="17" rightMargin="17" topMargin="14" bottomMargin="14" uuid="74ea503c-4583-4174-a4e7-795a86208337">
-	<property name="ireport.zoom" value="1.6105100000000048"/>
+	<property name="ireport.zoom" value="1.7715610000000053"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="112"/>
+	<property name="ireport.y" value="57"/>
 	<parameter name="nitEmpresa" class="java.lang.String"/>
 	<parameter name="numFac" class="java.lang.Long"/>
 	<parameter name="numAutorizacion" class="java.lang.String"/>
@@ -33,15 +33,11 @@
 	<background>
 		<band height="424" splitType="Stretch">
 			<rectangle>
-				<reportElement x="1" y="130" width="571" height="185" uuid="8161637a-753e-4eff-a81e-360a80686172"/>
+				<reportElement x="1" y="130" width="74" height="185" uuid="8161637a-753e-4eff-a81e-360a80686172"/>
 			</rectangle>
 			<rectangle>
 				<reportElement x="75" y="130" width="329" height="185" uuid="985b4c14-d90e-4fca-810b-1c6f5c565143"/>
 			</rectangle>
-			<image>
-				<reportElement positionType="Float" mode="Opaque" x="161" y="156" width="238" height="156" uuid="24d28b8c-9f3a-4b17-aaba-6ba552013db9"/>
-				<imageExpression><![CDATA["C:\\Users\\Admin\\Documents\\ILVA\\images\\ilva03.jpg"]]></imageExpression>
-			</image>
 			<rectangle>
 				<reportElement x="404" y="130" width="69" height="185" uuid="d0c73c95-beb8-49b4-a564-444fe98f1343"/>
 			</rectangle>
@@ -248,6 +244,13 @@
 	</columnHeader>
 	<detail>
 		<band height="10" splitType="Stretch">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" mode="Opaque" x="81" y="0" width="318" height="10" uuid="d60f83d8-8f11-43ba-8d9c-7be3aa43f81e"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{invArticulos.descri}]]></textFieldExpression>
+			</textField>
 			<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true">
 				<reportElement positionType="Float" stretchType="RelativeToTallestObject" mode="Opaque" x="406" y="0" width="45" height="10" uuid="d1783a2c-96be-435f-9032-e40191399ceb"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
@@ -268,13 +271,6 @@
 					<font fontName="Arial" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{cantidad}]]></textFieldExpression>
-			</textField>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement positionType="Float" stretchType="RelativeToTallestObject" mode="Opaque" x="81" y="0" width="318" height="10" uuid="d60f83d8-8f11-43ba-8d9c-7be3aa43f81e"/>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Arial" size="8"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{invArticulos.descri}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
