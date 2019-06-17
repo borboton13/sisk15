@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="factura" pageWidth="609" pageHeight="452" columnWidth="575" leftMargin="17" rightMargin="17" topMargin="14" bottomMargin="14" uuid="74ea503c-4583-4174-a4e7-795a86208337">
-	<property name="ireport.zoom" value="1.6105100000000048"/>
+	<property name="ireport.zoom" value="1.2100000000000037"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="528"/>
+	<property name="ireport.y" value="267"/>
 	<parameter name="nitEmpresa" class="java.lang.String"/>
 	<parameter name="numFac" class="java.lang.Long"/>
 	<parameter name="numAutorizacion" class="java.lang.String"/>
@@ -19,10 +19,10 @@
 		<parameterDescription><![CDATA[]]></parameterDescription>
 	</parameter>
 	<parameter name="imgQR" class="java.lang.Object"/>
-	<parameter name="imgLogo" class="java.lang.Object"/>
 	<parameter name="etiquetaEmpresa" class="java.lang.String"/>
 	<parameter name="valorComision" class="java.lang.Double"/>
 	<parameter name="etiquetaLey" class="java.lang.String"/>
+	<parameter name="imgLogo" class="java.lang.Object"/>
 	<field name="total" class="java.lang.Integer"/>
 	<field name="invArticulos.descri" class="java.lang.String"/>
 	<field name="precio" class="java.lang.Double"/>
@@ -34,7 +34,7 @@
 	<background>
 		<band height="424" splitType="Stretch">
 			<rectangle>
-				<reportElement x="1" y="130" width="571" height="185" uuid="8161637a-753e-4eff-a81e-360a80686172"/>
+				<reportElement x="1" y="130" width="74" height="185" uuid="8161637a-753e-4eff-a81e-360a80686172"/>
 			</rectangle>
 			<rectangle>
 				<reportElement x="75" y="130" width="329" height="185" uuid="985b4c14-d90e-4fca-810b-1c6f5c565143"/>
@@ -45,8 +45,8 @@
 			<rectangle>
 				<reportElement x="473" y="130" width="100" height="185" uuid="50c02491-e54b-4051-98ec-059a6f40189c"/>
 			</rectangle>
-			<image>
-				<reportElement x="178" y="220" width="164" height="95" uuid="f9ffb353-51c4-4e9e-bf09-4ece33815b84"/>
+			<image scaleImage="FillFrame">
+				<reportElement x="149" y="213" width="198" height="87" uuid="d6f42e68-99c0-4a6f-803b-148aae787e77"/>
 				<imageExpression><![CDATA[$P{imgLogo}]]></imageExpression>
 			</image>
 		</band>
@@ -249,6 +249,13 @@
 	</columnHeader>
 	<detail>
 		<band height="10" splitType="Stretch">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" mode="Opaque" x="81" y="0" width="318" height="10" uuid="d60f83d8-8f11-43ba-8d9c-7be3aa43f81e"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{invArticulos.descri}]]></textFieldExpression>
+			</textField>
 			<textField isStretchWithOverflow="true" pattern="#,##0.00" isBlankWhenNull="true">
 				<reportElement positionType="Float" stretchType="RelativeToTallestObject" mode="Opaque" x="406" y="0" width="45" height="10" uuid="d1783a2c-96be-435f-9032-e40191399ceb"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
@@ -269,13 +276,6 @@
 					<font fontName="Arial" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{cantidad}]]></textFieldExpression>
-			</textField>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement positionType="Float" stretchType="RelativeToTallestObject" mode="Opaque" x="81" y="0" width="318" height="10" uuid="d60f83d8-8f11-43ba-8d9c-7be3aa43f81e"/>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Arial" size="8"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{invArticulos.descri}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

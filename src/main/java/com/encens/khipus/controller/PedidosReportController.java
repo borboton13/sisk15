@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.net.URL;
 import java.text.*;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -578,6 +579,7 @@ public class PedidosReportController implements Serializable {
 
             BufferedImage imgLogo = ImageIO.read(new File(filePathLogo));
             paramMap.put("imgLogo", imgLogo);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -1375,10 +1377,17 @@ public class PedidosReportController implements Serializable {
         paramMap.put("REPORT_LOCALE", new java.util.Locale("en", "US"));
 
         String filePath = FileCacheLoader.i.getPath("/resources/reportes/qr_inv.png");
+        String filePathLogo = FileCacheLoader.i.getPath("/resources/img/ilva4.png");
         barcodeRenderer.generateQR(controlCode.getKeyQR(), filePath);
         try {
             BufferedImage img = ImageIO.read(new File(filePath));
             paramMap.put("imgQR", img);
+
+            BufferedImage imgLogo = ImageIO.read(new File(filePathLogo));
+            paramMap.put("imgLogo", imgLogo);
+
+            //paramMap.put("imgLogo", this.getClass().getResourceAsStream("/resources/reportes/ilva3.png"));
+
         } catch (IOException e) {
             e.printStackTrace();
         }
