@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="factura" pageWidth="609" pageHeight="452" columnWidth="575" leftMargin="17" rightMargin="17" topMargin="14" bottomMargin="14" uuid="74ea503c-4583-4174-a4e7-795a86208337">
 	<property name="ireport.zoom" value="1.6105100000000048"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="112"/>
+	<property name="ireport.y" value="528"/>
 	<parameter name="nitEmpresa" class="java.lang.String"/>
 	<parameter name="numFac" class="java.lang.Long"/>
 	<parameter name="numAutorizacion" class="java.lang.String"/>
@@ -19,6 +19,7 @@
 		<parameterDescription><![CDATA[]]></parameterDescription>
 	</parameter>
 	<parameter name="imgQR" class="java.lang.Object"/>
+	<parameter name="imgLogo" class="java.lang.Object"/>
 	<parameter name="etiquetaEmpresa" class="java.lang.String"/>
 	<parameter name="valorComision" class="java.lang.Double"/>
 	<parameter name="etiquetaLey" class="java.lang.String"/>
@@ -38,16 +39,16 @@
 			<rectangle>
 				<reportElement x="75" y="130" width="329" height="185" uuid="985b4c14-d90e-4fca-810b-1c6f5c565143"/>
 			</rectangle>
-			<image>
-				<reportElement positionType="Float" mode="Opaque" x="161" y="156" width="238" height="156" uuid="24d28b8c-9f3a-4b17-aaba-6ba552013db9"/>
-				<imageExpression><![CDATA["C:\\Users\\Admin\\Documents\\ILVA\\images\\ilva03.jpg"]]></imageExpression>
-			</image>
 			<rectangle>
 				<reportElement x="404" y="130" width="69" height="185" uuid="d0c73c95-beb8-49b4-a564-444fe98f1343"/>
 			</rectangle>
 			<rectangle>
 				<reportElement x="473" y="130" width="100" height="185" uuid="50c02491-e54b-4051-98ec-059a6f40189c"/>
 			</rectangle>
+			<image>
+				<reportElement x="178" y="220" width="164" height="95" uuid="f9ffb353-51c4-4e9e-bf09-4ece33815b84"/>
+				<imageExpression><![CDATA[$P{imgLogo}]]></imageExpression>
+			</image>
 		</band>
 	</background>
 	<title>

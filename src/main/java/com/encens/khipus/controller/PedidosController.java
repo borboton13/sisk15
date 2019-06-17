@@ -56,8 +56,8 @@ public class PedidosController implements Serializable {
     private ArticulosPedidoController articulosPedidoController;
 
     private List<String> etiquetas = Arrays.asList(new String[]{ "", "S.PRENATAL Y L.", "S. UNIVERSAL" });
-
     private String etiquetaSel;
+    private String observacion;
 
     private List<ArticulosPedido> articulosPedidos = new ArrayList<>();
     private List<ArticulosPedido> articulosPedidosElegidos = new ArrayList<>();
@@ -232,6 +232,7 @@ public class PedidosController implements Serializable {
 
     public void registrar() throws IOException, JRException {
         selected.setEstado("PENDIENTE");
+        selected.setObservacion(this.observacion);
         create();
     }
 
@@ -269,6 +270,7 @@ public class PedidosController implements Serializable {
             reposiciones = new ArrayList<>();
         }
         articulosPedidosElegidos.clear();
+        setObservacion(null);
     }
 
     private boolean validarCampos() {
@@ -502,6 +504,14 @@ public class PedidosController implements Serializable {
 
     public void setEtiquetaSel(String etiquetaSel) {
         this.etiquetaSel = etiquetaSel;
+    }
+
+    public String getObservacion() {
+        return observacion;
+    }
+
+    public void setObservacion(String observacion) {
+        this.observacion = observacion;
     }
 
     @FacesConverter(forClass = Pedidos.class)

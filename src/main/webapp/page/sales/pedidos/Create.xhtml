@@ -146,15 +146,14 @@
                     </h:outputText>
                 </f:facet>
             </p:dataTable>
-            <p:panelGrid columns="3" rendered="#{pedidosController.selected != null}">
+            <p:panelGrid id="panelObs" columns="3" rendered="#{pedidosController.selected != null}">
                 <p:outputLabel value="Observacion:" />
-                <h:inputText value="#{pedidosController.selected.observacion}" />
-
+                <h:inputText value="#{pedidosController.observacion}" size="80" />
             </p:panelGrid>
             <p:commandButton actionListener="#{pedidosController.registrar}" 
                              value="#{bundle.Save}" 
                              rendered="#{pedidosController.selected!=null}" 
-                             update="display,:PedidosListForm:growl,:PedidosCreateForm:articulosTable"/>
+                             update="display,:PedidosListForm:growl,:PedidosCreateForm:articulosTable,:PedidosCreateForm:panelObs"/>
             
             <p:commandButton actionListener="#{pedidosController.cancel}" 
                              value="#{bundle.Close}" 

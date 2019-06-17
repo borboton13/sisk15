@@ -396,6 +396,7 @@ public class PedidosReportController implements Serializable {
         
         paramMap.put("totalLiteral", moneyUtil.Convertir( totalPagar.toString() , true));
         paramMap.put("totalPagar", totalPagar);
+        paramMap.put("observacion", pedido.getObservacion());
         paramMap.put("REPORT_LOCALE", new java.util.Locale("en", "US"));
         
         return paramMap;
@@ -533,6 +534,7 @@ public class PedidosReportController implements Serializable {
     private Map<String, Object> getReportParams(String nameClient, long numfac, String etiqueta, String codControl, String keyQR, Ventadirecta venta) {
 
         String filePath = FileCacheLoader.i.getPath("/resources/reportes/qr_inv.png");
+        String filePathLogo = FileCacheLoader.i.getPath("/resources/reportes/logo01.png");
         String nroDoc = venta.getCliente().getNroDoc();
         DateUtil dateUtil = new DateUtil();
         if(StringUtils.isNotEmpty(venta.getCliente().getNit()))
@@ -573,6 +575,9 @@ public class PedidosReportController implements Serializable {
         try {
             BufferedImage img = ImageIO.read(new File(filePath));
             paramMap.put("imgQR", img);
+
+            BufferedImage imgLogo = ImageIO.read(new File(filePathLogo));
+            paramMap.put("imgLogo", imgLogo);
         } catch (IOException e) {
             e.printStackTrace();
         }
