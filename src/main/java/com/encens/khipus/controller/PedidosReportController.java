@@ -1371,9 +1371,9 @@ public class PedidosReportController implements Serializable {
         paramMap.put("etiquetaLey",     dosage.getEtiquetaLey());
         //verificar por que no requiere el codigo de control
         paramMap.put("llaveQR", controlCode.getKeyQR());
-        paramMap.put("totalLiteral", moneyUtil.Convertir(mov.getImporteTotal().toString(), true));
+        paramMap.put("totalLiteral", moneyUtil.Convertir(mov.getImporteParaDebitoFiscal().toString(), true));
         paramMap.put("total", mov.getImporteTotal().doubleValue());
-        paramMap.put("valorComision", new Double("0"));
+        paramMap.put("valorComision", mov.getDescuentos().doubleValue());
         paramMap.put("REPORT_LOCALE", new java.util.Locale("en", "US"));
 
         String filePath = FileCacheLoader.i.getPath("/resources/reportes/qr_inv.png");
