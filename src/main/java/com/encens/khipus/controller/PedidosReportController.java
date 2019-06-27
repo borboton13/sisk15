@@ -2251,7 +2251,15 @@ public class PedidosReportController implements Serializable {
 
     public void exportarPDF(HashMap parametros, File jasper, Pedidos pedido) throws JRException, IOException {
 
-        JasperPrint jasperPrint = JasperFillManager.fillReport(jasper.getPath(), parametros, new JRBeanCollectionDataSource(pedido.getArticulosPedidos()));
+        Collection<ArticulosPedido> articulos = new ArrayList<>();
+        for (ArticulosPedido articulo : pedido.getArticulosPedidos()) {
+                String etiquetaSub =  articulo.getPedidos().getDescripcion() != null ? " " + articulo.getPedidos().getDescripcion() : "";
+                articulo.getInvArticulos().setDescri(articulo.getInvArticulos().getDescri() + etiquetaSub);
+                articulos.add(articulo);
+        }
+
+        //JasperPrint jasperPrint = JasperFillManager.fillReport(jasper.getPath(), parametros, new JRBeanCollectionDataSource(pedido.getArticulosPedidos()));
+        JasperPrint jasperPrint = JasperFillManager.fillReport(jasper.getPath(), parametros, new JRBeanCollectionDataSource(articulos));
         HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
         response.addHeader("Content-disposition", "attachment; filename=DOCUMENTO_ILVA.pdf");
         ServletOutputStream stream = response.getOutputStream();
