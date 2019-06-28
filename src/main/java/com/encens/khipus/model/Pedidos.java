@@ -27,13 +27,13 @@ import java.util.Date;
         @NamedQuery(name = "Pedidos.findByIdpedidos", query = "SELECT p FROM Pedidos p WHERE p.idpedidos = :idpedidos"),
         @NamedQuery(name = "Pedidos.findByDescripcion", query = "SELECT p FROM Pedidos p WHERE p.descripcion = :descripcion"),
         @NamedQuery(name = "Pedidos.findByFechaPedido", query = "SELECT p FROM Pedidos p WHERE p.fechaPedido = :fechaPedido"),
-        @NamedQuery(name = "Pedidos.findByIddireccion", query = "SELECT p FROM Pedidos p WHERE p.iddireccion = :iddireccion"),
+        /*@NamedQuery(name = "Pedidos.findByIddireccion", query = "SELECT p FROM Pedidos p WHERE p.iddireccion = :iddireccion"),*/
         @NamedQuery(name = "Pedidos.findByTotal", query = "SELECT p FROM Pedidos p WHERE p.total = :total"),
         @NamedQuery(name = "Pedidos.findByFechaEntrega", query = "SELECT p FROM Pedidos p WHERE p.fechaEntrega = :fechaEntrega"),
-        @NamedQuery(name = "Pedidos.findByFechaAPagar", query = "SELECT p FROM Pedidos p WHERE p.fechaAPagar = :fechaAPagar"),
+        /*@NamedQuery(name = "Pedidos.findByFechaAPagar", query = "SELECT p FROM Pedidos p WHERE p.fechaAPagar = :fechaAPagar"),*/
         @NamedQuery(name = "Pedidos.findByObservacion", query = "SELECT p FROM Pedidos p WHERE p.observacion = :observacion"),
         @NamedQuery(name = "Pedidos.findByFactura", query = "SELECT p FROM Pedidos p WHERE p.factura = :factura"),
-        @NamedQuery(name = "Pedidos.findBySupervisor", query = "SELECT p FROM Pedidos p WHERE p.supervisor = :supervisor"),
+        /*@NamedQuery(name = "Pedidos.findBySupervisor", query = "SELECT p FROM Pedidos p WHERE p.supervisor = :supervisor"),*/
         @NamedQuery(name = "Pedidos.findByPorcenDescuento", query = "SELECT p FROM Pedidos p WHERE p.porcentajeComision = :porcenDescuento"),
         @NamedQuery(name = "Pedidos.findByPorcenRetencion", query = "SELECT p FROM Pedidos p WHERE p.porcentajeGarantia = :porcenRetencion")})
 public class Pedidos implements Serializable {
@@ -61,17 +61,17 @@ public class Pedidos implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date fechaPedido;
 
-    @Column(name = "IDDIRECCION")
-    private BigInteger iddireccion;
+    /*@Column(name = "IDDIRECCION")
+    private BigInteger iddireccion;*/
 
     @Basic(optional = false)
     @Column(name = "FECHA_ENTREGA")
     @Temporal(TemporalType.DATE)
     private Date fechaEntrega;
 
-    @Column(name = "FECHA_A_PAGAR")
+    /*@Column(name = "FECHA_A_PAGAR")
     @Temporal(TemporalType.DATE)
-    private Date fechaAPagar;
+    private Date fechaAPagar;*/
 
     @Size(max = 100)
     @Column(name = "OBSERVACION")
@@ -80,8 +80,8 @@ public class Pedidos implements Serializable {
     @Column(name = "FACTURA")
     private String factura;
 
-    @Column(name = "SUPERVISOR")
-    private BigInteger supervisor;
+    /*@Column(name = "SUPERVISOR")
+    private BigInteger supervisor;*/
 
     @Column(name = "PORCENTAJECOMISION")
     private Double porcentajeComision = 0.0;
@@ -179,7 +179,7 @@ public class Pedidos implements Serializable {
         this.idpedidos = idpedidos;
         this.fechaPedido = fechaPedido;
         this.total = total;
-        this.fechaAPagar = fechaAPagar;
+        /*this.fechaAPagar = fechaAPagar;*/
         this.factura = factura;
     }
 
@@ -207,13 +207,13 @@ public class Pedidos implements Serializable {
         this.fechaPedido = fechaPedido;
     }
 
-    public BigInteger getIddireccion() {
+    /*public BigInteger getIddireccion() {
         return iddireccion;
     }
 
     public void setIddireccion(BigInteger iddireccion) {
         this.iddireccion = iddireccion;
-    }
+    }*/
 
     public Double getTotal() {
         return total;
@@ -231,13 +231,13 @@ public class Pedidos implements Serializable {
         this.fechaEntrega = fechaEntrega;
     }
 
-    public Date getFechaAPagar() {
+    /*public Date getFechaAPagar() {
         return fechaAPagar;
     }
 
     public void setFechaAPagar(Date fechaAPagar) {
         this.fechaAPagar = fechaAPagar;
-    }
+    }*/
 
     public String getObservacion() {
         return observacion;
@@ -255,13 +255,13 @@ public class Pedidos implements Serializable {
         this.factura = factura;
     }
 
-    public BigInteger getSupervisor() {
+    /*public BigInteger getSupervisor() {
         return supervisor;
     }
 
     public void setSupervisor(BigInteger supervisor) {
         this.supervisor = supervisor;
-    }
+    }*/
 
     public Double getPorcentajeComision() {
         return porcentajeComision;
