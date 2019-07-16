@@ -31,7 +31,7 @@ public class MoneyUtil{
     }
 
     public String Convertir(String numero, boolean mayusculas) {
-
+        numero = new Double(numero).toString();
         String literal = "";
         String parte_decimal;
         //si el numero utiliza (.) en lugar de (,) -> se reemplaza
@@ -70,10 +70,12 @@ public class MoneyUtil{
                         || Double.parseDouble("0."+Num[1]) == 0.6
                         || Double.parseDouble("0."+Num[1]) == 0.7
                         || Double.parseDouble("0."+Num[1]) == 0.8                        
-                        || Double.parseDouble("0."+Num[1]) == 0.9 )
-                parte_decimal = Num[1]+ "0/100 Bolivianos.";
+                        || Double.parseDouble("0."+Num[1]) == 0.9 ){
+
+                    parte_decimal = Num[1]+ "0/100 Bolivianos.";
+                }
                 else
-                parte_decimal = Num[1]+ "/100 Bolivianos.";
+                    parte_decimal = Num[1]+ "/100 Bolivianos.";
             }
             //se convierte el numero a literal
             if (Integer.parseInt(Num[0]) == 0) {//si el valor es cero
