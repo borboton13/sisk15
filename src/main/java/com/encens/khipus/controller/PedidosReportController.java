@@ -2352,7 +2352,11 @@ public class PedidosReportController implements Serializable {
         for (ArticulosPedido articulo : pedido.getArticulosPedidos()) {
                 String etiquetaSub =  articulo.getPedidos().getDescripcion() != null ? " " + articulo.getPedidos().getDescripcion() : "";
                 articulo.getInvArticulos().setDescri(articulo.getInvArticulos().getDescri() + etiquetaSub);
-                articulos.add(articulo);
+
+                //articulos.add(articulo);
+                if (!existeArticulo(articulos, articulo))
+                    articulos.add(articulo);
+
         }
 
         //JasperPrint jasperPrint = JasperFillManager.fillReport(jasper.getPath(), parametros, new JRBeanCollectionDataSource(pedido.getArticulosPedidos()));
