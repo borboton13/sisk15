@@ -96,7 +96,7 @@
                 <f:facet name="header">
                     Articulos Elegidos
                 </f:facet>
-                <p:column headerText="Producto" style="width:40%;">
+                <p:column headerText="Producto" style="width:35%;">
                     <h:outputText value="#{item.invArticulos.descri}" />
                 </p:column>
                 <p:column headerText="Cant." style="width:10%;">
@@ -104,19 +104,29 @@
                         <p:ajax event="blur"  process="@this" oncomplete="refreshFooter();" update="importe,total"/>
                     </h:inputText>
                 </p:column>
+                <p:column headerText="Promo" style="width:10%;">
+                    <h:inputText value="#{item.promocion}" size="4">
+                        <p:ajax event="blur"  process="@this" oncomplete="refreshFooter();" update="importe,total"/>
+                    </h:inputText>
+                </p:column>
                 <p:column headerText="P.U." style="width:10%;">
                     <h:inputText value="#{item.precio}" size="4" disabled="true"/>
                     <!--<h:outputText value="#{item.precio}"/>-->
                 </p:column>
+                <p:column headerText="Repos." style="width:10%;">
+                    <h:inputText value="#{item.reposicion}" size="4">
+                        <p:ajax event="blur"  process="@this" oncomplete="refreshFooter();" update="importe,total"/>
+                    </h:inputText>
+                </p:column>
                 <p:column headerText="Cant. T." style="width:10%;">
                     <h:outputText id="total" value="#{item.total}" />
                 </p:column>
-                <p:column headerText="Importe" style="width:15%;">
+                <p:column headerText="Importe" style="width:10%;">
                     <h:outputText id="importe" value="#{item.importe}">
                         <f:convertNumber type="currency" currencySymbol="Bs." locale="en_US" />
                     </h:outputText>
                 </p:column>
-                <p:column headerText="Acción" style="width:7%;">
+                <p:column headerText="Acción" style="width:5%;">
                     <p:commandLink value="Quitar"
                                    actionListener="#{ventadirectaController.reponerArticulo(item)}"
                                    update="articulosTable,:VentaDirectaListForm:growl,:newSaleForm:totalPago">
