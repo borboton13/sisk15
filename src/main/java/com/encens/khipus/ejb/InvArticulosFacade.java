@@ -228,8 +228,11 @@ public class InvArticulosFacade extends AbstractFacade<InvArticulos> {
      */
     public void updateArticleSubtractTotalCost(Pedidos pedido){
         for ( ArticulosPedido article : pedido.getArticulosPedidos() ){
+            //double totalCost = article.getTotal().doubleValue() * article.getCu();
+            //double saldoMon  = totalCost * 0.87;
             double totalCost = article.getTotal().doubleValue() * article.getCu();
-            double saldoMon  = totalCost * 0.87;
+            double saldoMon  = article.getTotal().doubleValue() * article.getUnitCost();
+
             updateArticleSubtractTotalCost(article.getInvArticulos().getProductItemCode(), totalCost, saldoMon);
         }
     }
@@ -241,18 +244,18 @@ public class InvArticulosFacade extends AbstractFacade<InvArticulos> {
     public void updateArticleSubtractTotalCost(Ventadirecta ventadirecta){
         for ( ArticulosPedido article : ventadirecta.getArticulosPedidos() ){
             double totalCost = article.getTotal().doubleValue() * article.getCu();
-            double saldoMon  = totalCost * 0.87;
+            double saldoMon  = article.getTotal().doubleValue() * article.getUnitCost();
             updateArticleSubtractTotalCost(article.getInvArticulos().getProductItemCode(), totalCost, saldoMon);
         }
     }
 
-    public void updateArticleSubtractTotalCost(String productItemCode, Double costSale, Double costoUniArticle){
+    public void updateArticleSubtractTotalCost(String productItemCode, Double totalCost, Double saldoMon){
         InvArticulos article = findByCodArt(productItemCode);
-        Double saldo_mon = article.getSaldoMon();
-        Double ct = article.getCt();
+        Double art_saldo_mon = article.getSaldoMon();
+        Double art_ct = article.getCt();
 
-        article.setSaldoMon(saldo_mon - costoUniArticle);
-        article.setCt(ct - costSale);
+        article.setSaldoMon(art_saldo_mon - saldoMon);
+        article.setCt(art_ct - totalCost);
 
         em.flush();
     }
@@ -263,8 +266,10 @@ public class InvArticulosFacade extends AbstractFacade<InvArticulos> {
      */
     public void updateArticleSumTotalCost(Pedidos pedido){
         for ( ArticulosPedido article : pedido.getArticulosPedidos() ){
+            //double totalCost = article.getTotal().doubleValue() * article.getCu();
+            //double saldoMon  = totalCost * 0.87;
             double totalCost = article.getTotal().doubleValue() * article.getCu();
-            double saldoMon  = totalCost * 0.87;
+            double saldoMon  = article.getTotal().doubleValue() * article.getUnitCost();
             updateArticleSumTotalCost(article.getInvArticulos().getProductItemCode(), totalCost, saldoMon);
         }
     }
@@ -276,7 +281,7 @@ public class InvArticulosFacade extends AbstractFacade<InvArticulos> {
     public void updateArticleSumTotalCost(Ventadirecta ventadirecta){
         for ( ArticulosPedido article : ventadirecta.getArticulosPedidos() ){
             double totalCost = article.getTotal().doubleValue() * article.getCu();
-            double saldoMon  = totalCost * 0.87;
+            double saldoMon  = article.getTotal().doubleValue() * article.getUnitCost();
             updateArticleSumTotalCost(article.getInvArticulos().getProductItemCode(), totalCost, saldoMon);
         }
     }

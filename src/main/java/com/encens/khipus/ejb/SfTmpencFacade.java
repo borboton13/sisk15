@@ -499,7 +499,7 @@ public class SfTmpencFacade extends AbstractFacade<SfTmpenc> {
 
         for ( ArticulosPedido articulo : ventadirecta.getArticulosPedidos() ){
 
-            em.createNativeQuery(" UPDATE inv_inventario SET saldo_uni = saldo_uni - " + articulo.getCantidad() +
+            em.createNativeQuery(" UPDATE inv_inventario SET saldo_uni = saldo_uni - " + articulo.getTotal() +
                                  " WHERE cod_art = " + articulo.getInvArticulos().getProductItemCode())
                                  .executeUpdate();
 

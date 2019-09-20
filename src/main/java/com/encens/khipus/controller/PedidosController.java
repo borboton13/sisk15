@@ -176,7 +176,8 @@ public class PedidosController implements Serializable {
         articulosPedido.setReposicion(0);
         articulosPedido.setPedidos(selected);
         articulosPedido.setTipo(ventaarticulo.getTipo());
-        articulosPedido.setCu(articuloElegido.getCostoUni());
+        articulosPedido.setUnitCost(articuloElegido.getCostoUni());
+        articulosPedido.setCu(articuloElegido.getCu());
         articulosPedidosElegidos.add(articulosPedido);
         /** articulos.remove(articuloElegido); **/ // repetir articulos
         articuloElegido = null;

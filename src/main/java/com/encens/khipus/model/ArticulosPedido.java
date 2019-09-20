@@ -57,6 +57,9 @@ public class ArticulosPedido implements Serializable {
     @Column(name = "IMPORTE")
     private Double importe = 0.0;
 
+    @Column(name = "costo_uni")
+    private Double unitCost;
+
     @Column(name = "CU")
     private Double cu;
 
@@ -294,5 +297,13 @@ public class ArticulosPedido implements Serializable {
 
     public void setCu(Double cu) {
         this.cu = cu;
+    }
+
+    public Double getUnitCost() {
+        return unitCost;
+    }
+
+    public void setUnitCost(Double unitCost) {
+        this.unitCost = unitCost;
     }
 }

@@ -223,8 +223,9 @@ public class VentadirectaController implements Serializable {
         articulosPedido.setReposicion(0);
         articulosPedido.setVentadirecta(selected);
         articulosPedido.setTipo(ventaarticulo.getTipo());
-        articulosPedido.setCu(articuloElegido.getCostoUni());
-        
+        articulosPedido.setCu(articuloElegido.getCu());
+        articulosPedido.setUnitCost(articuloElegido.getCostoUni());
+
         selected.getArticulosPedidos().add(articulosPedido);
         articulos.remove(articuloElegido);
         articuloElegido = new InvArticulos();
@@ -1613,7 +1614,7 @@ public class VentadirectaController implements Serializable {
         dosificacion.setNumeroactual(dosificacion.getNumeroactual()+1);
         guardarMovimientoFactura(ventadirecta, controlCode, dosificacion);
         crearAsientoFactura(ventadirecta.getTotalimporte(), nomcliente, ventadirecta, operacion);
-        //nota = ventadirecta.getDocumento();
+
         persist(PersistAction.CREATE, "La venta se registro correctamente.");
         sfTmpencFacade.restarInventario(ventadirecta);                      // inv_inventario
         invArticulosFacade.updateArticleSubtractTotalCost(ventadirecta);    // Update inv_articulo
