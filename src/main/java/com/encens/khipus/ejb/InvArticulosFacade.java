@@ -65,7 +65,11 @@ public class InvArticulosFacade extends AbstractFacade<InvArticulos> {
 
         List<InvArticulos> articulos = new ArrayList<>();
         try{
-            articulos = (List<InvArticulos>)em.createQuery("select articulo from InvArticulos articulo inner join articulo.invGrupos grupo where grupo.tipo =:venta")
+            articulos = (List<InvArticulos>)em.createQuery("" +
+                    "select articulo from InvArticulos articulo " +
+                    "inner join articulo.invGrupos grupo " +
+                    "where grupo.tipo =:venta " +
+                    "and articulo.estado = 'VIG'")
                         .setParameter("venta","VENTA")
                     .getResultList();
         }catch (NoResultException e)
