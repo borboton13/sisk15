@@ -380,8 +380,13 @@ public class PedidosController implements Serializable {
 
         if (loginBean.getUsuario().getUsuario().equals("cisc"))
             items = getFacade().findPedidosFromCisc(fechaDesde, loginBean.getUsuario());
-        else
-            items = getFacade().findPedidosFrom(fechaDesde);
+        else{
+            if (loginBean.getUsuario().getUsuario().equals("root"))
+                items = getFacade().findPedidosFrom(fechaDesde);
+            else
+                items = getFacade().findPedidosFromLac(fechaDesde);
+        }
+
 
         return items;
     }

@@ -288,6 +288,21 @@ public class PedidosFacade extends AbstractFacade<Pedidos> {
             em.flush();
             result = (List<Pedidos>)em.createQuery("select pe from Pedidos pe " +
                     "where pe.fechaEntrega >=:dateFrom " +
+                    "order by pe.idpedidos desc")
+                    .setParameter("dateFrom", dateFrom)
+                    .getResultList();
+        }catch (NoResultException e){
+            return result;
+        }
+        return result;
+    }
+
+    public List<Pedidos> findPedidosFromLac(Date dateFrom) {
+        List<Pedidos> result = new ArrayList<>();
+        try{
+            em.flush();
+            result = (List<Pedidos>)em.createQuery("select pe from Pedidos pe " +
+                    "where pe.fechaEntrega >=:dateFrom " +
                     "and pe.usuario.usuario <> 'cisc' " +
                     "order by pe.idpedidos desc")
                     .setParameter("dateFrom", dateFrom)
