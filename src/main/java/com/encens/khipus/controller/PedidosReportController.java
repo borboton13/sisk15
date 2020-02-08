@@ -380,13 +380,19 @@ public class PedidosReportController implements Serializable {
         if (pedido.getCliente().getTipoPersona().equals("institucion")) {
             nroDoc = pedido.getCliente().getNit();
         }
-        
+
+        Movimiento movimiento = pedido.getMovimiento();
+        String observacion = "";
+        if (movimiento != null)
+            observacion = "FACT." + movimiento.getNrofactura().toString();
+
+        observacion += " " + pedido.getObservacion();
+
         Map<String, Object> paramMap = new HashMap<String, Object>();
         paramMap.put("nroPedido", pedido.getCodigo().toString());
         paramMap.put("nit", nroDoc);
         paramMap.put("fechaEntrega", pedido.getFechaEntrega());
         paramMap.put("nombreClienteyTerritorio", pedido.getCliente().getNombreCompleto() + "(" + pedido.getCliente().getTerritoriotrabajo().getNombre() + ")");
-        //paramMap.put("totalLiteral", moneyUtil.Convertir(pedido.getTotalimporte().toString(), true));
         paramMap.put("totalImporte", pedido.getTotalimporte());
         paramMap.put("porcentajeComision", pedido.getPorcentajeComision());
         paramMap.put("valorComision", pedido.getValorComision());
@@ -397,7 +403,7 @@ public class PedidosReportController implements Serializable {
         
         paramMap.put("totalLiteral", moneyUtil.Convertir( totalPagar.toString() , true));
         paramMap.put("totalPagar", totalPagar);
-        paramMap.put("observacion", pedido.getObservacion());
+        paramMap.put("observacion", observacion);
         paramMap.put("REPORT_LOCALE", new java.util.Locale("en", "US"));
         
         return paramMap;
@@ -2133,8 +2139,7 @@ public class PedidosReportController implements Serializable {
     }
     //todo: guardar el codigo QR
     public void imprimirNota(List<Pedidos> pedidosElegidos) throws IOException, JRException {
-        if(pedidosElegidos.size() == 0)
-        {
+        if(pedidosElegidos.size() == 0){
             JSFUtil.addWarningMessage("No hay ningun pedido elegido.");
             return;
         }
