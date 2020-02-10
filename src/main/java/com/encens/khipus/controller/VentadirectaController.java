@@ -468,6 +468,7 @@ public class VentadirectaController implements Serializable {
         setDebeOHaber(debitoFisical, debitoFisicalAsiento, iva);
         debitoFisicalAsiento.setTc(new BigDecimal(1.0));
         debitoFisicalAsiento.setSfTmpenc(sfTmpenc);
+        debitoFisicalAsiento.setMovimiento(ventadirecta.getMovimiento());
         sfTmpenc.getAsientos().add(debitoFisicalAsiento);
 
         SfTmpdet impuestoTransaccionesAsiento = new SfTmpdet();
@@ -1429,6 +1430,10 @@ public class VentadirectaController implements Serializable {
             nroDoc = ventadirecta.getCliente().getNit();
         }
 
+        String observacion = "";
+        if (ventadirecta.getMovimiento() != null)
+            observacion = observacion + "F." + ventadirecta.getMovimiento().getNrofactura() + " ";
+
         Double totalPagar = ventadirecta.getTotalimporte();
         DecimalFormat df = new DecimalFormat("0.00");
         totalPagar = Double.parseDouble(df.format(totalPagar).replace(",", "."));
@@ -1441,6 +1446,7 @@ public class VentadirectaController implements Serializable {
         paramMap.put("nombreClienteyTerritorio", ventadirecta.getCliente().getNombreCompleto() + "(" + ventadirecta.getCliente().getTerritoriotrabajo().getNombre() + ")");
         paramMap.put("totalLiteral", moneyUtil.Convertir(totalPagar.toString(), true));
         paramMap.put("totalImporte", ventadirecta.getTotalimporte());
+        paramMap.put("observacion", observacion);
         paramMap.put("REPORT_LOCALE", new java.util.Locale("en", "US"));
         return paramMap;
     }

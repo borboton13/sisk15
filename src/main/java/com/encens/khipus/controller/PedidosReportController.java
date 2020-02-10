@@ -410,6 +410,11 @@ public class PedidosReportController implements Serializable {
     }
 
     private Map<String, Object> getReportParams(Ventadirecta ventadirecta) {
+
+        String observacion = "";
+        if (ventadirecta.getMovimiento() != null)
+            observacion = observacion + "F." + ventadirecta.getMovimiento().getNrofactura() + " ";
+
         String nroDoc = ventadirecta.getCliente().getNroDoc();
         if (ventadirecta.getCliente().getTipoPersona().equals("institucion")) {
             nroDoc = ventadirecta.getCliente().getNit();
@@ -427,6 +432,7 @@ public class PedidosReportController implements Serializable {
         paramMap.put("nombreClienteyTerritorio", ventadirecta.getCliente().getNombreCompleto() + "(" + ventadirecta.getCliente().getTerritoriotrabajo().getNombre() + ")");
         paramMap.put("totalLiteral", moneyUtil.Convertir(totalPagar.toString(), true));
         paramMap.put("totalImporte", ventadirecta.getTotalimporte());
+        paramMap.put("observacion", observacion);
         paramMap.put("REPORT_LOCALE", new java.util.Locale("en", "US"));
         return paramMap;
     }

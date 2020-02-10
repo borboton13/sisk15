@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="factura" pageWidth="609" pageHeight="452" columnWidth="577" leftMargin="16" rightMargin="16" topMargin="13" bottomMargin="13" uuid="74ea503c-4583-4174-a4e7-795a86208337">
-	<property name="ireport.zoom" value="4.177248169415656"/>
-	<property name="ireport.x" value="55"/>
-	<property name="ireport.y" value="25"/>
+	<property name="ireport.zoom" value="3.138428376721004"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="36"/>
 	<parameter name="nroPedido" class="java.lang.String"/>
 	<parameter name="fechaEntrega" class="java.util.Date" isForPrompting="false"/>
 	<parameter name="nombreClienteyTerritorio" class="java.lang.String"/>
 	<parameter name="nit" class="java.lang.String"/>
 	<parameter name="totalImporte" class="java.lang.Double"/>
 	<parameter name="totalLiteral" class="java.lang.String"/>
+	<parameter name="observacion" class="java.lang.String"/>
 	<field name="invArticulos.descri" class="java.lang.String"/>
 	<field name="cantidad" class="java.lang.Integer"/>
 	<field name="precio" class="java.lang.Double"/>
@@ -18,7 +19,7 @@
 	<field name="total" class="java.lang.Integer"/>
 	<group name="total">
 		<groupFooter>
-			<band height="27">
+			<band height="40">
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 					<reportElement stretchType="RelativeToTallestObject" mode="Opaque" x="260" y="2" width="48" height="11" uuid="72a6a84d-d052-4d02-9220-cdd3c3dc9137"/>
 					<box padding="1">
@@ -30,7 +31,7 @@
 					<textFieldExpression><![CDATA["TOTAL Bs:"]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-					<reportElement stretchType="RelativeToTallestObject" mode="Opaque" x="1" y="12" width="575" height="12" forecolor="#000000" uuid="31004d46-9195-4647-8388-6a2694b3c0dd"/>
+					<reportElement stretchType="RelativeToTallestObject" mode="Opaque" x="1" y="12" width="575" height="8" forecolor="#000000" uuid="31004d46-9195-4647-8388-6a2694b3c0dd"/>
 					<box padding="1">
 						<pen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
 					</box>
@@ -48,6 +49,16 @@
 						<font fontName="Arial" size="8"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$P{totalImporte}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement stretchType="RelativeToTallestObject" mode="Opaque" x="1" y="21" width="575" height="8" forecolor="#000000" uuid="82953953-7e80-460d-bfe7-f60e245e5d27"/>
+					<box padding="1">
+						<pen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Arial" size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA["OBS: "+$P{observacion}]]></textFieldExpression>
 				</textField>
 			</band>
 		</groupFooter>
@@ -126,7 +137,7 @@
 					<rightPen lineWidth="0.0"/>
 				</box>
 				<textElement verticalAlignment="Bottom">
-					<font fontName="Arial Narrow" size="10"/>
+					<font fontName="Arial" size="9"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Cooperativa Integral de Servicios Cbba. ltda."]]></textFieldExpression>
 			</textField>
@@ -140,7 +151,7 @@
 					<rightPen lineWidth="0.0"/>
 				</box>
 				<textElement verticalAlignment="Bottom">
-					<font fontName="Arial Narrow" size="10"/>
+					<font fontName="Arial" size="9"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Industrias del Valle Alto"]]></textFieldExpression>
 			</textField>
@@ -320,53 +331,53 @@
 	<pageFooter>
 		<band height="80" splitType="Stretch">
 			<staticText>
-				<reportElement x="6" y="61" width="106" height="10" uuid="cadee252-1f7c-49ae-95b2-b467c2cb789e"/>
+				<reportElement x="6" y="67" width="106" height="10" uuid="cadee252-1f7c-49ae-95b2-b467c2cb789e"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial" size="8"/>
 				</textElement>
 				<text><![CDATA[VENTAS]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="158" y="61" width="106" height="10" uuid="e3534bb7-0737-4173-8f0c-c978ea56e335"/>
+				<reportElement x="158" y="67" width="106" height="10" uuid="e3534bb7-0737-4173-8f0c-c978ea56e335"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial" size="8"/>
 				</textElement>
 				<text><![CDATA[COBRANZAS]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="305" y="61" width="106" height="10" uuid="2f712c07-5494-45bb-b889-c3b7f77880af"/>
+				<reportElement x="305" y="67" width="106" height="10" uuid="2f712c07-5494-45bb-b889-c3b7f77880af"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial" size="8"/>
 				</textElement>
 				<text><![CDATA[CLIENTE]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="460" y="61" width="106" height="10" uuid="19aa8690-bbdc-4205-9f29-98ae897e8fbe"/>
+				<reportElement x="460" y="67" width="106" height="10" uuid="19aa8690-bbdc-4205-9f29-98ae897e8fbe"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial" size="8"/>
 				</textElement>
 				<text><![CDATA[ALMACEN P.T.]]></text>
 			</staticText>
 			<line>
-				<reportElement x="6" y="60" width="106" height="1" uuid="727494ea-fcfc-4728-ab30-cf8692589397"/>
+				<reportElement x="6" y="66" width="106" height="1" uuid="727494ea-fcfc-4728-ab30-cf8692589397"/>
 				<graphicElement>
 					<pen lineWidth="0.5" lineStyle="Dashed"/>
 				</graphicElement>
 			</line>
 			<line>
-				<reportElement x="158" y="60" width="106" height="1" uuid="0539515b-27cd-4504-bdaf-aba089469cf3"/>
+				<reportElement x="158" y="66" width="106" height="1" uuid="0539515b-27cd-4504-bdaf-aba089469cf3"/>
 				<graphicElement>
 					<pen lineWidth="0.5" lineStyle="Dashed"/>
 				</graphicElement>
 			</line>
 			<line>
-				<reportElement x="460" y="60" width="106" height="1" uuid="f459382a-4ce4-4e6e-8d65-d762fdc9a54e"/>
+				<reportElement x="460" y="66" width="106" height="1" uuid="f459382a-4ce4-4e6e-8d65-d762fdc9a54e"/>
 				<graphicElement>
 					<pen lineWidth="0.5" lineStyle="Dashed"/>
 				</graphicElement>
 			</line>
 			<line>
-				<reportElement x="305" y="60" width="106" height="1" uuid="caa451f2-0a7e-4951-b80b-234c78285cfc"/>
+				<reportElement x="305" y="66" width="106" height="1" uuid="caa451f2-0a7e-4951-b80b-234c78285cfc"/>
 				<graphicElement>
 					<pen lineWidth="0.5" lineStyle="Dashed"/>
 				</graphicElement>
@@ -374,6 +385,6 @@
 		</band>
 	</pageFooter>
 	<summary>
-		<band height="34" splitType="Stretch"/>
+		<band height="9" splitType="Stretch"/>
 	</summary>
 </jasperReport>
