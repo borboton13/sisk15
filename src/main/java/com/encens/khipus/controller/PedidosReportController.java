@@ -384,7 +384,7 @@ public class PedidosReportController implements Serializable {
         Movimiento movimiento = pedido.getMovimiento();
         String observacion = "";
         if (movimiento != null)
-            observacion = "FACT." + movimiento.getNrofactura().toString();
+            observacion = "F." + movimiento.getNrofactura().toString();
 
         observacion += " " + pedido.getObservacion();
 
@@ -685,14 +685,9 @@ public class PedidosReportController implements Serializable {
         SfConfdet ventaDeProductos = asientos.get(2);
         SfConfdet debitoFiscalIVA  = asientos.get(3);
         SfConfdet impuestoALasTransacciones = asientos.get(4);
-        //SfConfdet ctaMerma = asientos.get(5);
-        //SfConfdet ctaPromo = asientos.get(6);
-        //SfConfdet ctaAlmPT = asientos.get(7);
 
         BigDecimal importeReposicion = calcularImporteReposicion(pedido);
         BigDecimal importePromocion  = calcularImportePromocion(pedido);
-
-
 
         BigDecimal IT_VALUE  = new BigDecimal("0.03");
         BigDecimal IVA_VALUE = new BigDecimal("0.13");
@@ -741,6 +736,7 @@ public class PedidosReportController implements Serializable {
         asientoIVA.setNoTrans(nroTrans);
         setDebeOHaber(debitoFiscalIVA, asientoIVA, iva);
         asientoIVA.setSfTmpenc(sfTmpenc);
+        asientoIVA.setMovimiento(pedido.getMovimiento());
         sfTmpenc.getAsientos().add(asientoIVA);
         ////
         SfTmpdet asientoIT = new SfTmpdet();
@@ -782,6 +778,9 @@ public class PedidosReportController implements Serializable {
         }*/
 
         sfTmpenc.getPedidos().add(pedido);
+        sfTmpenc.setMovimiento(pedido.getMovimiento());
+        if (pedido.getMovimiento() != null)
+            sfTmpenc.setNrofactura(pedido.getMovimiento().getNrofactura());
         pedido.setAsiento(sfTmpenc);
        /* sfTmpencController.setSelected(sfTmpenc);
         sfTmpencController.createGeneral();*/
@@ -909,6 +908,10 @@ public class PedidosReportController implements Serializable {
         }*/
 
         sfTmpenc.getPedidos().add(pedido);
+        sfTmpenc.setMovimiento(pedido.getMovimiento());
+        if (pedido.getMovimiento() != null)
+            sfTmpenc.setNrofactura(pedido.getMovimiento().getNrofactura());
+        pedido.setAsiento(sfTmpenc);
         pedido.setAsiento(sfTmpenc);
 
     }

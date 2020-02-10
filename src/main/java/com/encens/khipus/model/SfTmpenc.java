@@ -89,9 +89,18 @@ public class SfTmpenc implements Serializable {
     @Size(max = 255)
     @Column(name = "moneda")
     private String moneda;
+
     @Column(name = "fecha")
     @Temporal(TemporalType.DATE)
     private Date fecha;
+
+    @JoinColumn(name = "idmovimiento", referencedColumnName = "idmovimiento")
+    @ManyToOne(optional = true)
+    private Movimiento movimiento;
+
+    @Column(name = "fac")
+    private Integer nrofactura;
+
     @Size(max = 1000)
     @Column(name = "descri")
     private String descri;
@@ -497,5 +506,20 @@ public class SfTmpenc implements Serializable {
     public String getDocumentAll(){
         return tipoDoc + " - " + noDoc + " - " + estado;
     }
-    
+
+    public Movimiento getMovimiento() {
+        return movimiento;
+    }
+
+    public void setMovimiento(Movimiento movimiento) {
+        this.movimiento = movimiento;
+    }
+
+    public Integer getNrofactura() {
+        return nrofactura;
+    }
+
+    public void setNrofactura(Integer nrofactura) {
+        this.nrofactura = nrofactura;
+    }
 }

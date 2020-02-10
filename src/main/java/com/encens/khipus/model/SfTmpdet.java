@@ -77,6 +77,10 @@ public class SfTmpdet implements Serializable {
     @ManyToOne(optional = false)
     private SfTmpenc sfTmpenc;
 
+    @JoinColumn(name = "idmovimiento", referencedColumnName = "idmovimiento")
+    @ManyToOne(optional = true)
+    private Movimiento movimiento;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "IDPERSONACLIENTE", referencedColumnName = "IDPERSONACLIENTE")
     private Persona client;
@@ -211,5 +215,13 @@ public class SfTmpdet implements Serializable {
 
     public void setClient(Persona client) {
         this.client = client;
+    }
+
+    public Movimiento getMovimiento() {
+        return movimiento;
+    }
+
+    public void setMovimiento(Movimiento movimiento) {
+        this.movimiento = movimiento;
     }
 }
