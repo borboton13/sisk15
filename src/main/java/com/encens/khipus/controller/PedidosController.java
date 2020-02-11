@@ -41,6 +41,8 @@ public class PedidosController implements Serializable {
     @EJB
     private PedidosFacade pedidosFacade;
     @EJB
+    private MovimientoFacade movimientoFacade;
+    @EJB
     private InvArticulosFacade invArticulosFacade;
     @EJB
     private PersonasFacade personasFacade;
@@ -335,6 +337,10 @@ public class PedidosController implements Serializable {
 
     public void generalUpdate(Pedidos pedido) {
         getFacade().edit(pedido);
+    }
+
+    public void generalUpdate(Movimiento movimiento) {
+        this.movimientoFacade.edit(movimiento);
     }
 
     private boolean validarReposicion() {

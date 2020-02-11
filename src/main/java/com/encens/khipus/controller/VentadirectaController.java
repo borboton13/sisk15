@@ -60,6 +60,8 @@ public class VentadirectaController implements Serializable {
     private VentaarticuloFacade ventaarticuloFacade;
     @EJB
     private PedidosFacade pedidosFacade;
+    @EJB
+    private MovimientoFacade movimientoFacade;
     @Inject
     private PedidosReportController pedidosReportController;
     @Inject
@@ -482,6 +484,7 @@ public class VentadirectaController implements Serializable {
 
         //sfTmpenc.getVentadirectas().add(ventadirecta);
         ventadirecta.setAsiento(sfTmpenc);
+        ventadirecta.getMovimiento().setSfTmpdet(debitoFisicalAsiento);
 
         //sfTmpencFacade.saveSFtmpenc(sfTmpenc);          // quitar
         //sfTmpencFacade.mergeVentaContado(ventadirecta); // quitar
@@ -1624,7 +1627,6 @@ public class VentadirectaController implements Serializable {
         persist(PersistAction.CREATE, "La venta se registro correctamente.");
         sfTmpencFacade.restarInventario(ventadirecta);                      // inv_inventario
         invArticulosFacade.updateArticleSubtractTotalCost(ventadirecta);    // Update inv_articulo
-        //invArticulosFacade.outputProducts(ventadirecta);                    // inv_product
 
         if (!JSFUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.

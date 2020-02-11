@@ -263,6 +263,8 @@ public class PedidosReportController implements Serializable {
 
                 /** crearAsientoCostoVentas(pedido, sfConfencFacade.getOperacion("COSTOVENTAS")); **/
                 pedidosController.generalUpdate(pedido);
+                if (pedido.getMovimiento() != null) pedidosController.generalUpdate(pedido.getMovimiento());
+
             }else
                 break;
         }
@@ -753,40 +755,12 @@ public class PedidosReportController implements Serializable {
         sfTmpenc.getAsientos().add(asientoIT);
         sfTmpenc.getAsientos().add(asientoIVA);
 
-        /** Si existe Reposiciones (Mermas) **/
-        /*if (importeReposicion.doubleValue() > 0){
-
-            SfTmpdet asientoMerma = new SfTmpdet();
-            asientoMerma.setCuenta(ctaMerma.getCuenta().getCuenta());
-            asientoMerma.setNoTrans(nroTrans);
-            setDebeOHaber(ctaMerma, asientoMerma, importeReposicion);
-            asientoMerma.setSfTmpenc(sfTmpenc);
-            sfTmpenc.getAsientos().add(asientoMerma);
-        }*/
-        /** Si existe Promocion **/
-        /*if (importePromocion.doubleValue() > 0){
-
-            SfTmpdet asientoPromo = new SfTmpdet();
-            asientoPromo.setCuenta(ctaPromo.getCuenta().getCuenta());
-            asientoPromo.setNoTrans(nroTrans);
-            setDebeOHaber(ctaPromo, asientoPromo, importePromocion);
-            asientoPromo.setSfTmpenc(sfTmpenc);
-            sfTmpenc.getAsientos().add(asientoPromo);
-        }*/
-        /** Cta. Almacen **/
-        /*if (importeReposicion.doubleValue() > 0 || importePromocion.doubleValue() > 0){
-            SfTmpdet asientoCtaAlmPT = new SfTmpdet();
-            asientoCtaAlmPT.setCuenta(ctaAlmPT.getCuenta().getCuenta());
-            asientoCtaAlmPT.setNoTrans(nroTrans);
-            setDebeOHaber(ctaAlmPT, asientoCtaAlmPT, BigDecimalUtil.sum(importeReposicion, importePromocion));
-            asientoCtaAlmPT.setSfTmpenc(sfTmpenc);
-            sfTmpenc.getAsientos().add(asientoCtaAlmPT);
-        }*/
-
         sfTmpenc.getPedidos().add(pedido);
         sfTmpenc.setMovimiento(pedido.getMovimiento());
-        if (pedido.getMovimiento() != null)
+        if (pedido.getMovimiento() != null) {
             sfTmpenc.setNrofactura(pedido.getMovimiento().getNrofactura());
+            pedido.getMovimiento().setSfTmpdet(asientoIVA);
+        }
         pedido.setAsiento(sfTmpenc);
        /* sfTmpencController.setSelected(sfTmpenc);
         sfTmpencController.createGeneral();*/
@@ -883,40 +857,14 @@ public class PedidosReportController implements Serializable {
         sfTmpenc.getAsientos().add(asientoIT);
         sfTmpenc.getAsientos().add(asientoIVA);
 
-        /** Si existe Reposiciones (Mermas) **/
-        /*if (importeReposicion.doubleValue() > 0){
-
-            SfTmpdet asientoMerma = new SfTmpdet();
-            asientoMerma.setCuenta(ctaMerma.getCuenta().getCuenta());
-            asientoMerma.setNoTrans(nroTrans);
-            setDebeOHaber(ctaMerma, asientoMerma, importeReposicion);
-            asientoMerma.setSfTmpenc(sfTmpenc);
-            sfTmpenc.getAsientos().add(asientoMerma);
-        }*/
-        /** Si existe Promocion **/
-        /*if (importePromocion.doubleValue() > 0){
-
-            SfTmpdet asientoPromo = new SfTmpdet();
-            asientoPromo.setCuenta(ctaPromo.getCuenta().getCuenta());
-            asientoPromo.setNoTrans(nroTrans);
-            setDebeOHaber(ctaPromo, asientoPromo, importePromocion);
-            asientoPromo.setSfTmpenc(sfTmpenc);
-            sfTmpenc.getAsientos().add(asientoPromo);
-        }*/
-        /** Cta. Almacen **/
-        /*if (importeReposicion.doubleValue() > 0 || importePromocion.doubleValue() > 0){
-            SfTmpdet asientoCtaAlmPT = new SfTmpdet();
-            asientoCtaAlmPT.setCuenta(ctaAlmPT.getCuenta().getCuenta());
-            asientoCtaAlmPT.setNoTrans(nroTrans);
-            setDebeOHaber(ctaAlmPT, asientoCtaAlmPT, BigDecimalUtil.sum(importeReposicion, importePromocion));
-            asientoCtaAlmPT.setSfTmpenc(sfTmpenc);
-            sfTmpenc.getAsientos().add(asientoCtaAlmPT);
-        }*/
-
         sfTmpenc.getPedidos().add(pedido);
         sfTmpenc.setMovimiento(pedido.getMovimiento());
-        if (pedido.getMovimiento() != null)
+
+        if (pedido.getMovimiento() != null) {
             sfTmpenc.setNrofactura(pedido.getMovimiento().getNrofactura());
+            pedido.getMovimiento().setSfTmpdet(asientoIVA);
+        }
+
         pedido.setAsiento(sfTmpenc);
         pedido.setAsiento(sfTmpenc);
 

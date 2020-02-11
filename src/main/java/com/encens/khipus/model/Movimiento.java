@@ -118,6 +118,10 @@ public class Movimiento implements Serializable {
     @JoinColumn(name = "IDPEDIDOS", referencedColumnName = "IDPEDIDOS")
     private Pedidos pedido;
 
+    @OneToOne
+    @JoinColumn(name = "id_tmpdet", referencedColumnName = "id_tmpdet")
+    private SfTmpdet sfTmpdet;
+
     @ManyToOne
     @JoinColumn(name = "IDVENTADIRECTA", referencedColumnName = "IDVENTADIRECTA")
     private Ventadirecta ventadirecta;
@@ -387,5 +391,13 @@ public class Movimiento implements Serializable {
 
     public void setVentadirecta(Ventadirecta ventadirecta) {
         this.ventadirecta = ventadirecta;
+    }
+
+    public SfTmpdet getSfTmpdet() {
+        return sfTmpdet;
+    }
+
+    public void setSfTmpdet(SfTmpdet sfTmpdet) {
+        this.sfTmpdet = sfTmpdet;
     }
 }
