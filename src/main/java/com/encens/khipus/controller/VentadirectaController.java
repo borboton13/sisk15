@@ -483,8 +483,14 @@ public class VentadirectaController implements Serializable {
         sfTmpenc.getAsientos().add(impuestoTransaccionesAsiento);
 
         //sfTmpenc.getVentadirectas().add(ventadirecta);
+
         ventadirecta.setAsiento(sfTmpenc);
         ventadirecta.getMovimiento().setSfTmpdet(debitoFisicalAsiento);
+
+        sfTmpenc.setMovimiento(ventadirecta.getMovimiento());
+        if (ventadirecta.getMovimiento() != null)
+            sfTmpenc.setNrofactura(ventadirecta.getMovimiento().getNrofactura());
+
 
         //sfTmpencFacade.saveSFtmpenc(sfTmpenc);          // quitar
         //sfTmpencFacade.mergeVentaContado(ventadirecta); // quitar
