@@ -52,6 +52,8 @@ public class PedidosReportController implements Serializable {
     @EJB
     SfTmpencFacade sfTmpencFacade;
     @EJB
+    private MovimientoFacade movimientoFacade;
+    @EJB
     private InvArticulosFacade invArticulosFacade;
     @EJB
     private PedidosFacade pedidosFacade;
@@ -263,7 +265,7 @@ public class PedidosReportController implements Serializable {
 
                 /** crearAsientoCostoVentas(pedido, sfConfencFacade.getOperacion("COSTOVENTAS")); **/
                 pedidosController.generalUpdate(pedido);
-                if (pedido.getMovimiento() != null) pedidosController.generalUpdate(pedido.getMovimiento());
+                //if (pedido.getMovimiento() != null) pedidosController.generalUpdate(pedido.getMovimiento()); Error Duplica las NE
 
             }else
                 break;
@@ -759,7 +761,7 @@ public class PedidosReportController implements Serializable {
         sfTmpenc.setMovimiento(pedido.getMovimiento());
         if (pedido.getMovimiento() != null) {
             sfTmpenc.setNrofactura(pedido.getMovimiento().getNrofactura());
-            pedido.getMovimiento().setSfTmpdet(asientoIVA);
+            //pedido.getMovimiento().setSfTmpdet(asientoIVA); Err
         }
         pedido.setAsiento(sfTmpenc);
        /* sfTmpencController.setSelected(sfTmpenc);
@@ -862,7 +864,7 @@ public class PedidosReportController implements Serializable {
 
         if (pedido.getMovimiento() != null) {
             sfTmpenc.setNrofactura(pedido.getMovimiento().getNrofactura());
-            pedido.getMovimiento().setSfTmpdet(asientoIVA);
+            //pedido.getMovimiento().setSfTmpdet(asientoIVA); Error
         }
 
         pedido.setAsiento(sfTmpenc);
