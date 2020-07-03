@@ -110,8 +110,9 @@
                     </h:inputText>
                 </p:column>
                 <p:column headerText="P.U." style="width:10%;">
-                    <h:inputText value="#{item.precio}" size="4" disabled="true"/>
-                    <!--<h:outputText value="#{item.precio}"/>-->
+                    <h:inputText value="#{item.precio}" size="4" disabled="false">
+                        <p:ajax event="blur"  process="@this" oncomplete="refreshFooter();" update="importe,total"/>
+                    </h:inputText>
                 </p:column>
                 <p:column headerText="Repos." style="width:10%;">
                     <h:inputText value="#{item.reposicion}" size="4">
