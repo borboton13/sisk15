@@ -303,7 +303,7 @@ public class PedidosFacade extends AbstractFacade<Pedidos> {
             em.flush();
             result = (List<Pedidos>)em.createQuery("select pe from Pedidos pe " +
                     "where pe.fechaEntrega >=:dateFrom " +
-                    "and pe.usuario.usuario <> 'cisc' " +
+                    "and pe.usuario.usuario not in ('cisc', 'maria') " +
                     "order by pe.idpedidos desc")
                     .setParameter("dateFrom", dateFrom)
                     .getResultList();
