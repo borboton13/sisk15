@@ -139,7 +139,8 @@ public class PedidosFacade extends AbstractFacade<Pedidos> {
                     " from Pedidos pe " +
                     " where pe.fechaEntrega =:fechaEntrega " +
                     query +
-                    " and pe.estado != 'ANULADO' and pe.estado != 'CONTABILIZADO'")
+                    /*" and pe.estado != 'ANULADO' and pe.estado != 'CONTABILIZADO'")*/
+                    " and pe.estado != 'ANULADO' and pe.tipoventa = 'CREDIT' ")
                     .setParameter("fechaEntrega", fechaEntrega, TemporalType.DATE)
                     .getResultList();
 
@@ -213,7 +214,8 @@ public class PedidosFacade extends AbstractFacade<Pedidos> {
                     " from Pedidos pe join pe.articulosPedidos articulos" +
                     " where pe.fechaEntrega =:fechaEntrega " +
                     query +
-                    " and pe.estado != 'ANULADO' and pe.usuario.idusuario <> 5 ") /** MODIFYID **/
+                    " and pe.estado != 'ANULADO' and pe.usuario.idusuario <> 5 " +
+                    " and pe.tipoventa = 'CREDIT' ") /** MODIFYID **/
                     .setParameter("fechaEntrega", fechaEntrega, TemporalType.DATE)
                     .getResultList();
 

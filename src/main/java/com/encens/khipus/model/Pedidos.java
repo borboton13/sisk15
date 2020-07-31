@@ -111,6 +111,9 @@ public class Pedidos implements Serializable {
     @Basic
     private BigInteger codigo;
 
+    @Column(name = "tipoventa")
+    private String tipoventa;
+
     @JoinColumn(name = "IDCLIENTE", referencedColumnName = "IDPERSONACLIENTE")
     @ManyToOne(optional = false)
     private Persona cliente;
@@ -494,5 +497,13 @@ public class Pedidos implements Serializable {
 
     public Boolean facturado(){
         return movimiento != null;
+    }
+
+    public String getTipoventa() {
+        return tipoventa;
+    }
+
+    public void setTipoventa(String tipoventa) {
+        this.tipoventa = tipoventa;
     }
 }

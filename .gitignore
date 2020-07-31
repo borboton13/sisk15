@@ -1,6 +1,9 @@
-/out/
-/build/
-/dist/
-/.idea/
+out/
+build/
+dist/
+.idea/
+target/
 build.properties
-/target/
+.idea/workspace.xml
+*.iml
+*.~m2
