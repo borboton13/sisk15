@@ -52,7 +52,7 @@ public class Pedidos implements Serializable {
     @Column(name = "IDPEDIDOS")
     private Long idpedidos;
 
-    @Size(max = 200)
+    @Size(max = 255)
     @Column(name = "DESCRIPCION")
     private String descripcion;
 
@@ -73,7 +73,7 @@ public class Pedidos implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date fechaAPagar;*/
 
-    @Size(max = 100)
+    @Size(max = 255)
     @Column(name = "OBSERVACION")
     private String observacion;
 
