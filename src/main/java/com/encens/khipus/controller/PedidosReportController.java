@@ -1960,6 +1960,15 @@ public class PedidosReportController implements Serializable {
         JasperPrint jasperPrint = null;
 
         // -----------------------------------------------
+
+        // Ordenamiento Pedidos por nombre
+        Collections.sort(pedidosElegidos, new Comparator<Pedidos>() {
+            @Override
+            public int compare(Pedidos o1, Pedidos o2) {
+                return o1.getCliente().getNom().compareTo(o2.getCliente().getNom());
+            }
+        });
+
         parameters.putAll(fijarParmetrosFactura(pedidosElegidos.get(0)));
         // Verificando Articulo con cantidad 0 y q tiene reposicion
         Collection<ArticulosPedido> articulos = new ArrayList<>();
@@ -2102,11 +2111,23 @@ public class PedidosReportController implements Serializable {
             JSFUtil.addWarningMessage("No hay ningun pedido elegido.");
             return;
         }
+
+        // Ordenamiento Pedidos por nombre
+        Collections.sort(pedidosElegidos, new Comparator<Pedidos>() {
+            @Override
+            public int compare(Pedidos o1, Pedidos o2) {
+                return o1.getCliente().getNom().compareTo(o2.getCliente().getNom());
+            }
+        });
+
         HashMap parameters = new HashMap();
         moneyUtil = new MoneyUtil();
         File jasper = new File(FacesContext.getCurrentInstance().getExternalContext().getRealPath("/resources/reportes/notaDeEntrega.jasper"));
         this.pedidosElegidos = pedidosElegidos;
+
         quitarAnulados();
+        pedidosElegidos = this.pedidosElegidos;
+
         JasperPrint jasperPrint;
         parameters.putAll(getReportParams(pedidosElegidos.get(0)));
 
