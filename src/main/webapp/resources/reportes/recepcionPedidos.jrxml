@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="recepcionPedidos" pageWidth="802" pageHeight="555" orientation="Landscape" columnWidth="802" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="aa3dc29f-0c06-429b-920f-2dde9c621ea4">
 	<property name="ireport.zoom" value="2.1435888100000025"/>
-	<property name="ireport.x" value="0"/>
+	<property name="ireport.x" value="400"/>
 	<property name="ireport.y" value="0"/>
 	<style name="Crosstab Data Text" hAlign="Center"/>
 	<parameter name="fecha" class="java.lang.String"/>
 	<parameter name="cantidadPedidos" class="java.lang.String"/>
 	<parameter name="nomUsr" class="java.lang.String"/>
 	<parameter name="nombreTerritorio" class="java.lang.String"/>
+	<parameter name="importe" class="java.math.BigDecimal"/>
 	<field name="cliente" class="java.lang.String"/>
 	<field name="producto" class="java.lang.String"/>
 	<field name="cantidad" class="java.lang.Integer"/>
@@ -35,14 +36,14 @@
 				<textFieldExpression><![CDATA[$P{fecha}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="229" y="29" width="66" height="12" uuid="a4235a11-3cb0-4729-aaef-abba7e1393d7"/>
+				<reportElement x="229" y="29" width="35" height="12" uuid="a4235a11-3cb0-4729-aaef-abba7e1393d7"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Arial" size="7"/>
 				</textElement>
-				<textFieldExpression><![CDATA["CANTIDAD:"]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Cantidad:"]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Auto">
-				<reportElement x="295" y="29" width="65" height="12" uuid="64cb9e11-5de6-4068-9f64-70a31d4d9039"/>
+				<reportElement x="264" y="29" width="65" height="12" uuid="64cb9e11-5de6-4068-9f64-70a31d4d9039"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Arial" size="7"/>
 				</textElement>
@@ -88,6 +89,20 @@
 					<font fontName="Arial" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA["RESUMEN DE RECEPCIÓN DE PEDIDOS"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="394" y="29" width="33" height="12" uuid="cdb41ca8-d622-421a-8d4e-773b5c0be7a6"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<text><![CDATA[Monto: ]]></text>
+			</staticText>
+			<textField pattern="#,##0.00;(#,##0.00)">
+				<reportElement x="427" y="29" width="100" height="12" uuid="3207722c-da18-4628-90f2-d97d5aef405d"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{importe}]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>
@@ -156,7 +171,7 @@
 								<textElement textAlignment="Left" verticalAlignment="Middle">
 									<font fontName="Arial Narrow" size="5"/>
 								</textElement>
-								<textFieldExpression><![CDATA[ $V{cliente}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$V{cliente}]]></textFieldExpression>
 							</textField>
 						</cellContents>
 					</crosstabRowHeader>

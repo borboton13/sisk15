@@ -6,6 +6,7 @@
 package com.encens.khipus.ejb;
 
 import com.encens.khipus.model.*;
+import com.encens.khipus.util.BigDecimalUtil;
 import com.encens.khipus.util.JSFUtil;
 
 import java.math.BigDecimal;
@@ -148,6 +149,59 @@ public class PedidosFacade extends AbstractFacade<Pedidos> {
             return  0;
         }
         return  resultado.size();
+    }
+
+    public BigDecimal getImporteTotal(Date fechaEntrega, List<String> selectedTerritorios){
+        BigDecimal result = BigDecimal.ZERO;
+        List<Pedidos> resultado = new ArrayList<>();
+        String query = "";
+        for (int i=0; i < selectedTerritorios.size(); i++ ) {
+            if(selectedTerritorios.size() == 1)
+                query = query + " and pe.cliente.territoriotrabajo.idterritoriotrabajo = " + selectedTerritorios.get(i) + " ";
+            else {
+                if(i==0)
+                    query = query + " and ( pe.cliente.territoriotrabajo.idterritoriotrabajo = " + selectedTerritorios.get(i) + "\n";
+                else{
+                    if(i < selectedTerritorios.size()-1)
+                        query = query + " or pe.cliente.territoriotrabajo.idterritoriotrabajo = " + selectedTerritorios.get(i) + "\n";
+                    else
+                        query = query + " or pe.cliente.territoriotrabajo.idterritoriotrabajo = " + selectedTerritorios.get(i) + ") ";
+                }
+            }
+        }
+        try {
+            resultado = (List<Pedidos>)em.createQuery(""+
+                    " select pe " +
+                    " from Pedidos pe " +
+                    " where pe.fechaEntrega =:fechaEntrega " +
+                    query +
+                    " and pe.estado != 'ANULADO' and pe.tipoventa = 'CREDIT' ")
+                    .setParameter("fechaEntrega", fechaEntrega, TemporalType.DATE)
+                    .getResultList();
+
+
+            //System.out.println("----> CANT: " + resultado.size());
+            //System.out.println("----> PEDIDOS: " + resultado);
+            //System.out.println("----> PEDIDO 0: " + resultado.get(0));
+
+
+            for (Pedidos pedido : resultado){
+                if (pedido.getCliente().getTerritoriotrabajo().getIdterritoriotrabajo() == 24 || pedido.getCliente().getTerritoriotrabajo().getIdterritoriotrabajo() == 25){
+                    for (ArticulosPedido articulo : pedido.getArticulosPedidos()){
+                        Double monto = articulo.getCantidad() * articulo.getInvArticulos().getPrecioVenta();
+                        result = BigDecimalUtil.sum(result, BigDecimalUtil.toBigDecimal(monto));
+                    }
+                }else {
+                    result = BigDecimalUtil.sum(result, BigDecimalUtil.toBigDecimal(pedido.getTotalimporte()));
+                }
+            }
+
+
+
+        }catch (NoResultException e){
+            return BigDecimal.ZERO;
+        }
+        return  result;
     }
 
     public List<Object[]> recepcionDePedidos(Date fechaEntrega,Territoriotrabajo territoriotrabajo){

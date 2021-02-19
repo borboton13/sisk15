@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -84,10 +85,13 @@ public class RecepcionReportController implements Serializable {
             nombreTerritorio = "Todos";
         //cantidadPedidos = pedidosFacade.getTotalPedidos(fechaEntrega,territoriotrabajo);
         cantidadPedidos = pedidosFacade.getTotalPedidos(fechaEntrega, selectedTerritoriosTrab);
+        BigDecimal importe = pedidosFacade.getImporteTotal(fechaEntrega, selectedTerritoriosTrab);
+
         paramMap.put("fecha",fecha);
         paramMap.put("cantidadPedidos",cantidadPedidos.toString());
         paramMap.put("nomUsr",loginBean.getUsuario().getUsuario());
         paramMap.put("nombreTerritorio",nombreTerritorio);
+        paramMap.put("importe", importe);
 
         return paramMap;
     }

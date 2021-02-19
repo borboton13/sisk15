@@ -6,6 +6,7 @@
 package com.encens.khipus.model;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Collection;
 import javax.persistence.CascadeType;
@@ -119,6 +120,9 @@ public class InvArticulos implements Serializable {
     @Size(max = 6)
     @Column(name = "COD_MED")
     private String codMed;
+
+    @Column(name = "precio_venta")
+    private Double precioVenta;
 
     @Column(name = "VERSION")
     private BigInteger version;
@@ -366,5 +370,13 @@ public class InvArticulos implements Serializable {
 
     public void setStockControl(String stockControl) {
         this.stockControl = stockControl;
+    }
+
+    public Double getPrecioVenta() {
+        return precioVenta;
+    }
+
+    public void setPrecioVenta(Double precioVenta) {
+        this.precioVenta = precioVenta;
     }
 }
