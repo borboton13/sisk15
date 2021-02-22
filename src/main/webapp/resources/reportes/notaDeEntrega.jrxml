@@ -164,7 +164,7 @@
 				<textFieldExpression><![CDATA[$P{nit}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement key="" positionType="Float" x="200" y="10" width="287" height="10" uuid="fa9bdcf0-5cc1-45a5-8a16-7ab4a450239c"/>
+				<reportElement key="" positionType="Float" x="200" y="11" width="287" height="10" uuid="fa9bdcf0-5cc1-45a5-8a16-7ab4a450239c"/>
 				<box padding="1" topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<topPen lineWidth="0.0"/>
@@ -192,7 +192,7 @@
 				<textFieldExpression><![CDATA["Cooperativa Integral de Servicios Cbba. Ltda."]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement key="" positionType="Float" x="0" y="10" width="200" height="10" uuid="c6fc8528-6bc8-440a-862d-1aa684f51672"/>
+				<reportElement key="" positionType="Float" x="0" y="11" width="200" height="10" uuid="c6fc8528-6bc8-440a-862d-1aa684f51672"/>
 				<box padding="1" topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<topPen lineWidth="0.0"/>
@@ -206,9 +206,9 @@
 				<textFieldExpression><![CDATA["Industrias Lacteas del Valle Alto"]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="460" y="0" width="117" height="10" uuid="cf027417-2bbc-4d2b-868b-6b4d8d5bd029"/>
+				<reportElement x="439" y="0" width="138" height="11" uuid="cf027417-2bbc-4d2b-868b-6b4d8d5bd029"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="Arial" size="8"/>
+					<font fontName="Arial Narrow" size="9"/>
 				</textElement>
 				<text><![CDATA[Teléfonos: 4577003 - 70346043]]></text>
 			</staticText>
