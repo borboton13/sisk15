@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="recepcionPedidos" pageWidth="802" pageHeight="555" orientation="Landscape" columnWidth="802" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="aa3dc29f-0c06-429b-920f-2dde9c621ea4">
-	<property name="ireport.zoom" value="2.1435888100000025"/>
-	<property name="ireport.x" value="400"/>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="recepcionPedidos" pageWidth="935" pageHeight="609" orientation="Landscape" columnWidth="935" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="aa3dc29f-0c06-429b-920f-2dde9c621ea4">
+	<property name="ireport.zoom" value="1.3310000000000013"/>
+	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<style name="Crosstab Data Text" hAlign="Center"/>
 	<parameter name="fecha" class="java.lang.String"/>
@@ -22,35 +22,35 @@
 	<pageHeader>
 		<band height="41" splitType="Stretch">
 			<textField>
-				<reportElement x="24" y="29" width="77" height="12" uuid="a549e182-ff09-4d40-907f-b944421a9a5c"/>
+				<reportElement x="20" y="29" width="77" height="12" uuid="a549e182-ff09-4d40-907f-b944421a9a5c"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Arial" size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Fecha de entrega:"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="101" y="29" width="114" height="12" uuid="94f41947-a4e3-4f53-8920-34a89fc91947"/>
+				<reportElement x="97" y="29" width="114" height="12" uuid="94f41947-a4e3-4f53-8920-34a89fc91947"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Arial" size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{fecha}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="229" y="29" width="35" height="12" uuid="a4235a11-3cb0-4729-aaef-abba7e1393d7"/>
+				<reportElement x="225" y="29" width="35" height="12" uuid="a4235a11-3cb0-4729-aaef-abba7e1393d7"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Arial" size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Cantidad:"]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Auto">
-				<reportElement x="264" y="29" width="65" height="12" uuid="64cb9e11-5de6-4068-9f64-70a31d4d9039"/>
+				<reportElement x="260" y="29" width="65" height="12" uuid="64cb9e11-5de6-4068-9f64-70a31d4d9039"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Arial" size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{cantidadPedidos}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement key="" positionType="Float" x="24" y="4" width="205" height="11" uuid="1b16bc68-2913-40c3-8f36-9c2eeb04f3f3"/>
+				<reportElement key="" positionType="Float" x="20" y="4" width="205" height="11" uuid="1b16bc68-2913-40c3-8f36-9c2eeb04f3f3"/>
 				<box padding="1" topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<topPen lineWidth="0.0"/>
@@ -64,7 +64,7 @@
 				<textFieldExpression><![CDATA["COOPERATIVA INTEGRAL DE SERVICIOS CBBA."]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement key="" positionType="Float" x="24" y="14" width="191" height="11" uuid="d3dfd7c0-bddc-4355-b9fc-272bce434423"/>
+				<reportElement key="" positionType="Float" x="20" y="14" width="191" height="11" uuid="d3dfd7c0-bddc-4355-b9fc-272bce434423"/>
 				<box padding="1" topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<topPen lineWidth="0.0"/>
@@ -78,27 +78,27 @@
 				<textFieldExpression><![CDATA["INDUSTRIAS LACTEAS DEL VALLE ALTO"]]></textFieldExpression>
 			</textField>
 			<line>
-				<reportElement x="22" y="40" width="770" height="1" uuid="75768dc4-d169-4e61-9176-ea2e7c2b2854"/>
+				<reportElement x="18" y="40" width="770" height="1" uuid="75768dc4-d169-4e61-9176-ea2e7c2b2854"/>
 				<graphicElement>
 					<pen lineWidth="0.5" lineStyle="Dashed"/>
 				</graphicElement>
 			</line>
 			<textField>
-				<reportElement x="244" y="9" width="303" height="20" uuid="a540bd51-32aa-44d6-83b6-badfe604396c"/>
+				<reportElement x="316" y="9" width="303" height="20" uuid="a540bd51-32aa-44d6-83b6-badfe604396c"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial" isBold="false"/>
 				</textElement>
-				<textFieldExpression><![CDATA["RESUMEN DE RECEPCIÓN DE PEDIDOS"]]></textFieldExpression>
+				<textFieldExpression><![CDATA["RESUMEN DE PEDIDOS"]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="394" y="29" width="33" height="12" uuid="cdb41ca8-d622-421a-8d4e-773b5c0be7a6"/>
+				<reportElement x="390" y="29" width="33" height="12" uuid="cdb41ca8-d622-421a-8d4e-773b5c0be7a6"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial" size="7"/>
 				</textElement>
 				<text><![CDATA[Monto: ]]></text>
 			</staticText>
 			<textField pattern="#,##0.00;(#,##0.00)">
-				<reportElement x="427" y="29" width="100" height="12" uuid="3207722c-da18-4628-90f2-d97d5aef405d"/>
+				<reportElement x="423" y="29" width="100" height="12" uuid="3207722c-da18-4628-90f2-d97d5aef405d"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Arial" size="7"/>
 				</textElement>
@@ -107,30 +107,12 @@
 		</band>
 	</pageHeader>
 	<pageFooter>
-		<band height="24">
-			<textField>
-				<reportElement x="24" y="0" width="77" height="10" uuid="43624121-79b0-46a9-94cd-47921c1edaf8"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="Arial" size="7"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{nomUsr}]]></textFieldExpression>
-			</textField>
-			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy HH:mm" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToTallestObject" mode="Opaque" x="724" y="3" width="68" height="10" uuid="42e24d49-8cbe-456c-ae11-3e5677a288d6"/>
-				<box padding="1">
-					<pen lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="Arial" size="6"/>
-				</textElement>
-				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
-			</textField>
-		</band>
+		<band height="10"/>
 	</pageFooter>
 	<summary>
 		<band height="132" splitType="Stretch">
 			<crosstab>
-				<reportElement x="24" y="5" width="770" height="107" uuid="4d24fd31-8dae-4e16-b48e-e28daedb76b9"/>
+				<reportElement x="20" y="5" width="898" height="107" uuid="4d24fd31-8dae-4e16-b48e-e28daedb76b9"/>
 				<rowGroup name="distribuidor" width="0" totalPosition="End">
 					<bucket class="java.lang.String">
 						<bucketExpression><![CDATA[$F{distribuidor}]]></bucketExpression>
