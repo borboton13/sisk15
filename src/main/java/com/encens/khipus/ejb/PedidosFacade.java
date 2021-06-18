@@ -261,7 +261,7 @@ public class PedidosFacade extends AbstractFacade<Pedidos> {
         
         try {
                 resultado = (List<Object[]>)em.createQuery(""+
-                    " select concat(pe.cliente.nom,' ',pe.cliente.ap,' ',pe.cliente.am,' (',pe.codigo,')') as CLIENTE\n" +
+                    " select concat(pe.cliente.nom,' ',pe.cliente.ap,' ',pe.cliente.am,' ',pe.codigo) as CLIENTE\n" +
                     "               ,articulos.invArticulos.nombrecorto as PRODUCTO\n" +
                     "               ,articulos.cantidad + articulos.reposicion + articulos.promocion as CANTIDAD\n" +
                     "               ,pe.cliente.territoriotrabajo.nombre as DISTRIBUIDOR\n" +

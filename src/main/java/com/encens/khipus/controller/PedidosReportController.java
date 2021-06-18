@@ -1961,13 +1961,15 @@ public class PedidosReportController implements Serializable {
 
         // -----------------------------------------------
 
-        // Ordenamiento Pedidos por nombre
+        /** Ordenamiento Pedidos por nombre **/
+        /*
         Collections.sort(pedidosElegidos, new Comparator<Pedidos>() {
             @Override
             public int compare(Pedidos o1, Pedidos o2) {
                 return o1.getCliente().getNom().compareTo(o2.getCliente().getNom());
             }
         });
+        */
 
         parameters.putAll(fijarParmetrosFactura(pedidosElegidos.get(0)));
         // Verificando Articulo con cantidad 0 y q tiene reposicion
@@ -2112,13 +2114,14 @@ public class PedidosReportController implements Serializable {
             return;
         }
 
-        // Ordenamiento Pedidos por nombre
+        /** Ordenamiento Pedidos por nombre **/
+        /*
         Collections.sort(pedidosElegidos, new Comparator<Pedidos>() {
             @Override
             public int compare(Pedidos o1, Pedidos o2) {
                 return o1.getCliente().getNom().compareTo(o2.getCliente().getNom());
             }
-        });
+        });*/
 
         HashMap parameters = new HashMap();
         moneyUtil = new MoneyUtil();
