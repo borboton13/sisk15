@@ -94,7 +94,7 @@ public class PedidosReportController implements Serializable {
         exportarPDF(parameters, jasper);
         if(pedido.getEstado().equals("PENDIENTE"))
         {
-            pedido.setEstado("PREPARAR");
+            //pedido.setEstado("PREPARAR");
             pedidosController.setSelected(pedido);
             pedidosController.generalUpdate();
             pedidosController.setItems(null);
@@ -1594,8 +1594,10 @@ public class PedidosReportController implements Serializable {
             /*movimientoController.setSelected(movimiento);
              movimientoController.create();*/
             venta.setMovimiento(movimiento);
-            if(venta.getEstado().equals("PENDIENTE"))
-                venta.setEstado("PREPARAR");
+
+            //if(venta.getEstado().equals("PENDIENTE"))
+                //venta.setEstado("PREPARAR");
+
             ventadirectaController.setItems(null);
             ventadirectaController.setSelected(venta);
             ventadirectaController.generalUpdate();
@@ -1613,8 +1615,10 @@ public class PedidosReportController implements Serializable {
             venta.getMovimiento().getImpresionfacturaCollection().add(impresionfactura);
             /*movimientoController.setSelected(venta.getMovimiento());
             movimientoController.update();*/
-            if(venta.getEstado().equals("PENDIENTE"))
-                venta.setEstado("PREPARAR");
+
+            /*if(venta.getEstado().equals("PENDIENTE"))
+                venta.setEstado("PREPARAR");*/
+
             ventadirectaController.setItems(null);
             ventadirectaController.setSelected(venta);
             ventadirectaController.generalUpdate();
@@ -1650,8 +1654,10 @@ public class PedidosReportController implements Serializable {
             movimiento.getImpresionfacturaCollection().add(impresionfactura);
 
             venta.setMovimiento(movimiento);
-            if(venta.getEstado().equals("PENDIENTE"))
-                venta.setEstado("PREPARAR");
+
+            /*if(venta.getEstado().equals("PENDIENTE"))
+                venta.setEstado("PREPARAR");*/
+
             ventadirectaController.setItems(null);
             ventadirectaController.setSelected(venta);
             ventadirectaController.generalUpdate();
@@ -1669,8 +1675,10 @@ public class PedidosReportController implements Serializable {
             venta.getMovimiento().getImpresionfacturaCollection().add(impresionfactura);
             /*movimientoController.setSelected(venta.getMovimiento());
             movimientoController.update();*/
-            if(venta.getEstado().equals("PENDIENTE"))
-                venta.setEstado("PREPARAR");
+
+            /*if(venta.getEstado().equals("PENDIENTE"))
+                venta.setEstado("PREPARAR");*/
+
             ventadirectaController.setItems(null);
             ventadirectaController.setSelected(venta);
             ventadirectaController.generalUpdate();
@@ -1746,8 +1754,10 @@ public class PedidosReportController implements Serializable {
             /*movimientoController.setSelected(movimiento);
              movimientoController.create();*/
             pedido.setMovimiento(movimiento);
-            if(pedido.getEstado().equals("PENDIENTE"))
-            pedido.setEstado("PREPARAR");
+
+            /*if(pedido.getEstado().equals("PENDIENTE"))
+            pedido.setEstado("PREPARAR");*/
+
             pedido.setTieneFactura(true);
             pedidosController.setItems(null);
             pedidosController.setSelected(pedido);
@@ -1766,8 +1776,10 @@ public class PedidosReportController implements Serializable {
             pedido.getMovimiento().getImpresionfacturaCollection().add(impresionfactura);
             /*movimientoController.setSelected(pedido.getMovimiento());
             movimientoController.update();*/
-            if(pedido.getEstado().equals("PENDIENTE"))
-                pedido.setEstado("PREPARAR");
+
+            /*if(pedido.getEstado().equals("PENDIENTE"))
+                pedido.setEstado("PREPARAR");*/
+
             pedidosController.setSelected(pedido);
             pedidosController.setItems(null);
             pedidosController.generalUpdate();
@@ -1835,8 +1847,10 @@ public class PedidosReportController implements Serializable {
             /*movimientoController.setSelected(movimiento);
              movimientoController.create();*/
             pedido.setMovimiento(movimiento);
-            if(pedido.getEstado().equals("PENDIENTE"))
-            pedido.setEstado("PREPARAR");
+
+            /*if(pedido.getEstado().equals("PENDIENTE"))
+            pedido.setEstado("PREPARAR");*/
+
             pedido.setTieneFactura(true);
             pedidosController.setItems(null);
             pedidosController.setSelected(pedido);
@@ -1855,8 +1869,10 @@ public class PedidosReportController implements Serializable {
             pedido.getMovimiento().getImpresionfacturaCollection().add(impresionfactura);
             /*movimientoController.setSelected(pedido.getMovimiento());
             movimientoController.update();*/
-            if(pedido.getEstado().equals("PENDIENTE"))
-                pedido.setEstado("PREPARAR");
+
+            /*if(pedido.getEstado().equals("PENDIENTE"))
+                pedido.setEstado("PREPARAR");*/
+
             pedidosController.setSelected(pedido);
             pedidosController.setItems(null);
             pedidosController.generalUpdate();
@@ -2155,7 +2171,7 @@ public class PedidosReportController implements Serializable {
 
         for (Pedidos pedido : pedidosElegidos) {
             if (pedido.getEstado().equals("PENDIENTE")) {
-                pedido.setEstado("PREPARAR");
+                //pedido.setEstado("PREPARAR");
                 pedidosController.setSelected(pedido);
                 pedidosController.setItems(null);
                 pedidosController.generalUpdate();
@@ -2175,9 +2191,11 @@ public class PedidosReportController implements Serializable {
             numeroFactura = venta.getMovimiento().getNrofactura();
         }
         ControlCode controlCode = generateCodControl(venta, numeroFactura, dosificacion.getNroautorizacion(), dosificacion.getLlave(),dosificacion.getNitEmpresa());
-        if (venta.getEstado().equals("PENDIENTE")) {
+
+        /*if (venta.getEstado().equals("PENDIENTE")) {
             venta.setEstado("PREPARAR");
-        }
+        }*/
+
         guardarFactura(venta, controlCode.getCodigoControl(),controlCode.getKeyQR());
         return getReportParams(
                 venta.getCliente().getNombreCompleto(), numeroFactura, tipoEtiquetaFactura, controlCode.getCodigoControl(), controlCode.getKeyQR(), venta);
@@ -2207,9 +2225,9 @@ public class PedidosReportController implements Serializable {
                 numeroFactura = pedido.getMovimiento().getNrofactura();
             }
             ControlCode controlCode = generateCodControl(pedido, numeroFactura, dosifica.getNroautorizacion(), dosifica.getLlave(), dosifica.getNitEmpresa());
-            if (pedido.getEstado().equals("PENDIENTE")) {
+            /*if (pedido.getEstado().equals("PENDIENTE")) {
                 pedido.setEstado("PREPARAR");
-            }
+            }*/
             //guardarFactura(pedido, controlCode.getCodigoControl(),controlCode.getKeyQR());
             guardarFactura(pedido, controlCode);
             //return getReportParams(pedido.getCliente().getNombreCompleto(), numeroFactura, tipoEtiquetaFactura, controlCode.getCodigoControl(), controlCode.getKeyQR(), pedido);
@@ -2285,9 +2303,11 @@ public class PedidosReportController implements Serializable {
             numeroFactura = venta.getMovimiento().getNrofactura();
         }
         ControlCode controlCode = generateCodControl(venta, numeroFactura, dosificacion.getNroautorizacion(), dosificacion.getLlave(),dosificacion.getNitEmpresa());
-        if (venta.getEstado().equals("PENDIENTE")) {
+
+        /*if (venta.getEstado().equals("PENDIENTE")) {
             venta.setEstado("PREPARAR");
-        }
+        }*/
+
         guardarFactura(venta, controlCode.getCodigoControl(),controlCode.getKeyQR());
         return getReportParams(
                 venta.getCliente().getNombreCompleto(), numeroFactura, tipoEtiquetaFactura, controlCode.getCodigoControl(), controlCode.getKeyQR(), venta);

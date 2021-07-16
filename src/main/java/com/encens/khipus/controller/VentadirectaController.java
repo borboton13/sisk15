@@ -268,7 +268,7 @@ public class VentadirectaController implements Serializable {
         selected.setUsuario(loginBean.getUsuario());
         selected.setCliente(personaElegida);
         selected.setCodigo(getFacade().getSiguienteNumeroVenta());
-        selected.setEstado("PREPARAR");
+        //selected.setEstado("PREPARAR");
         /*selected.setDocumento(pedidosReportController.generarNotaEntrega(selected));
         selected.setSucursal(loginBean.getUsuario().getSucursal());
         nota = selected.getDocumento();*/
@@ -661,7 +661,7 @@ public class VentadirectaController implements Serializable {
         selected.setUsuario(loginBean.getUsuario());
         selected.setCliente(personaElegida);
         selected.setCodigo(getFacade().getSiguienteNumeroVenta());
-        selected.setEstado("PREPARAR");
+        //selected.setEstado("PREPARAR");
         //selected.setDocumento(pedidosReportController.generarFacturaNotaVentaDirecta(selected));
         selected.setDocumento(pedidosReportController.generarFacturaNotaVentaDirecta(selected, loginBean.getUsuario().getSucursal()));
         selected.setSucursal(loginBean.getUsuario().getSucursal());
@@ -1114,7 +1114,7 @@ public class VentadirectaController implements Serializable {
         ventadirecta.setUsuario(loginBean.getUsuario());
         ventadirecta.setCliente(personaElegida);
         ventadirecta.setCodigo(getFacade().getSiguienteNumeroVenta());
-        ventadirecta.setEstado("PREPARAR");
+        //ventadirecta.setEstado("PREPARAR");
 
         ventadirecta.setSucursal(loginBean.getUsuario().getSucursal());
         //nota = ventadirecta.getDocumento(
@@ -1601,7 +1601,7 @@ public class VentadirectaController implements Serializable {
         ventadirecta.setUsuario(loginBean.getUsuario());
         ventadirecta.setCliente(personaElegida);
         ventadirecta.setCodigo(getFacade().getSiguienteNumeroVenta());
-        ventadirecta.setEstado("PREPARAR");
+        //ventadirecta.setEstado("PREPARAR");
         ventadirecta.setSucursal(loginBean.getUsuario().getSucursal());
 
         //codNota = "NOTAFAC_" + ventadirecta.getCodigo().toString();
