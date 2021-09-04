@@ -1952,7 +1952,7 @@ public class PedidosReportController implements Serializable {
         pedidosController.actualizar();
     }
 
-    /** Test **/
+    /** No Test **/
     public void imprimirFacturas2() throws IOException, JRException {
         quitarAnulados();
         HashMap parameters = new HashMap();
@@ -2041,6 +2041,99 @@ public class PedidosReportController implements Serializable {
         exportarPDF(jasperPrint);
         pedidosController.actualizar();
     }
+
+
+    /** Para reimpresion de todas las facturas por fechas **/
+    public void reImpresionFacturas() throws IOException, JRException {
+        //quitarAnulados();
+        HashMap parameters = new HashMap();
+        moneyUtil = new MoneyUtil();
+        barcodeRenderer = new BarcodeRenderer();
+        //todo: lanzar un exception en caso que no encuentre una dosificacion valida
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        LoginBean loginBean = (LoginBean) facesContext.getApplication().getELResolver().getValue(facesContext.getELContext(), null, "loginBean");
+
+        for(Dosificacion dos:loginBean.getUsuario().getSucursal().getDosificaciones()){
+            if(dos.getEstado().equals("ACTIVO")){
+                dosificacion = dos;
+            }
+        }
+        File jasper = new File(FacesContext.getCurrentInstance().getExternalContext().getRealPath("/resources/reportes/factura.jasper"));
+
+        if(pedidosElegidos.size() == 0){
+            JSFUtil.addWarningMessage("No hay ningun pedido elegido.");
+            return;
+        }
+
+        JasperPrint jasperPrint = null;
+
+        // -----------------------------------------------
+
+        /** Ordenamiento Pedidos por nombre **/
+        /*
+        Collections.sort(pedidosElegidos, new Comparator<Pedidos>() {
+            @Override
+            public int compare(Pedidos o1, Pedidos o2) {
+                return o1.getCliente().getNom().compareTo(o2.getCliente().getNom());
+            }
+        });
+        */
+
+        parameters.putAll(fijarParmetrosFactura(pedidosElegidos.get(0)));
+        // Verificando Articulo con cantidad 0 y q tiene reposicion
+        Collection<ArticulosPedido> articulos = new ArrayList<>();
+
+        for (ArticulosPedido articulo : pedidosElegidos.get(0).getArticulosPedidos()) {
+            if (articulo.getCantidad() > 0){
+                String etiquetaSub =  articulo.getPedidos().getDescripcion() != null ? " " + articulo.getPedidos().getDescripcion() : "";
+                articulo.getInvArticulos().setDescri(articulo.getInvArticulos().getDescri() + etiquetaSub);
+
+                //articulos.add(articulo);
+                if (!existeArticulo(articulos, articulo))
+                    articulos.add(articulo);
+            }
+        }
+
+        // End
+        try {
+            jasperPrint = JasperFillManager.fillReport(jasper.getPath(), parameters, new JRBeanCollectionDataSource(articulos));
+        } catch (JRException e) {
+            e.printStackTrace();
+            //todo:mensaje de error
+            return;
+        }
+        // -----------------------------------------------
+
+        for (int i = 1; i < pedidosElegidos.size(); i++) {
+            parameters.putAll(fijarParmetrosFactura(pedidosElegidos.get(i)));
+            /** Verificando Articulo con cantidad 0 y q tiene reposicion **/
+            Collection<ArticulosPedido> articulosPed = new ArrayList<>();
+            for ( ArticulosPedido articulo:pedidosElegidos.get(i).getArticulosPedidos()){
+                if (articulo.getCantidad() > 0) {
+                    String etiquetaSub =  articulo.getPedidos().getDescripcion() != null ? " " + articulo.getPedidos().getDescripcion() : "";
+                    articulo.getInvArticulos().setDescri(articulo.getInvArticulos().getDescri() + etiquetaSub);
+
+                    //articulosPed.add(articulo);
+                    if (!existeArticulo(articulosPed, articulo))
+                        articulosPed.add(articulo);
+                }
+            }
+
+            /** End **/
+            try {
+                jasperPrint.getPages().addAll(JasperFillManager.fillReport(jasper.getPath()
+                        , parameters
+                        , new JRBeanCollectionDataSource(articulosPed)).getPages());
+            } catch (JRException e) {
+                e.printStackTrace();
+                //todo:mensaje de error
+                return;
+            }
+        }
+        exportarPDF(jasperPrint);
+        pedidosController.actualizar();
+    }
+
 
     public Boolean existeArticulo(Collection<ArticulosPedido> articulosList, ArticulosPedido articuloPedido){
 

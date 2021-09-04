@@ -211,11 +211,17 @@
                                                          target="#{pedidosReportController.pedidosElegidos}"/>
                         </p:commandButton>
 
-                        <p:commandButton id="contabilizarAgain" value="Contabiliza Again"
+                        <!--<p:commandButton id="contabilizarAgain" value="Contabiliza Again"
                                          oncomplete="PF('ContabilzarPedidosAgainDialog').show()"
                                          rendered="#{pedidosController.isRoot()}">
                             <f:setPropertyActionListener value="#{pedidosController.pedidosElegidos}"
                                                          target="#{pedidosReportController.pedidosElegidos}"/>
+                        </p:commandButton>-->
+
+                        <p:commandButton id="reimprimirFacturas"
+                                         value="Reimpresion Facturas"
+                                         oncomplete="PF('reImprimirFacturasDialog').show()">
+
                         </p:commandButton>
 
                     </f:facet>
