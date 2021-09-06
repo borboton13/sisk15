@@ -1933,14 +1933,16 @@ public class PedidosReportController implements Serializable {
         moneyUtil = new MoneyUtil();
         barcodeRenderer = new BarcodeRenderer();
         //todo: lanzar un exception en caso que no encuentre una dosificacion valida
+
+        /*
         FacesContext facesContext = FacesContext.getCurrentInstance();
         LoginBean loginBean = (LoginBean) facesContext.getApplication().getELResolver().getValue(facesContext.getELContext(), null, "loginBean");
-
         for(Dosificacion dos:loginBean.getUsuario().getSucursal().getDosificaciones()){
             if(dos.getEstado().equals("ACTIVO")){
                 dosificacion = dos;
             }
-        }
+        }*/
+
         File jasper = new File(FacesContext.getCurrentInstance().getExternalContext().getRealPath("/resources/reportes/factura.jasper"));
         if(pedidosElegidos.size() == 0){
             JSFUtil.addWarningMessage("No hay ningun pedido elegido.");
@@ -2310,6 +2312,8 @@ public class PedidosReportController implements Serializable {
 
         String fecha = "Punata, "+dia+" de "+dateUtil.getMes(mes)+" de "+anio;
 
+        String tipoFac = mov.getEstado().equals("A") ? "ORIGINAL" : tipoEtiquetaFactura;
+
         Map<String, Object> paramMap = new HashMap<String, Object>();
         paramMap.put("nitEmpresa",      dosage.getNitEmpresa());
         paramMap.put("numFac",          mov.getNrofactura().longValue());
@@ -2319,7 +2323,7 @@ public class PedidosReportController implements Serializable {
         paramMap.put("nombreCliente",   mov.getRazonSocial());
         paramMap.put("fechaLimite",     dosage.getFechavencimiento());
         paramMap.put("codigoControl",   mov.getCodigocontrol());
-        paramMap.put("tipoEtiqueta",    tipoEtiquetaFactura);
+        paramMap.put("tipoEtiqueta",    tipoFac);
         paramMap.put("etiquetaEmpresa", dosage.getEtiquetaEmpresa());
         paramMap.put("etiquetaLey",     dosage.getEtiquetaLey());
         //verificar por que no requiere el codigo de control

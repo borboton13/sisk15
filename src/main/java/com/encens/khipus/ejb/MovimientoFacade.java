@@ -41,8 +41,7 @@ public class MovimientoFacade extends AbstractFacade<Movimiento> {
         try{
             movimientoList = (List<Movimiento>)em.createQuery("select m from Movimiento m " +
                     "where m.fechaFactura between :startDate and :endDate " +
-                    " " +
-                    "order by m.nrofactura asc")
+                    "order by m.nrofactura asc ")
                     .setParameter("startDate", startDate)
                     .setParameter("endDate", endDate)
                     .getResultList();

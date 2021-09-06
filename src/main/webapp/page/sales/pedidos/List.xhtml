@@ -37,8 +37,8 @@
                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                              rowsPerPageTemplate="15,20,30,40,50,100,500">
 
-                    <p:ajax event="rowSelect" update="createButton recepcionButton generarFacturas generarNotas"/>
-                    <p:ajax event="rowUnselect" update="createButton recepcionButton generarFacturas generarNotas"/>
+                    <p:ajax event="rowSelect" update="recepcionButton generarFacturas generarNotas"/>
+                    <p:ajax event="rowUnselect" update="recepcionButton generarFacturas generarNotas"/>
                     <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
 
                     <p:column headerText="Codigo" style="width:5%;"
@@ -123,30 +123,6 @@
                                          rendered="#{!item.estado.equals('ANULADO')}"
                                          update=":PedidosListForm:datalist"/>
 
-                        <!--<p:commandButton id="editButton"
-                                         title="REPONER" 
-                                         actionListener="#{pedidosController.prepareEdit(item)}" 
-                                         icon="ui-icon-arrowreturnthick-1-e" 
-                                         update=":PedidosReponerForm" 
-                                         oncomplete="PF('PedidosReponerDialog').show()"  
-                                         rendered="#{item.estado.equals('ENTREGADO') and !item.estado.equals('ANULADO')}"/> -->
-
-                        <!--<p:commandButton id="reponer"
-                                         title="REPONER"
-                                         actionListener="#{pedidosController.prepareEdit(item)}"
-                                         icon="ui-icon-arrowreturnthick-1-e"
-                                         update=":PedidosReponerFor
-                                         oncomplete="PF('PedidosReponerDialog').show()"
-                                         rendered="#{item.flagstock and !item.estado.equals('ANULADO')}"/>-->
-
-                        <!--<p:commandButton id="editPedido"
-                                         title="EDITAR"
-                                         actionListener="#{pedidosController.prepareEdit(item)}"
-                                         icon="ui-icon-wrench"
-                                         update=":PedidosEditForm"
-                                         oncomplete="PF('PedidosEditDialog').show()"
-                                         rendered="#{(item.estado.equals('PENDIENTE') or item.estado.equals('PREPARAR')) 
-                                                     and !item.estado.equals('ANULADO') and !item.flagstock }"/>-->
                         <p:commandButton id="anularPedido"
                                          title="ANULAR"
                                          actionListener="#{pedidosController.prepareEdit(item)}"
@@ -177,11 +153,12 @@
                                          value="Actualizar"
                                          actionListener="#{pedidosController.actualizar}"
                                          update="datalist"/>
-                        <p:commandButton id="createButton"
+
+                        <!-- <p:commandButton id="createButton"
                                          value="#{bundle.Create}"
-                                         actionListener="#{pedidosController.prepareCreate}"
+                                         actionListener="pedidosController.prepareCreate}"
                                          update=":PedidosCreateForm"
-                                         oncomplete="PF('PedidosCreateDialog').show()"/>
+                                         oncomplete="PF('PedidosCreateDialog').show()"/> -->
                         <!--
                         <p:commandButton id="recepcionButton" 
                                          value="Recepción Pedidos" 
@@ -206,7 +183,8 @@
                                          update=":PedidosListForm:datalist"/>
 
                         <p:commandButton id="contabilizarPedidos" value="Contabiliza Pedidos"
-                                         oncomplete="PF('ContabilzarPedidosDialog').show()">
+                                         oncomplete="PF('ContabilzarPedidosDialog').show()"
+                                         rendered="#{pedidosController.isRoot()}">
                             <f:setPropertyActionListener value="#{pedidosController.pedidosElegidos}"
                                                          target="#{pedidosReportController.pedidosElegidos}"/>
                         </p:commandButton>
@@ -220,6 +198,7 @@
 
                         <p:commandButton id="reimprimirFacturas"
                                          value="Reimpresion Facturas"
+                                         rendered="#{pedidosController.isRoot()}"
                                          oncomplete="PF('reImprimirFacturasDialog').show()">
 
                         </p:commandButton>
@@ -234,16 +213,16 @@
         <h:form rendered="#{!loginBean.logeado}">
             <ui:include src="./../../../accesodenegado.xhtml"/>
         </h:form>
+        <!-- Not use ? -->
         <ui:include src="Create.xhtml"/>
-        <!--<ui:include src="ReponerEdit.xhtml"/>-->
         <ui:include src="RecepcionPedidosReport.xhtml"/>
-        <ui:include src="RecepcionPedidos.xhtml"/>
         <ui:include src="View.xhtml"/>
         <ui:include src="Edit.xhtml"/>
+
+        <ui:include src="AnularPedido.xhtml"/>
+        <ui:include src="RecepcionPedidos.xhtml"/>
         <ui:include src="ImprimirFactura.xhtml"/>
         <ui:include src="ImprimirTodasLasFacturas.xhtml"/>
-        <ui:include src="AnularPedido.xhtml"/>
-
         <ui:include src="ContabilizarPedidos.xhtml"/>
         <ui:include src="reimprimirFacturas.xhtml"/>
     </ui:define>
