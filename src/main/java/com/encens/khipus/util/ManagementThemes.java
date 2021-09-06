@@ -33,9 +33,9 @@ public class ManagementThemes implements Serializable{
 		themes.put("afterwork", "afterwork");
 		themes.put("aristo", "aristo");
 		themes.put("black­tie", "black­tie");
-		themes.put("blitzer", "blitzer");*/
+		themes.put("blitzer", "blitzer");
 		themes.put("bluesky", "bluesky");
-		/*themes.put("casablanca", "casablanca");
+		themes.put("casablanca", "casablanca");
 		themes.put("cupertino", "cupertino");
 		themes.put("cruze", "cruze");
 		themes.put("dark­hive", "dark­hive");

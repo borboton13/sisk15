@@ -338,6 +338,23 @@ public class PedidosFacade extends AbstractFacade<Pedidos> {
         return result;
     }
 
+    public List<Pedidos> findPedidos(Date startDate, Date endDate) {
+        List<Pedidos> result = new ArrayList<>();
+        try{
+            em.flush();
+            result = (List<Pedidos>)em.createQuery("select pe from Pedidos pe " +
+                    "where pe.fechaEntrega between :startDate and :endDate " +
+                    "and pe.movimiento is not null " +
+                    "order by pe.idpedidos desc")
+                    .setParameter("startDate", startDate)
+                    .setParameter("endDate", endDate)
+                    .getResultList();
+        }catch (NoResultException e){
+            return result;
+        }
+        return result;
+    }
+
     public List<Pedidos> findPedidosFrom(Date dateFrom) {
         List<Pedidos> result = new ArrayList<>();
         try{

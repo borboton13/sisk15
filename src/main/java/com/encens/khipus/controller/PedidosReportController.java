@@ -81,6 +81,9 @@ public class PedidosReportController implements Serializable {
     private Boolean esCopia = false;
     private String erroresDeContabilizacion;
 
+    private Date startDate;
+    private Date endDate;
+
     public void imprimirNotaEntrega(Pedidos pedido) throws IOException, JRException {
         if(pedido.getEstado().equals("ANULADO"))
         {
@@ -479,7 +482,11 @@ public class PedidosReportController implements Serializable {
         paramMap.put("etiquetaLey",dosifica.getEtiquetaLey());
         //verificar por que no requiere el codigo de control
         paramMap.put("llaveQR", controlCode.getKeyQR());
-        
+
+        paramMap.put("estado", pedido.getMovimiento().getEstado());
+        String descSubsidio = pedido.getDescripcion() == null ? "" : pedido.getDescripcion();
+        paramMap.put("descSubsidio", descSubsidio);
+
         Double totalPagar = pedido.getTotalimporte() - pedido.getValorComision();
         DecimalFormat df = new DecimalFormat("0.00");
         totalPagar = Double.parseDouble(df.format(totalPagar).replace(",", "."));
@@ -1265,49 +1272,10 @@ public class PedidosReportController implements Serializable {
 
         Movimiento movimiento = pedido.getMovimiento();
         Dosificacion dosage = dosificacionFacade.findByAuthorization(movimiento.getNroAutorizacion());
-        //ControlCode controlCode = generateCodControl(pedido, mov.getNrofactura(), new BigInteger(mov.getNroAutorizacion()), dosage.getLlave(), dosage.getNitEmpresa());
         ControlCode controlCode = recuperarCodControl(movimiento, dosage);
         Map<String, Object> paramMap = getParamMapReimpresion(controlCode, dosage, movimiento);
-        /**/
-        /*DateUtil dateUtil = new DateUtil();
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(pedido.getMovimiento().getFechaFactura());
-        int anio = cal.get(Calendar.YEAR);
-        int mes = cal.get(Calendar.MONTH);
-        int dia = cal.get(Calendar.DAY_OF_MONTH);
-        String fecha = "Punata, "+dia+" de "+dateUtil.getMes(mes)+" de "+anio;*/
-
-        /*Map<String, Object> paramMap = new HashMap<String, Object>();
-        paramMap.put("nitEmpresa",      dosage.getNitEmpresa());
-        paramMap.put("numFac",          mov.getNrofactura().longValue());
-        paramMap.put("numAutorizacion", mov.getNroAutorizacion());
-        paramMap.put("nitCliente",      mov.getNitCliente());
-        paramMap.put("fecha",           fecha);
-        paramMap.put("nombreCliente",   mov.getRazonSocial());
-        paramMap.put("fechaLimite",     dosage.getFechavencimiento());
-        paramMap.put("codigoControl",   mov.getCodigocontrol());
-        paramMap.put("tipoEtiqueta",    tipoEtiquetaFactura);
-        paramMap.put("etiquetaEmpresa", dosage.getEtiquetaEmpresa());
-        paramMap.put("etiquetaLey",     dosage.getEtiquetaLey());
-        //verificar por que no requiere el codigo de control
-        paramMap.put("llaveQR", controlCode.getKeyQR());
-        paramMap.put("totalLiteral", moneyUtil.Convertir(mov.getImporteTotal().toString(), true));
-        paramMap.put("total", mov.getImporteTotal().doubleValue());
-        paramMap.put("valorComision", new Double("0"));
-        paramMap.put("REPORT_LOCALE", new java.util.Locale("en", "US"));
-
-        String filePath = FileCacheLoader.i.getPath("/resources/reportes/qr_inv.png");
-        barcodeRenderer.generateQR(controlCode.getKeyQR(), filePath);
-        try {
-            BufferedImage img = ImageIO.read(new File(filePath));
-            paramMap.put("imgQR", img);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
 
         parameters.putAll(paramMap);
-        /**/
-
         exportarPDF(parameters, jasper, pedido);
         this.pedido = null;
     }
@@ -1316,7 +1284,8 @@ public class PedidosReportController implements Serializable {
 
         DateUtil dateUtil = new DateUtil();
         Calendar cal = Calendar.getInstance();
-        cal.setTime(controlCode.getFechaEmision());
+        //cal.setTime(controlCode.getFechaEmision());
+        cal.setTime(mov.getFechaFactura());
         int anio = cal.get(Calendar.YEAR);
         int mes = cal.get(Calendar.MONTH);
         int dia = cal.get(Calendar.DAY_OF_MONTH);
@@ -1335,7 +1304,13 @@ public class PedidosReportController implements Serializable {
         paramMap.put("etiquetaEmpresa", dosage.getEtiquetaEmpresa());
         paramMap.put("etiquetaLey",     dosage.getEtiquetaLey());
         //verificar por que no requiere el codigo de control
-        paramMap.put("llaveQR", controlCode.getKeyQR());
+        //paramMap.put("llaveQR", controlCode.getKeyQR());
+
+        paramMap.put("estado", pedido.getMovimiento().getEstado());
+        String descSubsidio = pedido.getDescripcion() == null ? "" : pedido.getDescripcion();
+        paramMap.put("descSubsidio", descSubsidio);
+
+        paramMap.put("llaveQR", mov.getCodigoQR());
         paramMap.put("totalLiteral", moneyUtil.Convertir(mov.getImporteParaDebitoFiscal().toString(), true));
         paramMap.put("total", mov.getImporteTotal().doubleValue());
         paramMap.put("valorComision", mov.getDescuentos().doubleValue());
@@ -1343,15 +1318,14 @@ public class PedidosReportController implements Serializable {
 
         String filePath = FileCacheLoader.i.getPath("/resources/reportes/qr_inv.png");
         String filePathLogo = FileCacheLoader.i.getPath("/resources/img/ilva4.png");
-        barcodeRenderer.generateQR(controlCode.getKeyQR(), filePath);
+        //barcodeRenderer.generateQR(controlCode.getKeyQR(), filePath);
+        barcodeRenderer.generateQR(mov.getCodigoQR(), filePath);
         try {
             BufferedImage img = ImageIO.read(new File(filePath));
             paramMap.put("imgQR", img);
 
             BufferedImage imgLogo = ImageIO.read(new File(filePathLogo));
             paramMap.put("imgLogo", imgLogo);
-
-            //paramMap.put("imgLogo", this.getClass().getResourceAsStream("/resources/reportes/ilva3.png"));
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -1908,8 +1882,8 @@ public class PedidosReportController implements Serializable {
         Collection<ArticulosPedido> articulos = new ArrayList<>();
         for (ArticulosPedido articulo : pedidosElegidos.get(0).getArticulosPedidos()) {
             if (articulo.getCantidad() > 0){
-                String etiquetaSub =  articulo.getPedidos().getDescripcion() != null ? " " + articulo.getPedidos().getDescripcion() : "";
-                articulo.getInvArticulos().setDescri(articulo.getInvArticulos().getDescri() + etiquetaSub);
+                //String etiquetaSub =  articulo.getPedidos().getDescripcion() != null ? " " + articulo.getPedidos().getDescripcion() : "";
+                //articulo.getInvArticulos().setDescri(articulo.getInvArticulos().getDescri() + etiquetaSub);
                 articulos.add(articulo);
             }
         }
@@ -1930,8 +1904,8 @@ public class PedidosReportController implements Serializable {
             Collection<ArticulosPedido> articulosPed = new ArrayList<>();
             for ( ArticulosPedido articulo:pedidosElegidos.get(i).getArticulosPedidos()){
                 if (articulo.getCantidad() > 0) {
-                    String etiquetaSub =  articulo.getPedidos().getDescripcion() != null ? " " + articulo.getPedidos().getDescripcion() : "";
-                    articulo.getInvArticulos().setDescri(articulo.getInvArticulos().getDescri() + etiquetaSub);
+                    //String etiquetaSub =  articulo.getPedidos().getDescripcion() != null ? " " + articulo.getPedidos().getDescripcion() : "";
+                    //articulo.getInvArticulos().setDescri(articulo.getInvArticulos().getDescri() + etiquetaSub);
                     articulosPed.add(articulo);
                 }
             }
@@ -1993,8 +1967,8 @@ public class PedidosReportController implements Serializable {
 
         for (ArticulosPedido articulo : pedidosElegidos.get(0).getArticulosPedidos()) {
             if (articulo.getCantidad() > 0){
-                String etiquetaSub =  articulo.getPedidos().getDescripcion() != null ? " " + articulo.getPedidos().getDescripcion() : "";
-                articulo.getInvArticulos().setDescri(articulo.getInvArticulos().getDescri() + etiquetaSub);
+                //String etiquetaSub =  articulo.getPedidos().getDescripcion() != null ? " " + articulo.getPedidos().getDescripcion() : "";
+                //articulo.getInvArticulos().setDescri(articulo.getInvArticulos().getDescri() + etiquetaSub);
 
                 //articulos.add(articulo);
                 if (!existeArticulo(articulos, articulo))
@@ -2018,8 +1992,8 @@ public class PedidosReportController implements Serializable {
             Collection<ArticulosPedido> articulosPed = new ArrayList<>();
             for ( ArticulosPedido articulo:pedidosElegidos.get(i).getArticulosPedidos()){
                 if (articulo.getCantidad() > 0) {
-                    String etiquetaSub =  articulo.getPedidos().getDescripcion() != null ? " " + articulo.getPedidos().getDescripcion() : "";
-                    articulo.getInvArticulos().setDescri(articulo.getInvArticulos().getDescri() + etiquetaSub);
+                    //String etiquetaSub =  articulo.getPedidos().getDescripcion() != null ? " " + articulo.getPedidos().getDescripcion() : "";
+                    //articulo.getInvArticulos().setDescri(articulo.getInvArticulos().getDescri() + etiquetaSub);
 
                     //articulosPed.add(articulo);
                     if (!existeArticulo(articulosPed, articulo))
@@ -2045,7 +2019,7 @@ public class PedidosReportController implements Serializable {
 
     /** Para reimpresion de todas las facturas por fechas **/
     public void reImpresionFacturas() throws IOException, JRException {
-        //quitarAnulados();
+
         HashMap parameters = new HashMap();
         moneyUtil = new MoneyUtil();
         barcodeRenderer = new BarcodeRenderer();
@@ -2059,6 +2033,7 @@ public class PedidosReportController implements Serializable {
             }
         }
         File jasper = new File(FacesContext.getCurrentInstance().getExternalContext().getRealPath("/resources/reportes/factura.jasper"));
+        pedidosElegidos = movimientoFacade.findInvoices(this.startDate, this.endDate);
 
         if(pedidosElegidos.size() == 0){
             JSFUtil.addWarningMessage("No hay ningun pedido elegido.");
@@ -2067,28 +2042,15 @@ public class PedidosReportController implements Serializable {
 
         JasperPrint jasperPrint = null;
 
-        // -----------------------------------------------
-
-        /** Ordenamiento Pedidos por nombre **/
-        /*
-        Collections.sort(pedidosElegidos, new Comparator<Pedidos>() {
-            @Override
-            public int compare(Pedidos o1, Pedidos o2) {
-                return o1.getCliente().getNom().compareTo(o2.getCliente().getNom());
-            }
-        });
-        */
-
         parameters.putAll(fijarParmetrosFactura(pedidosElegidos.get(0)));
         // Verificando Articulo con cantidad 0 y q tiene reposicion
         Collection<ArticulosPedido> articulos = new ArrayList<>();
 
         for (ArticulosPedido articulo : pedidosElegidos.get(0).getArticulosPedidos()) {
             if (articulo.getCantidad() > 0){
-                String etiquetaSub =  articulo.getPedidos().getDescripcion() != null ? " " + articulo.getPedidos().getDescripcion() : "";
-                articulo.getInvArticulos().setDescri(articulo.getInvArticulos().getDescri() + etiquetaSub);
+                //String etiquetaSub =  articulo.getPedidos().getDescripcion() != null ? " " + articulo.getPedidos().getDescripcion() : "";
+                //articulo.getInvArticulos().setDescri(articulo.getInvArticulos().getDescri() + etiquetaSub);
 
-                //articulos.add(articulo);
                 if (!existeArticulo(articulos, articulo))
                     articulos.add(articulo);
             }
@@ -2110,13 +2072,15 @@ public class PedidosReportController implements Serializable {
             Collection<ArticulosPedido> articulosPed = new ArrayList<>();
             for ( ArticulosPedido articulo:pedidosElegidos.get(i).getArticulosPedidos()){
                 if (articulo.getCantidad() > 0) {
-                    String etiquetaSub =  articulo.getPedidos().getDescripcion() != null ? " " + articulo.getPedidos().getDescripcion() : "";
-                    articulo.getInvArticulos().setDescri(articulo.getInvArticulos().getDescri() + etiquetaSub);
+
+                    //String etiquetaSub =  articulo.getPedidos().getDescripcion() != null ? " " + articulo.getPedidos().getDescripcion() : "";
+                    //articulo.getInvArticulos().setDescri(articulo.getInvArticulos().getDescri() + etiquetaSub);
 
                     //articulosPed.add(articulo);
                     if (!existeArticulo(articulosPed, articulo))
                         articulosPed.add(articulo);
                 }
+
             }
 
             /** End **/
@@ -2307,23 +2271,13 @@ public class PedidosReportController implements Serializable {
             this.dosificacion = dosifica;
 
             if (pedido.getMovimiento() == null) {
-                //numeroFactura = Integer.parseInt(dosificacionFacade.getSiguienteNumeroFactura());
-                //dosificacion.setNumeroactual(numeroFactura);
                 numeroFactura = dosifica.getNumeroactual();
-                //dosificacionFacade.updateNextNumber(sucursal);
                 dosificacion.setNumeroactual(numeroFactura + 1);
-
-
             } else {
                 numeroFactura = pedido.getMovimiento().getNrofactura();
             }
             ControlCode controlCode = generateCodControl(pedido, numeroFactura, dosifica.getNroautorizacion(), dosifica.getLlave(), dosifica.getNitEmpresa());
-            /*if (pedido.getEstado().equals("PENDIENTE")) {
-                pedido.setEstado("PREPARAR");
-            }*/
-            //guardarFactura(pedido, controlCode.getCodigoControl(),controlCode.getKeyQR());
             guardarFactura(pedido, controlCode);
-            //return getReportParams(pedido.getCliente().getNombreCompleto(), numeroFactura, tipoEtiquetaFactura, controlCode.getCodigoControl(), controlCode.getKeyQR(), pedido);
             paramMapResult = getReportParams(pedido, controlCode, dosifica);
         } else {
           /** Para reimpresion de factura **/
@@ -2340,6 +2294,8 @@ public class PedidosReportController implements Serializable {
     private Map<String, Object> getParamsReimpresion(Pedidos pedido) {
 
         String filePath = FileCacheLoader.i.getPath("/resources/reportes/qr_inv.png");
+        String anuladoPath = FileCacheLoader.i.getPath("/resources/img/anulado.png");
+
         DateUtil dateUtil = new DateUtil();
 
         Movimiento mov = pedido.getMovimiento();
@@ -2368,6 +2324,10 @@ public class PedidosReportController implements Serializable {
         paramMap.put("etiquetaLey",     dosage.getEtiquetaLey());
         //verificar por que no requiere el codigo de control
         paramMap.put("llaveQR", controlCode.getKeyQR());
+        paramMap.put("estado", pedido.getMovimiento().getEstado());
+
+        String descSubsidio = pedido.getDescripcion() == null ? "" : pedido.getDescripcion();
+        paramMap.put("descSubsidio", descSubsidio);
 
         Double totalPagar = pedido.getTotalimporte() - pedido.getValorComision();
         DecimalFormat df = new DecimalFormat("0.00");
@@ -2381,6 +2341,10 @@ public class PedidosReportController implements Serializable {
         try {
             BufferedImage img = ImageIO.read(new File(filePath));
             paramMap.put("imgQR", img);
+
+            BufferedImage imgEstado = ImageIO.read(new File(anuladoPath));
+            paramMap.put("imgEstado", imgEstado);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -2451,8 +2415,8 @@ public class PedidosReportController implements Serializable {
 
         Collection<ArticulosPedido> articulos = new ArrayList<>();
         for (ArticulosPedido articulo : pedido.getArticulosPedidos()) {
-                String etiquetaSub =  articulo.getPedidos().getDescripcion() != null ? " " + articulo.getPedidos().getDescripcion() : "";
-                articulo.getInvArticulos().setDescri(articulo.getInvArticulos().getDescri() + etiquetaSub);
+                //String etiquetaSub =  articulo.getPedidos().getDescripcion() != null ? " " + articulo.getPedidos().getDescripcion() : "";
+                //articulo.getInvArticulos().setDescri(articulo.getInvArticulos().getDescri() + etiquetaSub);
 
                 //articulos.add(articulo);
                 if (!existeArticulo(articulos, articulo))
@@ -2593,5 +2557,21 @@ public class PedidosReportController implements Serializable {
 
     public void setVentaDirectaElegidos(List<Ventadirecta> ventaDirectaElegidos) {
         this.ventaDirectaElegidos = ventaDirectaElegidos;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
 }

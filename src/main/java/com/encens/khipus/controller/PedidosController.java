@@ -429,7 +429,7 @@ public class PedidosController implements Serializable {
         }
         //if(selected.getEstado().equals("CONTABILIZADO")){
             pedidosFacade.anularAsiento(selected.getAsiento());
-            //pedidosFacade.anularAsiento(selected.getAsientocv());
+            movimientoFacade.anularFactura(selected.getMovimiento());
             pedidosFacade.sumarInventario(selected); /** inv_inventario **/
             /** Actualiza Costo Sum **/
             invArticulosFacade.updateArticleSumTotalCost(selected);

@@ -7,22 +7,31 @@
 
     <ui:composition>
 
-        <p:dialog id="reImprimirFacturasDlg" widgetVar="reImprimirFacturasDialog" modal="true" closable="false" resizable="true" appendTo="@(body)" header="Reimpresion Facturas">
+        <p:dialog id="reImprimirFacturasDlg" widgetVar="reImprimirFacturasDialog" modal="true" resizable="true" appendTo="@(body)" header="Reimpresion Facturas">
             <h:form id="reImprimirFacturasForm">
                 <h:panelGroup id="display">
-                    <p:panelGrid columns="2">                        
+                    <p:panelGrid columns="2">
+                        <p:outputLabel value="Tipo:" />
                         <p:selectOneListbox id="tipofactura" value="#{pedidosReportController.tipoEtiquetaFactura}">
                             <f:selectItem itemLabel="ORIGINAL" itemValue="ORIGINAL" />
                             <f:selectItem itemLabel="COPIA" itemValue="COPIA" />
                         </p:selectOneListbox>
+
+
+                        <p:outputLabel for="fechaInicio" value="Fecha inicio:" />
+                        <p:calendar id="fechaInicio" value="#{pedidosReportController.startDate}" required="true" requiredMessage="La fecha es necesario."/>
+
+                        <p:outputLabel for="fechaFin" value="Fecha fin:" />
+                        <p:calendar id="fechaFin" value="#{pedidosReportController.endDate}" required="true" requiredMessage="La fecha es necesario."/>
                     </p:panelGrid>
+
                     <p:commandButton value="Generar" 
                                      id="printFactura" 
                                      actionListener="#{pedidosReportController.reImpresionFacturas}"
                                      onclick="PF('reImprimirFacturasDialog').hide();"
                                      ajax="false"/>
-                    <p:commandButton value="#{bundle.Close}" 
-                                     update=":PedidosListForm:datalist" 
+
+                    <p:commandButton value="#{bundle.Close}"
                                      onclick="reImprimirFacturasDialog.close()"/>
                 </h:panelGroup>
             </h:form>
