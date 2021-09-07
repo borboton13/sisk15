@@ -35,8 +35,7 @@ public class MovimientoFacade extends AbstractFacade<Movimiento> {
         super(Movimiento.class);
     }
 
-    public List<Pedidos> findInvoices(Date startDate, Date endDate) {
-        List<Pedidos> result = new ArrayList<Pedidos>();
+    public List<Movimiento> findInvoices(Date startDate, Date endDate) {
         List<Movimiento> movimientoList = new ArrayList<Movimiento>();
         try{
             movimientoList = (List<Movimiento>)em.createQuery("select m from Movimiento m " +
@@ -46,14 +45,12 @@ public class MovimientoFacade extends AbstractFacade<Movimiento> {
                     .setParameter("endDate", endDate)
                     .getResultList();
 
-            for (Movimiento movimiento : movimientoList){
-                result.add(movimiento.getPedido());
-            }
+
 
         }catch (NoResultException e){
-            return result;
+            return movimientoList;
         }
-        return result;
+        return movimientoList;
     }
 
     public void anularFactura(Movimiento movimiento){

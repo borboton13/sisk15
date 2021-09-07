@@ -11,12 +11,6 @@
             <h:form id="reImprimirFacturasForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2">
-                        <p:outputLabel value="Tipo:" />
-                        <p:selectOneListbox id="tipofactura" value="#{pedidosReportController.tipoEtiquetaFactura}">
-                            <f:selectItem itemLabel="ORIGINAL" itemValue="ORIGINAL" />
-                            <f:selectItem itemLabel="COPIA" itemValue="COPIA" />
-                        </p:selectOneListbox>
-
 
                         <p:outputLabel for="fechaInicio" value="Fecha inicio:" />
                         <p:calendar id="fechaInicio" value="#{pedidosReportController.startDate}" required="true" requiredMessage="La fecha es necesario."/>

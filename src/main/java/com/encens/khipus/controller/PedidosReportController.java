@@ -81,8 +81,8 @@ public class PedidosReportController implements Serializable {
     private Boolean esCopia = false;
     private String erroresDeContabilizacion;
 
-    private Date startDate;
-    private Date endDate;
+    private Date startDate = new Date();
+    private Date endDate  = new Date();
 
     public void imprimirNotaEntrega(Pedidos pedido) throws IOException, JRException {
         if(pedido.getEstado().equals("ANULADO"))
@@ -2022,37 +2022,29 @@ public class PedidosReportController implements Serializable {
     /** Para reimpresion de todas las facturas por fechas **/
     public void reImpresionFacturas() throws IOException, JRException {
 
+        this.tipoEtiquetaFactura = "COPIA";
         HashMap parameters = new HashMap();
         moneyUtil = new MoneyUtil();
         barcodeRenderer = new BarcodeRenderer();
-        //todo: lanzar un exception en caso que no encuentre una dosificacion valida
-        FacesContext facesContext = FacesContext.getCurrentInstance();
-        LoginBean loginBean = (LoginBean) facesContext.getApplication().getELResolver().getValue(facesContext.getELContext(), null, "loginBean");
 
-        for(Dosificacion dos:loginBean.getUsuario().getSucursal().getDosificaciones()){
-            if(dos.getEstado().equals("ACTIVO")){
-                dosificacion = dos;
-            }
-        }
         File jasper = new File(FacesContext.getCurrentInstance().getExternalContext().getRealPath("/resources/reportes/factura.jasper"));
-        pedidosElegidos = movimientoFacade.findInvoices(this.startDate, this.endDate);
+        List<Movimiento> movimientoList = movimientoFacade.findInvoices(this.startDate, this.endDate);
 
-        if(pedidosElegidos.size() == 0){
-            JSFUtil.addWarningMessage("No hay ningun pedido elegido.");
+        if(movimientoList.size() == 0){
+            JSFUtil.addWarningMessage("No existe facturas!");
             return;
         }
 
-        JasperPrint jasperPrint = null;
+        //Pedidos primerPedido = pedidosElegidos.get(0);
+        Movimiento mov = movimientoList.get(0);
 
-        parameters.putAll(fijarParmetrosFactura(pedidosElegidos.get(0)));
+        JasperPrint jasperPrint = null;
+        parameters.putAll(getParamsReimpresion(mov, this.tipoEtiquetaFactura));
+
         // Verificando Articulo con cantidad 0 y q tiene reposicion
         Collection<ArticulosPedido> articulos = new ArrayList<>();
-
-        for (ArticulosPedido articulo : pedidosElegidos.get(0).getArticulosPedidos()) {
+        for (ArticulosPedido articulo : mov.getPedido().getArticulosPedidos()) {
             if (articulo.getCantidad() > 0){
-                //String etiquetaSub =  articulo.getPedidos().getDescripcion() != null ? " " + articulo.getPedidos().getDescripcion() : "";
-                //articulo.getInvArticulos().setDescri(articulo.getInvArticulos().getDescri() + etiquetaSub);
-
                 if (!existeArticulo(articulos, articulo))
                     articulos.add(articulo);
             }
@@ -2061,6 +2053,14 @@ public class PedidosReportController implements Serializable {
         // End
         try {
             jasperPrint = JasperFillManager.fillReport(jasper.getPath(), parameters, new JRBeanCollectionDataSource(articulos));
+            if (mov.getEstado().equals("A")){
+                HashMap param1 = new HashMap();
+                param1.putAll(getParamsReimpresion(mov, "ORIGINAL"));
+                jasperPrint.getPages().addAll(JasperFillManager.fillReport(jasper.getPath()
+                        , param1
+                        , new JRBeanCollectionDataSource(articulos)).getPages());
+            }
+
         } catch (JRException e) {
             e.printStackTrace();
             //todo:mensaje de error
@@ -2068,17 +2068,12 @@ public class PedidosReportController implements Serializable {
         }
         // -----------------------------------------------
 
-        for (int i = 1; i < pedidosElegidos.size(); i++) {
-            parameters.putAll(fijarParmetrosFactura(pedidosElegidos.get(i)));
+        for (int i = 1; i < movimientoList.size(); i++) {
+            parameters.putAll(getParamsReimpresion(movimientoList.get(i), this.tipoEtiquetaFactura));
             /** Verificando Articulo con cantidad 0 y q tiene reposicion **/
             Collection<ArticulosPedido> articulosPed = new ArrayList<>();
-            for ( ArticulosPedido articulo:pedidosElegidos.get(i).getArticulosPedidos()){
+            for ( ArticulosPedido articulo:movimientoList.get(i).getPedido().getArticulosPedidos()){
                 if (articulo.getCantidad() > 0) {
-
-                    //String etiquetaSub =  articulo.getPedidos().getDescripcion() != null ? " " + articulo.getPedidos().getDescripcion() : "";
-                    //articulo.getInvArticulos().setDescri(articulo.getInvArticulos().getDescri() + etiquetaSub);
-
-                    //articulosPed.add(articulo);
                     if (!existeArticulo(articulosPed, articulo))
                         articulosPed.add(articulo);
                 }
@@ -2090,6 +2085,15 @@ public class PedidosReportController implements Serializable {
                 jasperPrint.getPages().addAll(JasperFillManager.fillReport(jasper.getPath()
                         , parameters
                         , new JRBeanCollectionDataSource(articulosPed)).getPages());
+
+                if (movimientoList.get(i).getEstado().equals("A")){
+                    HashMap param2 = new HashMap();
+                    param2.putAll(getParamsReimpresion(movimientoList.get(i), "ORIGINAL"));
+                    jasperPrint.getPages().addAll(JasperFillManager.fillReport(jasper.getPath()
+                            , param2
+                            , new JRBeanCollectionDataSource(articulosPed)).getPages());
+                }
+
             } catch (JRException e) {
                 e.printStackTrace();
                 //todo:mensaje de error
@@ -2283,26 +2287,26 @@ public class PedidosReportController implements Serializable {
             paramMapResult = getReportParams(pedido, controlCode, dosifica);
         } else {
           /** Para reimpresion de factura **/
-            paramMapResult = getParamsReimpresion(pedido);
+            paramMapResult = getParamsReimpresion(pedido.getMovimiento(), this.tipoEtiquetaFactura);
         }
         return paramMapResult;
     }
 
     /**
      * Para reimpresion de factura de pedido
-     * @param pedido
+     * @param mov
      * @return Parametros para reimpresion
      */
-    private Map<String, Object> getParamsReimpresion(Pedidos pedido) {
+    private Map<String, Object> getParamsReimpresion(Movimiento mov, String tipoFac) {
 
         String filePath = FileCacheLoader.i.getPath("/resources/reportes/qr_inv.png");
         String anuladoPath = FileCacheLoader.i.getPath("/resources/img/anulado.png");
 
         DateUtil dateUtil = new DateUtil();
 
-        Movimiento mov = pedido.getMovimiento();
+        //Movimiento mov = pedido.getMovimiento();
         Dosificacion dosage     = dosificacionFacade.findByAuthorization(mov.getNroAutorizacion());
-        ControlCode controlCode = generateCodControl(pedido, mov.getNrofactura(), dosage.getNroautorizacion(), dosage.getLlave(), dosage.getNitEmpresa());
+        //ControlCode controlCode = generateCodControl(pedido, mov.getNrofactura(), dosage.getNroautorizacion(), dosage.getLlave(), dosage.getNitEmpresa());
 
         Calendar cal = Calendar.getInstance();
         cal.setTime(mov.getFechaFactura());
@@ -2311,8 +2315,6 @@ public class PedidosReportController implements Serializable {
         int dia  = cal.get(Calendar.DAY_OF_MONTH);
 
         String fecha = "Punata, "+dia+" de "+dateUtil.getMes(mes)+" de "+anio;
-
-        String tipoFac = mov.getEstado().equals("A") ? "ORIGINAL" : tipoEtiquetaFactura;
 
         Map<String, Object> paramMap = new HashMap<String, Object>();
         paramMap.put("nitEmpresa",      dosage.getNitEmpresa());
@@ -2327,21 +2329,22 @@ public class PedidosReportController implements Serializable {
         paramMap.put("etiquetaEmpresa", dosage.getEtiquetaEmpresa());
         paramMap.put("etiquetaLey",     dosage.getEtiquetaLey());
         //verificar por que no requiere el codigo de control
-        paramMap.put("llaveQR", controlCode.getKeyQR());
-        paramMap.put("estado", pedido.getMovimiento().getEstado());
+        paramMap.put("llaveQR", mov.getCodigoQR());
+        paramMap.put("estado", mov.getEstado());
 
-        String descSubsidio = pedido.getDescripcion() == null ? "" : pedido.getDescripcion();
+        String descSubsidio = mov.getPedido().getDescripcion() == null ? "" : mov.getPedido().getDescripcion();
         paramMap.put("descSubsidio", descSubsidio);
 
-        Double totalPagar = pedido.getTotalimporte() - pedido.getValorComision();
+        //Double totalPagar = pedido.getTotalimporte() - pedido.getValorComision();
+        Double totalPagar = mov.getImporteTotal().doubleValue() - mov.getDescuentos().doubleValue();
         DecimalFormat df = new DecimalFormat("0.00");
         totalPagar = Double.parseDouble(df.format(totalPagar).replace(",", "."));
 
         paramMap.put("totalLiteral", moneyUtil.Convertir(totalPagar.toString(), true));
-        paramMap.put("total", pedido.getTotalimporte());
-        paramMap.put("valorComision", pedido.getValorComision());
+        paramMap.put("total", mov.getImporteTotal().doubleValue());
+        paramMap.put("valorComision", mov.getDescuentos().doubleValue());
         paramMap.put("REPORT_LOCALE", new java.util.Locale("en", "US"));
-        barcodeRenderer.generateQR(controlCode.getKeyQR(), filePath);
+        barcodeRenderer.generateQR(mov.getCodigoQR(), filePath);
         try {
             BufferedImage img = ImageIO.read(new File(filePath));
             paramMap.put("imgQR", img);
