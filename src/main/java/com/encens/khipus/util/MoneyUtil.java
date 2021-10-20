@@ -106,6 +106,7 @@ public class MoneyUtil{
 
     private String getUnidades(String numero) {// 1 - 9
         //si tuviera algun 0 antes se lo quita -> 09 = 9 o 009=9
+        System.out.println("------>>> : " + numero);
         String num = numero.substring(numero.length() - 1);
         return UNIDADES[Integer.parseInt(num)];
     }
@@ -119,7 +120,12 @@ public class MoneyUtil{
             if (u.equals("")) { //para 20,30,40,50,60,70,80,90
                 return DECENAS[Integer.parseInt(num.substring(0, 1)) + 8];
             } else {
-                return DECENAS[Integer.parseInt(num.substring(0, 1)) + 8] + "y " + u;
+                String decena = DECENAS[Integer.parseInt(num.substring(0, 1)) + 8];
+                if (decena.equals("veinte ")){
+                    return "veinti " + u;
+                }else{
+                    return DECENAS[Integer.parseInt(num.substring(0, 1)) + 8] + "y " + u;
+                }
             }
         } else {//numeros entre 11 y 19
             return DECENAS[n - 10];
@@ -140,15 +146,20 @@ public class MoneyUtil{
     }
 
     private String getMiles(String numero) {// 999 999
+
+        System.out.println("-------> miles numero: " + numero);
+
         //obtiene las centenas
         String c = numero.substring(numero.length() - 3);
+        System.out.println("-----> c: " + c);
         //obtiene los miles
         String m = numero.substring(0, numero.length() - 3);
+        System.out.println("-----> m: " + m);
         String n="";
         //se comprueba que miles tenga valor entero
         if (Integer.parseInt(m) > 0) {
             n = getCentenas(m);
-            return n + "mil " + getCentenas(c);
+            return n + " mil " + getCentenas(c);
         } else {
             return "" + getCentenas(c);
         }
@@ -162,9 +173,9 @@ public class MoneyUtil{
         String millon = numero.substring(0, numero.length() - 6);
         String n = "";
         if(millon.length()>1){
-            n = getCentenas(millon) + "millones ";
+            n = getCentenas(millon) + " millones ";
         }else{
-            n = getUnidades(millon) + "millon ";
+            n = getUnidades(millon) + " millon ";
         }
         return n + getMiles(miles);
     }
