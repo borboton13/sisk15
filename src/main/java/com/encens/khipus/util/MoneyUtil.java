@@ -72,10 +72,10 @@ public class MoneyUtil{
                         || Double.parseDouble("0."+Num[1]) == 0.8                        
                         || Double.parseDouble("0."+Num[1]) == 0.9 ){
 
-                    parte_decimal = Num[1]+ "0/100 Bolivianos.";
+                    parte_decimal = Num[1]+ "0/100 Bolivianos";
                 }
                 else
-                    parte_decimal = Num[1]+ "/100 Bolivianos.";
+                    parte_decimal = Num[1]+ "/100 Bolivianos";
             }
             //se convierte el numero a literal
             if (Integer.parseInt(Num[0]) == 0) {//si el valor es cero
@@ -106,10 +106,25 @@ public class MoneyUtil{
 
     private String getUnidades(String numero) {// 1 - 9
         //si tuviera algun 0 antes se lo quita -> 09 = 9 o 009=9
-        System.out.println("------>>> : " + numero);
         String num = numero.substring(numero.length() - 1);
         return UNIDADES[Integer.parseInt(num)];
     }
+
+    /*private String getDecenas(String num) {// 99
+        int n = Integer.parseInt(num);
+        if (n < 10) {//para casos como -> 01 - 09
+            return getUnidades(num);
+        } else if (n > 19) {//para 20...99
+            String u = getUnidades(num);
+            if (u.equals("")) { //para 20,30,40,50,60,70,80,90
+                return DECENAS[Integer.parseInt(num.substring(0, 1)) + 8];
+            } else {
+                return DECENAS[Integer.parseInt(num.substring(0, 1)) + 8] + "y " + u;
+            }
+        } else {//numeros entre 11 y 19
+            return DECENAS[n - 10];
+        }
+    }*/
 
     private String getDecenas(String num) {// 99
         int n = Integer.parseInt(num);
@@ -120,17 +135,24 @@ public class MoneyUtil{
             if (u.equals("")) { //para 20,30,40,50,60,70,80,90
                 return DECENAS[Integer.parseInt(num.substring(0, 1)) + 8];
             } else {
-                String decena = DECENAS[Integer.parseInt(num.substring(0, 1)) + 8];
-                if (decena.equals("veinte ")){
-                    return "veinti " + u;
-                }else{
-                    return DECENAS[Integer.parseInt(num.substring(0, 1)) + 8] + "y " + u;
-                }
+                if(n == 21) {return DECENAS[Integer.parseInt(num.substring(0, 1)) + 8].substring(0,5) + "i" + u;}
+                if(n == 22) {return DECENAS[Integer.parseInt(num.substring(0, 1)) + 8].substring(0,5) + "i" + u;}
+                if(n == 23) {return DECENAS[Integer.parseInt(num.substring(0, 1)) + 8].substring(0,5) + "i" + u;}
+                if(n == 24) {return DECENAS[Integer.parseInt(num.substring(0, 1)) + 8].substring(0,5) + "i" + u;}
+                if(n == 25) {return DECENAS[Integer.parseInt(num.substring(0, 1)) + 8].substring(0,5) + "i" + u;}
+                if(n == 26) {return DECENAS[Integer.parseInt(num.substring(0, 1)) + 8].substring(0,5) + "i" + u;}
+                if(n == 27) {return DECENAS[Integer.parseInt(num.substring(0, 1)) + 8].substring(0,5) + "i" + u;}
+                if(n == 28) {return DECENAS[Integer.parseInt(num.substring(0, 1)) + 8].substring(0,5) + "i" + u;}
+                if(n == 29) {return DECENAS[Integer.parseInt(num.substring(0, 1)) + 8].substring(0,5) + "i" + u;}
+                return DECENAS[Integer.parseInt(num.substring(0, 1)) + 8] + "y " + u;
             }
         } else {//numeros entre 11 y 19
             return DECENAS[n - 10];
         }
     }
+
+
+
 
     private String getCentenas(String num) {// 999 o 099
         if( Integer.parseInt(num)>99 ){//es centena
@@ -146,15 +168,10 @@ public class MoneyUtil{
     }
 
     private String getMiles(String numero) {// 999 999
-
-        System.out.println("-------> miles numero: " + numero);
-
         //obtiene las centenas
         String c = numero.substring(numero.length() - 3);
-        System.out.println("-----> c: " + c);
         //obtiene los miles
         String m = numero.substring(0, numero.length() - 3);
-        System.out.println("-----> m: " + m);
         String n="";
         //se comprueba que miles tenga valor entero
         if (Integer.parseInt(m) > 0) {
@@ -204,7 +221,7 @@ public class MoneyUtil{
             DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
             Date fechaEmision = new Date();
             try {
-               fechaEmision = dateFormat.parse(dateFormat.format(fecha));
+                fechaEmision = dateFormat.parse(dateFormat.format(fecha));
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -222,7 +239,7 @@ public class MoneyUtil{
     public void getLlaveQR(ControlCode controlCode,String llaveDosificacion)
     {
 
-        
+
         try {
             CodigoControl7 cc7 = new CodigoControl7();
             cc7.setNumeroAutorizacion(controlCode.getNumeroAutorizacion());
@@ -232,7 +249,7 @@ public class MoneyUtil{
             cc7.setMonto(controlCode.getTotal().intValue());
             cc7.setLlaveDosificacion(llaveDosificacion);
             controlCode.setCodigoControl(cc7.obtener());
-            
+
 
 
         } catch (Exception ex) {
