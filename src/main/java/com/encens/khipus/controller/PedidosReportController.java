@@ -390,8 +390,10 @@ public class PedidosReportController implements Serializable {
 
         Movimiento movimiento = pedido.getMovimiento();
         String observacion = "";
-        if (movimiento != null)
-            observacion = "F." + movimiento.getNrofactura().toString();
+        if (movimiento != null) {
+            //observacion = "F." + movimiento.getNrofactura().toString();
+            observacion = "ILVA ";
+        }
 
         observacion += " " + pedido.getObservacion();
 
