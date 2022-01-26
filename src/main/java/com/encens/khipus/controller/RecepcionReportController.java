@@ -85,7 +85,9 @@ public class RecepcionReportController implements Serializable {
             nombreTerritorio = "Todos";
         //cantidadPedidos = pedidosFacade.getTotalPedidos(fechaEntrega,territoriotrabajo);
         cantidadPedidos = pedidosFacade.getTotalPedidos(fechaEntrega, selectedTerritoriosTrab);
-        BigDecimal importe = pedidosFacade.getImporteTotal(fechaEntrega, selectedTerritoriosTrab);
+        /*BigDecimal importe = pedidosFacade.getImporteTotal(fechaEntrega, selectedTerritoriosTrab);*/
+
+        BigDecimal importe = BigDecimal.ZERO;
 
         paramMap.put("fecha",fecha);
         paramMap.put("cantidadPedidos",cantidadPedidos.toString());

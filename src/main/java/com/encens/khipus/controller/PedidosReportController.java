@@ -99,7 +99,7 @@ public class PedidosReportController implements Serializable {
         {
             //pedido.setEstado("PREPARAR");
             pedidosController.setSelected(pedido);
-            pedidosController.generalUpdate();
+            //pedidosController.generalUpdate();
             pedidosController.setItems(null);
         }
         
@@ -2239,7 +2239,7 @@ public class PedidosReportController implements Serializable {
                 //pedido.setEstado("PREPARAR");
                 pedidosController.setSelected(pedido);
                 pedidosController.setItems(null);
-                pedidosController.generalUpdate();
+                //pedidosController.generalUpdate();
             }
         }
 

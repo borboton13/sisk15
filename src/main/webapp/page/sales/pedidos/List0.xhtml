@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/template.xhtml">
+
+
+    <ui:define name="title">
+        <h:outputText value="#{bundle.ListPedidosTitle}"></h:outputText>
+    </ui:define>
+
+    <ui:define name="center">
+
+        <h:form id="PedidosListForm" rendered="#{loginBean.logeado}">
+            <p:growl id="growl" showDetail="true"/>
+
+            <p:panel header="Listado Pedidos">
+
+                <p:outputLabel for="dateFrom" value="Pedidos desde: " />
+                <p:calendar id="dateFrom" value="#{pedidosController.fechaDesde}" pattern="dd/MM/yyyy" >
+                    <p:ajax event="dateSelect" listener="#{pedidosController.onDateSelect}" update="datalist,growl,block" />
+                </p:calendar>
+
+                <p:dataTable id="datalist" value="#{pedidosController.items}" var="item"
+                             selection="#{pedidosController.pedidosElegidos}"
+                             paginator="true"
+                             rowKey="#{item.idpedidos}"
+                             widgetVar="pedidosTabla"
+                             sortMode="multiple"
+                             rows="15"
+                             emptyMessage="No hay pedidos registrados"
+                             filteredValue="#{pedidosController.pedidosFiltrado}"
+                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="15,20,30,40,50,100,500">
+
+                    <p:ajax event="rowSelect" update="recepcionButton generarFacturas generarNotas"/>
+                    <p:ajax event="rowUnselect" update="recepcionButton generarFacturas generarNotas"/>
+                    <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
+
+                    <p:column headerText="Codigo" style="width:5%;"
+                              filterBy="#{item.codigo}"
+                              filterMatchMode="contains" filterStyle="width: 80%">
+                        <h:outputText value="#{item.codigo}"/>
+                    </p:column>
+
+                    <p:column sortBy="#{item.fechaEntrega}" headerText="Fecha Entrega" filterBy="#{item.fechaEntrega}"
+                              filterMatchMode="equals" style="width:13%;text-align: center;">
+                        <f:facet name="filter">
+                            <p:calendar id="fechaEntrega" value="#{pedidosController.fechaEntregaFiltro}"
+                                        styleClass="customCalendar" pattern="dd/MM/yyyy" effect="fold">
+                                <p:ajax event="dateSelect" oncomplete="PF('pedidosTabla').filter()"/>
+                            </p:calendar>
+                        </f:facet>
+                        <h:outputText value="#{item.fechaEntrega}">
+                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="Cliente" style="width:30%"
+                              sortBy="#{item.cliente.nombreCompleto}"
+                              filterBy="#{item.cliente.nombreCompleto}"
+                              filterMatchMode="contains"
+                              filterStyle="width: 70%">
+                        <h:outputText value="#{item.cliente.nombreCompleto}"/>
+                    </p:column>
+
+                    <p:column style="width:10%;"
+                              filterMatchMode="in"
+                              filterBy="#{item.estado}">
+                        <f:facet name="filter">
+                            <p:selectCheckboxMenu label="Estado" onchange="PF('pedidosTabla').filter()"
+                                                  panelStyle="width:125px" scrollHeight="150">
+                                <f:selectItems value="#{pedidosController.estados}"/>
+                            </p:selectCheckboxMenu>
+                        </f:facet>
+                        <h:outputText value="#{item.estado}"/>
+                    </p:column>
+
+                    <p:column headerText="Factura" style="width:5%;"
+                              filterBy="#{item.movimiento.nrofactura}"
+                              filterMatchMode="contains"
+                              filterStyle="width: 80%">
+                        <h:outputText value="#{item.tieneFactura ? item.movimiento.nrofactura : '' }"/>
+                    </p:column>
+
+                    <p:column style="width: 10%"
+                              filterMatchMode="in"
+                              filterBy="#{item.cliente.territoriotrabajo.nombre}">
+                        <f:facet name="filter">
+                            <p:selectCheckboxMenu label="Territorio" onchange="PF('pedidosTabla').filter()"
+                                                  panelStyle="width:125px" scrollHeight="150">
+                                <f:selectItems value="#{territoriotrabajoController.itemsAvailableSelectMany}"/>
+                            </p:selectCheckboxMenu>
+                        </f:facet>
+                        <h:outputText value="#{item.cliente.territoriotrabajo.nombre}"/>
+                    </p:column>
+
+                    <p:column style="width:10%"
+                              filterMatchMode="in"
+                              filterBy="#{item.idtipopedido.nombre}">
+                        <f:facet name="filter">
+                            <p:selectCheckboxMenu label="Tipo"
+                                                  panelStyle="width:125px"
+                                                  onchange="PF('pedidosTabla').filter()"
+                                                  scrollHeight="150">
+                                <f:selectItems value="#{tipopedidoController.itemsAvailableSelectMany}"/>
+                            </p:selectCheckboxMenu>
+                        </f:facet>
+                        <h:outputText value="#{item.idtipopedido.nombre}"/>
+                    </p:column>
+                    <p:column headerText="Usuario" style="width:5%; text-align: center;">
+                        <h:outputText value="#{item.usuario.usuario}"/>
+                    </p:column>
+                    <p:column headerText="Accion" style="width:15%;">
+
+                        <p:commandButton id="printNotaDeVenta" title="NOTA DE ENTREGA"
+                                         actionListener="#{pedidosReportController.imprimirNotaEntrega(item)}"
+                                         ajax="false"
+                                         icon="#{item.estado.equals('PENDIENTE')? 'ui-icon-note':'ui-icon-note'}"
+                                         rendered="#{!item.estado.equals('ANULADO')}"
+                                         update=":PedidosListForm:datalist"/>
+
+                        <p:commandButton id="anularPedido"
+                                         title="ANULAR"
+                                         actionListener="#{pedidosController.prepareEdit(item)}"
+                                         icon="ui-icon-circle-close"
+                                         update=":PedidosAnularForm"
+                                         oncomplete="PF('PedidosAnularDialog').show()"
+                                         rendered="#{!item.estado.equals('ANULADO')}"/>
+
+                        <p:commandButton id="viewButton"
+                                         title="VER"
+                                         actionListener="#{pedidosController.setSelected(item)}"
+                                         icon="ui-icon-search"
+                                         update=":PedidosViewForm"
+                                         oncomplete="PF('PedidosViewDialog').show()"/>
+
+                        <p:commandButton title="REIMPRIMIR FACT"
+                                         id="printFacturaButton"
+                                         oncomplete="PF('ImprimirFacturaDialog').show()"
+                                         icon="#{item.estado.equals('PENDIENTE')? 'ui-icon-script':'ui-icon-star'}"
+                                         rendered="#{item.facturado()}" >
+                            <f:setPropertyActionListener value="#{item}" target="#{pedidosReportController.pedido}" />
+                        </p:commandButton>
+
+                    </p:column>
+
+                    <f:facet name="footer">
+                        <p:commandButton id="updateButton"
+                                         value="Actualizar"
+                                         actionListener="#{pedidosController.actualizar}"
+                                         update="datalist"/>
+
+                        <!-- <p:commandButton id="createButton"
+                                         value="#{bundle.Create}"
+                                         actionListener="pedidosController.prepareCreate}"
+                                         update=":PedidosCreateForm"
+                                         oncomplete="PF('PedidosCreateDialog').show()"/> -->
+                        <!--
+                        <p:commandButton id="recepcionButton"
+                                         value="Recepción Pedidos"
+                                         update=":RecepcionForm"
+                                         oncomplete="PF('RecepcionDialog').show()" />
+                        -->
+                        <p:commandButton id="recepcionButton"
+                                         value="Recepción Pedidos"
+                                         update=":RecepcionForm"
+                                         oncomplete="PF('RecepcionDialog2').show()"/>
+
+                        <p:commandButton id="generarFacturas"
+                                         value="Generar Facturas"
+                                         oncomplete="PF('ImprimirFacturasDialog').show()">
+                            <f:setPropertyActionListener value="#{pedidosController.pedidosElegidos}"
+                                                         target="#{pedidosReportController.pedidosElegidos}"/>
+                        </p:commandButton>
+                        <p:commandButton id="generarNotas"
+                                         value="Generar Notas"
+                                         actionListener="#{pedidosReportController.imprimirNota(pedidosController.pedidosElegidos)}"
+                                         ajax="false"
+                                         update=":PedidosListForm:datalist"/>
+
+                        <p:commandButton id="contabilizarPedidos" value="Contabiliza Pedidos"
+                                         oncomplete="PF('ContabilzarPedidosDialog').show()"
+                                         rendered="#{pedidosController.isRoot()}">
+                            <f:setPropertyActionListener value="#{pedidosController.pedidosElegidos}"
+                                                         target="#{pedidosReportController.pedidosElegidos}"/>
+                        </p:commandButton>
+
+                        <!--<p:commandButton id="contabilizarAgain" value="Contabiliza Again"
+                                         oncomplete="PF('ContabilzarPedidosAgainDialog').show()"
+                                         rendered="#{pedidosController.isRoot()}">
+                            <f:setPropertyActionListener value="#{pedidosController.pedidosElegidos}"
+                                                         target="#{pedidosReportController.pedidosElegidos}"/>
+                        </p:commandButton>-->
+
+                        <p:commandButton id="reimprimirFacturas"
+                                         value="Reimpresion Facturas"
+                                         rendered="#{pedidosController.isRoot()}"
+                                         oncomplete="PF('reImprimirFacturasDialog').show()">
+
+                        </p:commandButton>
+
+                    </f:facet>
+                </p:dataTable>
+                <p:blockUI id="block" block="datalist" trigger="datalist">Cargando<br />
+                    <p:graphicImage value="../../../resources/img/ajax-loader.gif"/>
+                </p:blockUI>
+            </p:panel>
+        </h:form>
+        <h:form rendered="#{!loginBean.logeado}">
+            <ui:include src="./../../../accesodenegado.xhtml"/>
+        </h:form>
+        <!-- Not use ? -->
+        <ui:include src="Create.xhtml"/>
+        <ui:include src="RecepcionPedidosReport.xhtml"/>
+        <ui:include src="View.xhtml"/>
+        <ui:include src="Edit.xhtml"/>
+
+        <ui:include src="AnularPedido.xhtml"/>
+        <ui:include src="RecepcionPedidos.xhtml"/>
+        <ui:include src="ImprimirFactura.xhtml"/>
+        <ui:include src="ImprimirTodasLasFacturas.xhtml"/>
+        <ui:include src="ContabilizarPedidos.xhtml"/>
+        <ui:include src="reimprimirFacturas.xhtml"/>
+    </ui:define>
+</ui:composition>
+
+</html>
